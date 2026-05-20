@@ -1,0 +1,262 @@
+---
+layout: default
+title: AI for Researchers
+description: Practical AI guidance across research tasks — literature review, analysis, writing, and grants — with honest notes on risks.
+permalink: /for-researchers/
+---
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">AI Resources for Penn SAS</div>
+    <h1 class="page-title">AI for Your Research.</h1>
+    <p class="page-desc">Practical guidance across research tasks — with honest notes on where AI falls short.</p>
+  </div>
+</div>
+
+<div class="researchers-wrap">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-sticky">
+      <div class="sidebar-label">Research Tasks</div>
+      <button class="phase-btn active" onclick="showPhase('litreview',this)"><span class="phase-num">01</span>Literature Review</button>
+      <button class="phase-btn" onclick="showPhase('design',this)"><span class="phase-num">02</span>Research Design</button>
+      <button class="phase-btn" onclick="showPhase('analysis',this)"><span class="phase-num">03</span>Data &amp; Analysis</button>
+      <button class="phase-btn" onclick="showPhase('writing',this)"><span class="phase-num">04</span>Writing</button>
+      <button class="phase-btn" onclick="showPhase('grants',this)"><span class="phase-num">05</span>Grants &amp; Proposals</button>
+    </div>
+  </div>
+
+  <!-- Phase panels -->
+  <div style="flex:1;overflow:hidden;">
+
+    <!-- 01 -->
+    <div id="phase-litreview" class="phase-content active">
+      <div class="callout"><strong>Research doesn't follow a straight line</strong> — and neither does AI use. The phases below often overlap, repeat, and happen in any order. Use this as a menu, not a sequence.</div>
+      <span class="phase-big-num">01</span>
+      <h2 class="phase-title">Literature Review &amp; Discovery</h2>
+      <p class="phase-sub">Orienting yourself in a field</p>
+      <div class="phase-cols">
+        <div>
+          <div class="col-label">What AI can help with</div>
+          <ul class="check-list">
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Summarizing papers and identifying key claims</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Finding gaps and contradictions across a body of literature</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Explaining jargon from adjacent fields</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Generating search queries and keyword variations</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Drafting annotated bibliographies</li>
+          </ul>
+          <div class="risk-box">
+            <div class="risk-label">Risks &amp; Caveats</div>
+            <ul class="risk-list">
+              <li>Models hallucinate citations — always verify DOIs before use</li>
+              <li>Training cutoffs mean recent work may be missing entirely</li>
+              <li>Summaries can flatten nuance or misrepresent methodology</li>
+              <li>AI-generated search queries may reinforce existing biases</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="col-label">Recommended tools</div>
+          <div class="tool-chips">
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">Claude.ai</a>
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">ChatGPT</a>
+            <span class="tool-chip tool-chip-special">Elicit</span>
+            <span class="tool-chip tool-chip-special">Consensus</span>
+            <span class="tool-chip tool-chip-special">Semantic Scholar</span>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-wrap">
+        <div class="prompt-label">Example Prompt</div>
+        <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>I'm reviewing literature on [topic]. Here are 3 abstracts: [paste].
+What are the key claims? Are there contradictions or gaps?
+Suggest 3 search queries I haven't tried yet.</div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div id="phase-design" class="phase-content">
+      <span class="phase-big-num">02</span>
+      <h2 class="phase-title">Research Design &amp; Hypotheses</h2>
+      <p class="phase-sub">Structuring your inquiry</p>
+      <div class="phase-cols">
+        <div>
+          <div class="col-label">What AI can help with</div>
+          <ul class="check-list">
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Stress-testing hypotheses and assumptions</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Brainstorming confounds and alternative explanations</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Comparing study design approaches across fields</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Reviewing methods protocols from adjacent disciplines</li>
+          </ul>
+          <div class="risk-box">
+            <div class="risk-label">Risks &amp; Caveats</div>
+            <ul class="risk-list">
+              <li>AI anchors on common designs — niche field-specific norms often missed</li>
+              <li>Brainstormed confounds may be plausible but domain-wrong</li>
+              <li>No IRB or ethics awareness — AI cannot substitute for institutional review</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="col-label">Recommended tools</div>
+          <div class="tool-chips">
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">Claude.ai</a>
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">ChatGPT</a>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-wrap">
+        <div class="prompt-label">Example Prompt</div>
+        <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>I'm designing a study to test [hypothesis]. My approach: [describe].
+Act as a skeptical reviewer: what are the 3 most likely confounds?
+What alternative designs would address them?</div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div id="phase-analysis" class="phase-content">
+      <span class="phase-big-num">03</span>
+      <h2 class="phase-title">Data Collection &amp; Analysis</h2>
+      <p class="phase-sub">Working with evidence</p>
+      <div class="phase-cols">
+        <div>
+          <div class="col-label">What AI can help with</div>
+          <ul class="check-list">
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Writing and debugging Python / R analysis scripts</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Explaining statistical output in plain language</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Coding qualitative interview transcripts</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Data cleaning and wrangling pipelines</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Generating and iterating on visualizations</li>
+          </ul>
+          <div class="risk-box">
+            <div class="risk-label">Risks &amp; Caveats</div>
+            <ul class="risk-list">
+              <li>Generated code may be syntactically correct but logically wrong — validate all outputs</li>
+              <li>Do not input sensitive or IRB-restricted data into commercial tools</li>
+              <li>Statistical interpretations can be confidently wrong — verify with a domain expert</li>
+              <li>Qualitative coding may miss cultural context and researcher positionality</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="col-label">Recommended tools</div>
+          <div class="tool-chips">
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">Claude Code</a>
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">Cursor</a>
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">ChatGPT Code Interp.</a>
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">Gemini Code Assist</a>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-wrap">
+        <div class="prompt-label">Example Prompt</div>
+        <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Here is the output of my regression in R: [paste].
+Explain each coefficient in plain language.
+Flag anything that looks unusual or worth investigating.</div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div id="phase-writing" class="phase-content">
+      <span class="phase-big-num">04</span>
+      <h2 class="phase-title">Writing &amp; Communication</h2>
+      <p class="phase-sub">Shaping and sharing your findings</p>
+      <div class="phase-cols">
+        <div>
+          <div class="col-label">What AI can help with</div>
+          <ul class="check-list">
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Drafting and restructuring sections</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Adapting writing for different audiences</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Editing for clarity and concision</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Drafting abstracts, cover letters, and lay summaries</li>
+          </ul>
+          <div class="risk-box">
+            <div class="risk-label">Risks &amp; Caveats</div>
+            <ul class="risk-list">
+              <li>AI prose tends toward over-polished generic voice — revise to preserve your own style</li>
+              <li>Factual claims can be smoothly stated but wrong — never trust without verification</li>
+              <li>Check your institution's and target journal's AI-disclosure policies</li>
+              <li>AI editing can inadvertently soften claims in ways that change your argument</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="col-label">Recommended tools</div>
+          <div class="tool-chips">
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">Claude.ai</a>
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">ChatGPT</a>
+            <span class="tool-chip tool-chip-special">Microsoft Copilot (M365)</span>
+          </div>
+          <p style="font-size:0.68rem;color:var(--text-3);margin-top:0.75rem;">Penn M365 Copilot available to faculty/staff by application.</p>
+        </div>
+      </div>
+      <div class="prompt-wrap">
+        <div class="prompt-label">Example Prompt</div>
+        <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Here is my methods section: [paste].
+Rewrite it so a non-specialist in [adjacent field] can follow
+without losing technical accuracy. Same length.</div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div id="phase-grants" class="phase-content">
+      <span class="phase-big-num">05</span>
+      <h2 class="phase-title">Grants &amp; Proposals</h2>
+      <p class="phase-sub">Making the case for your work</p>
+      <div class="phase-cols">
+        <div>
+          <div class="col-label">What AI can help with</div>
+          <ul class="check-list">
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Drafting Specific Aims pages</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Strengthening Significance and Innovation sections</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Tailoring proposals to funder priorities</li>
+            <li><svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Simulating reviewer feedback before submission</li>
+          </ul>
+          <div class="risk-box">
+            <div class="risk-label">Risks &amp; Caveats</div>
+            <ul class="risk-list">
+              <li><strong style="color:var(--pink)">Check funder AI policy first</strong> — NIH, NSF, and many foundations restrict AI use in proposals</li>
+              <li>AI-generated grant text can trigger AI-detection flags</li>
+              <li>Preliminary data sections should never rely on AI-generated figures</li>
+              <li>Simulated reviewer feedback is generic — it cannot replicate actual study section dynamics</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="col-label">Recommended tools</div>
+          <div class="tool-chips">
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">Claude.ai</a>
+            <a href="{{ '/tools/' | relative_url }}" class="tool-chip">ChatGPT</a>
+          </div>
+        </div>
+      </div>
+      <div class="prompt-wrap">
+        <div class="prompt-label">Example Prompt</div>
+        <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Here is my Specific Aims draft: [paste].
+Act as an NIH study section reviewer.
+What are the 2–3 weakest points? Rewrite the opening paragraph
+to hook reviewers immediately.</div>
+      </div>
+    </div>
+
+  </div><!-- end phase panels -->
+</div><!-- end researchers-wrap -->
+
+<script>
+  function showPhase(name, btn) {
+    document.querySelectorAll('.phase-content').forEach(p => p.classList.remove('active'));
+    document.getElementById('phase-' + name).classList.add('active');
+    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  function copyPrompt(btn) {
+    const block = btn.closest('.prompt-block');
+    const text = [...block.childNodes]
+      .filter(n => n.nodeType === Node.TEXT_NODE)
+      .map(n => n.textContent).join('').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1500);
+    });
+  }
+</script>

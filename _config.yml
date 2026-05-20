@@ -1,0 +1,19 @@
+title: AI Resources for Penn SAS
+description: A curated guide to AI and LLM tools for Penn SAS researchers — what's available, what it genuinely does well, and where the risks lie.
+url: "https://dddiscovery.github.io"
+baseurl: "/ai-resources-penn-sas"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - README.md
+  - package.json
+  - package-lock.json

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} — AI Resources for Penn SAS{% else %}AI Resources for Penn SAS{% endif %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+  {% seo %}
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="nav-dddi">DDDI</span>
+      <div class="nav-vbar"></div>
+      <span class="nav-title">AI Resources for Penn SAS</span>
+    </div>
+    <div class="nav-links">
+      <a href="{{ '/' | relative_url }}" class="nav-btn{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Home</a>
+      <a href="{{ '/tools/' | relative_url }}" class="nav-btn{% if page.url contains 'tools' %} active{% endif %}">AI Tools</a>
+      <a href="{{ '/for-researchers/' | relative_url }}" class="nav-btn{% if page.url contains 'for-researchers' %} active{% endif %}">For Researchers</a>
+      <a href="https://dddiscovery.github.io/datapoints" class="nav-ext" target="_blank" rel="noopener">DataPoints ↗</a>
+    </div>
+  </div>
+</nav>
+
+{{ content }}
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>© {{ 'now' | date: '%Y' }} Data-Driven Discovery Initiative · University of Pennsylvania</span>
+    <a href="https://dddiscovery.github.io/datapoints" target="_blank" rel="noopener">DataPoints Blog ↗</a>
+  </div>
+</footer>
+
+</body>
+</html>
