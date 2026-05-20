@@ -1,4 +1,4 @@
-/* ── Variables ─────────────────────────────────────── */
+/* ── Variables — dark mode (default) ───────────────── */
 :root {
   --bg:          #06101E;
   --bg-1:        #0B1628;
@@ -6,7 +6,7 @@
   --bg-3:        #162440;
   --border:      rgba(255,255,255,0.07);
   --border-teal: rgba(43,138,138,0.35);
-  --text:        #EDE8E0;
+  --text:        #E8EEF7;
   --text-2:      #8FA3BE;
   --text-3:      #4A6180;
   --teal:        #2B8A8A;
@@ -17,6 +17,23 @@
   --beige:        #C4A87A;
   --beige-border: rgba(196,168,122,0.30);
   --beige-chip:   rgba(196,168,122,0.10);
+}
+
+/* ── Variables — bright mode ────────────────────────
+   Theme colour: #06101E (used as primary text & accent)
+   Accent colours (teal, pink, beige) stay the same.
+   Nav stays dark — it's the #06101E anchor in both modes.
+   ─────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:          #F4F2ED;
+  --bg-1:        #EAE7DF;
+  --bg-2:        #DED9CF;
+  --bg-3:        #D2CCC0;
+  --border:      rgba(1,31,91,0.22);
+  --border-teal: rgba(43,138,138,0.30);
+  --text:        #011f5b;
+  --text-2:      #2E4A6B;
+  --text-3:      #7A98B8;
 }
 
 /* ── Reset & base ──────────────────────────────────── */
@@ -38,14 +55,14 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   position: sticky;
   top: 0;
   z-index: 500;
-  background: #06101E;
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
 .nav-inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 2rem;
-  height: 58px;
+  padding: 0.6rem 2rem;
+  min-height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,6 +76,66 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   color: var(--teal);
 }
 .nav-vbar { width: 1px; height: 1.2rem; background: var(--border-teal); }
+
+/* ---- DDDI logo swap ---- */
+.dddi-logo { display: block; width: auto; flex-shrink: 0; }
+.logo-dark  { display: block; }
+.logo-light { display: none; }
+[data-theme="light"] .logo-dark  { display: none; }
+[data-theme="light"] .logo-light { display: block; }
+
+.dddi-logo--nav { height: 34px; }
+
+/* ---- Theme toggle button ---- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-2);
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  margin-left: 0.75rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.theme-toggle:hover { border-color: var(--teal); color: var(--teal-bright); }
+.theme-toggle svg { width: 14px; height: 14px; }
+.theme-toggle .icon-sun  { display: block; }
+.theme-toggle .icon-moon { display: none; }
+[data-theme="light"] .theme-toggle .icon-sun  { display: none; }
+[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+
+/* ---- Bright mode nav overrides ---- */
+[data-theme="light"] .nav-title        { color: #011f5b; }
+[data-theme="light"] .nav-btn          { color: #2E4A6B; }
+[data-theme="light"] .nav-btn:hover    { color: #011f5b; }
+[data-theme="light"] .nav-ext          { color: #2E4A6B; border-color: rgba(1,31,91,0.20); }
+[data-theme="light"] .nav-ext:hover    { color: #011f5b; border-color: #011f5b; }
+[data-theme="light"] .theme-toggle     { color: #2E4A6B; border-color: rgba(1,31,91,0.20); }
+[data-theme="light"] .theme-toggle:hover { color: #011f5b; border-color: #011f5b; }
+
+/* ---- Bright mode component overrides ---- */
+[data-theme="light"] .phase-btn:hover {
+  background: rgba(6,16,30,0.04);
+}
+[data-theme="light"] .phase-btn.active {
+  background: rgba(43,138,138,0.08);
+}
+[data-theme="light"] .prompt-block {
+  background: #06101E;
+  color: #7FCECC;
+  border-color: rgba(43,138,138,0.30);
+}
+[data-theme="light"] .copy-btn {
+  background: #0B1628;
+  border-color: rgba(255,255,255,0.10);
+  color: #8FA3BE;
+}
+[data-theme="light"] .tool-chip-special:hover {
+  background: rgba(6,16,30,0.10);
+}
 .nav-title {
   font-family: 'Crimson Text', serif;
   font-size: 1.05rem;
@@ -572,6 +649,8 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   text-decoration: none;
 }
 .tool-chip:hover { border-color: var(--teal); color: var(--teal-bright); }
+.tool-fn-chip { text-decoration: none; }
+.tool-fn-chip:hover { background: #fc4357; border-color: #fc4357; color: #fff; }
 .tool-chip-special {
   border-color: var(--beige-border);
   color: var(--text-2);

@@ -1,0 +1,78 @@
+---
+layout: default
+---
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">AI Resources for Penn Arts & Sciences</div>
+    <h1 class="page-title">{{ page.title }}.</h1>
+    <p class="page-desc">{{ page.description }}</p>
+  </div>
+</div>
+
+<div class="container tools-container">
+  <div class="access-key">
+    <span class="access-key-label">Penn Arts & Sciences Access:</span>
+    <span><span class="chip chip-none">Not available</span></span>
+    <span><span class="chip chip-app">By application</span></span>
+    <span><span class="chip chip-uni">University-wide</span></span>
+    <span class="access-key-note">— Updated as agreements are made. Contact DDDI.</span>
+  </div>
+
+  <div class="filter-row">
+    {% for filter in page.filters %}
+    <button class="fpill{% if forloop.first %} active{% endif %}" data-fn="{{ filter.id }}" onclick="filterTools('{{ filter.id }}',this)">{{ filter.label }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="matrix-wrap">
+    <table class="matrix-table" id="tools-table">
+      <thead>
+        <tr>
+          <th class="fn-col">Function</th>
+          {% for col in page.columns %}
+          <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in page.rows %}
+        <tr data-fn="{{ row.fn }}">
+          <td>
+            <span class="fn-label">{{ row.label }}</span>
+            {% if row.desc %}<p class="fn-desc">{{ row.desc }}</p>{% endif %}
+          </td>
+          {% for cell in row.cells %}
+          {% if cell.empty %}
+          <td class="cell-empty">—</td>
+          {% else %}
+          <td>
+            <a class="tool-name" href="{{ cell.url }}" target="_blank" rel="noopener">{{ cell.name }}</a>
+            <span class="chip chip-{{ cell.chip }} chip-inline">{{ cell.chip_label }}</span>
+            <div class="tool-desc">{{ cell.desc }}</div>
+          </td>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function filterTools(fn, btn) {
+    document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#tools-table tbody tr').forEach(row => {
+      row.style.display = (fn === 'all' || (row.dataset.fn||'').includes(fn)) ? '' : 'none';
+    });
+  }
+  window.addEventListener('DOMContentLoaded', function () {
+    var hash = window.location.hash.slice(1);
+    if (hash) {
+      var pill = document.querySelector('.fpill[data-fn="' + hash + '"]');
+      if (pill) filterTools(hash, pill);
+    }
+  });
+</script>

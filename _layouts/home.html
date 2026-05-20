@@ -1,0 +1,38 @@
+---
+layout: default
+---
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">{{ page.hero.eyebrow }}</div>
+    <h1>{{ page.hero.heading }}</h1>
+    <p class="hero-sub">{{ page.hero.subtext }}</p>
+    <div class="btn-row">
+      {% for btn in page.hero.buttons %}
+      <a href="{{ btn.url | relative_url }}" class="{{ btn.style }}">{{ btn.label }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="hero-asterisk">✦</div>
+</div>
+
+<div class="landing-cards">
+  {% for card in page.cards %}
+  <a href="{{ card.url | relative_url }}" class="lcard {{ card.class }}">
+    <div class="lcard-num">{{ card.num }}</div>
+    <h3>{{ card.title }}</h3>
+    <p>{{ card.desc }}</p>
+    <span class="lcard-link">{{ card.link_label }}</span>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="about-strip">
+  <div class="about-inner">
+    <div class="about-mono">D</div>
+    <div>
+      <h4>About this resource</h4>
+      <p>{{ page.about.text }}</p>
+    </div>
+  </div>
+</div>

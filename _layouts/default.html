@@ -3,29 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} — AI Resources for Penn SAS{% else %}AI Resources for Penn SAS{% endif %}</title>
+  <title>{% if page.title %}{{ page.title }} — AI Resources for Penn Arts & Sciences{% else %}AI Resources for Penn Arts & Sciences{% endif %}</title>
+  <link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/responsive.css' | relative_url }}">
+  {% if page.css %}<link rel="stylesheet" href="{{ page.css | relative_url }}">{% endif %}
   <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
   {% seo %}
+  <!-- Prevent flash of wrong theme -->
+  <script>
+    (function(){
+      var t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
 </head>
 <body>
 
 <nav class="site-nav">
   <div class="nav-inner">
     <div class="nav-brand">
-      <span class="nav-dddi">DDDI</span>
+      <img src="{{ '/assets/images/dddi-logo-w.png' | relative_url }}" class="dddi-logo dddi-logo--nav logo-dark" alt="DDDI — Data-Driven Discovery Initiative">
+      <img src="{{ '/assets/images/dddi-logo.png'   | relative_url }}" class="dddi-logo dddi-logo--nav logo-light" alt="DDDI — Data-Driven Discovery Initiative">
       <div class="nav-vbar"></div>
-      <span class="nav-title">AI Resources for Penn SAS</span>
+      <span class="nav-title">AI Resources for Penn Arts & Sciences</span>
     </div>
     <div class="nav-links">
       <a href="{{ '/' | relative_url }}" class="nav-btn{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Home</a>
       <a href="{{ '/tools/' | relative_url }}" class="nav-btn{% if page.url contains 'tools' %} active{% endif %}">AI Tools</a>
       <a href="{{ '/for-researchers/' | relative_url }}" class="nav-btn{% if page.url contains 'for-researchers' %} active{% endif %}">For Researchers</a>
       <a href="https://dddiscovery.github.io/datapoints" class="nav-ext" target="_blank" rel="noopener">DataPoints ↗</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle bright / dark mode">
+        <!-- Sun icon — visible in dark mode -->
+        <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <!-- Moon icon — visible in bright mode -->
+        <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
     </div>
   </div>
 </nav>
+
+<script>
+  (function(){
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var html = document.documentElement;
+      var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  })();
+</script>
 
 {{ content }}
 

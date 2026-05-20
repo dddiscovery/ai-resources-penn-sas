@@ -1,0 +1,47 @@
+/* =========================================================
+   tools — page-specific styles  →  assets/css/tools.css
+   Global styles live in assets/css/main.css
+   ========================================================= */
+
+.tools-container {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.access-key-label {
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.access-key-note {
+  color: var(--text-3);
+  font-size: 0.68rem;
+}
+
+.chip-inline {
+  margin-top: 4px;
+  display: inline-block;
+}
+
+.fn-col {
+  width: 200px;
+  min-width: 200px;
+}
+
+.fn-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--teal);
+  margin-bottom: 0.35rem;
+}
+
+.fn-desc {
+  font-size: 0.65rem;
+  color: var(--text-3);
+  line-height: 1.5;
+  font-weight: 400;
+  white-space: normal;
+  margin: 0;
+}

@@ -1,0 +1,98 @@
+---
+layout: default
+---
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">AI Resources for Penn Arts & Sciences</div>
+    <h1 class="page-title">{{ page.header.heading }}</h1>
+    <p class="page-desc">{{ page.header.subtext }}</p>
+  </div>
+</div>
+
+<div class="researchers-wrap">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-sticky">
+      <div class="sidebar-label">Research Tasks</div>
+      {% for phase in page.phases %}
+      <button class="phase-btn{% if forloop.first %} active{% endif %}" onclick="showPhase('{{ phase.id }}',this)">
+        <span class="phase-num">{{ phase.num }}</span>{{ phase.sidebar_label }}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Phase panels -->
+  <div class="phase-panels-wrap">
+    {% for phase in page.phases %}
+    <div id="phase-{{ phase.id }}" class="phase-content{% if forloop.first %} active{% endif %}">
+
+      {% if phase.callout %}
+      <div class="callout">{{ phase.callout }}</div>
+      {% endif %}
+
+      <span class="phase-big-num">{{ phase.num }}</span>
+      <h2 class="phase-title">{{ phase.title }}</h2>
+      <p class="phase-sub">{{ phase.subtitle }}</p>
+
+      <div class="phase-cols">
+        <div>
+          <div class="col-label">What AI can help with</div>
+          <ul class="check-list">
+            {% for item in phase.helps %}
+            <li>
+              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>{{ item }}
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="risk-box">
+            <div class="risk-label">Risks &amp; Caveats</div>
+            <ul class="risk-list">
+              {% for risk in phase.risks %}
+              <li>{{ risk }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="col-label">Useful AI functions</div>
+          <div class="tool-chips">
+            {% for tool in phase.tools %}
+            <a href="{{ '/tools/' | relative_url }}#{{ tool.fn }}" class="tool-chip tool-fn-chip">{{ tool.label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="prompt-wrap">
+        <div class="prompt-label">Example Prompt</div>
+        <div class="prompt-block">
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>{{ phase.prompt }}</div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div><!-- end phase panels -->
+</div><!-- end researchers-wrap -->
+
+<script>
+  function showPhase(name, btn) {
+    document.querySelectorAll('.phase-content').forEach(p => p.classList.remove('active'));
+    document.getElementById('phase-' + name).classList.add('active');
+    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  function copyPrompt(btn) {
+    const block = btn.closest('.prompt-block');
+    const text = [...block.childNodes]
+      .filter(n => n.nodeType === Node.TEXT_NODE)
+      .map(n => n.textContent).join('').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1500);
+    });
+  }
+</script>

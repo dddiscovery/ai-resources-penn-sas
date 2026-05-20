@@ -1,0 +1,25 @@
+/* =========================================================
+   researchers — page-specific styles  →  assets/css/researchers.css
+   Global styles live in assets/css/main.css
+   ========================================================= */
+
+.researchers-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.phase-panels-wrap {
+  flex: 1;
+  overflow: hidden;
+}
+
+.phase-penn-note {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  margin-top: 0.75rem;
+}
+
+.pink-text {
+  color: var(--pink);
+}
