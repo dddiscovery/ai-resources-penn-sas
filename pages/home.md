@@ -32,5 +32,6 @@ cards:
     link_label: "Browse by task →"
 
 about:
-  text: "Maintained by the <strong>Data-Driven Discovery Initiative (DDDI)</strong> at Penn Arts & Sciences. Access status is updated as Penn license agreements change. Part of the <a href=\"https://dddiscovery.github.io/datapoints\" target=\"_blank\" rel=\"noopener\">DDDI DataPoints</a> knowledge hub."
+  text: "Maintained by the <strong>Data-Driven Discovery Initiative (DDDI)</strong> at Penn Arts & Sciences. Access status is updated as Penn license agreements change. Inspired by <a href=\"https://polkwagner.github.io/penn-law-ai-resources/\" target=\"_blank\" rel=\"noopener\">Penn Carey Law AI Resources</a>, maintained by R. Polk Wagner."
+# text (full): "Maintained by the <strong>Data-Driven Discovery Initiative (DDDI)</strong> at Penn Arts & Sciences. Access status is updated as Penn license agreements change. Part of the <a href=\"https://dddiscovery.github.io/datapoints\" target=\"_blank\" rel=\"noopener\">DDDI DataPoints</a> knowledge hub."
 ---

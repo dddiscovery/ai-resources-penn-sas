@@ -16,16 +16,6 @@ layout: default
   <div class="hero-asterisk">✦</div>
 </div>
 
-<div class="landing-cards">
-  {% for card in page.cards %}
-  <a href="{{ card.url | relative_url }}" class="lcard {{ card.class }}">
-    <div class="lcard-num">{{ card.num }}</div>
-    <h3>{{ card.title }}</h3>
-    <p>{{ card.desc }}</p>
-    <span class="lcard-link">{{ card.link_label }}</span>
-  </a>
-  {% endfor %}
-</div>
 
 <div class="about-strip">
   <div class="about-inner">

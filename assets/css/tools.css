@@ -8,6 +8,79 @@
   padding-bottom: 4rem;
 }
 
+.matrix-wrap {
+  overflow: visible;
+}
+
+.matrix-wrap::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.matrix-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.matrix-wrap::-webkit-scrollbar-thumb {
+  background: rgba(143, 163, 190, 0.35);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.matrix-wrap::-webkit-scrollbar-thumb:hover {
+  background: rgba(143, 163, 190, 0.52);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+[data-theme="light"] .matrix-wrap {
+  scrollbar-color: rgba(46, 74, 107, 0.35) transparent;
+}
+
+[data-theme="light"] .matrix-wrap::-webkit-scrollbar-thumb {
+  background: rgba(46, 74, 107, 0.35);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+[data-theme="light"] .matrix-wrap::-webkit-scrollbar-thumb:hover {
+  background: rgba(46, 74, 107, 0.5);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.matrix-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg-2);
+}
+
+.matrix-table thead th:first-child {
+  left: 0;
+  z-index: 30;
+  box-shadow: inset -1px 0 0 var(--border);
+}
+
+.matrix-table tbody th.fn-cell {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  box-shadow: inset -1px 0 0 var(--border);
+  padding: 1rem;
+  vertical-align: top;
+  min-width: 200px;
+  text-align: left;
+  font-weight: 400;
+}
+
+.matrix-table tbody tr:hover th.fn-cell {
+  background: rgba(252,67,117,0.06);
+}
+
 .access-key-label {
   font-weight: 600;
   color: var(--text-2);
@@ -19,13 +92,13 @@
 }
 
 .chip-inline {
-  margin-top: 4px;
+  margin-top: 2px;
   display: inline-block;
 }
 
 .fn-col {
-  width: 200px;
-  min-width: 200px;
+  width: 155px;
+  min-width: 155px;
 }
 
 .fn-label {
@@ -44,4 +117,145 @@
   font-weight: 400;
   white-space: normal;
   margin: 0;
+}
+
+/* Clickable access-key chips */
+.access-chip {
+  cursor: pointer;
+  transition: opacity 0.15s, box-shadow 0.15s;
+}
+.access-chip:hover {
+  opacity: 0.85;
+  box-shadow: 0 0 0 2px var(--border-teal);
+}
+.access-chip.active {
+  box-shadow: 0 0 0 2px currentColor;
+  filter: brightness(1.15);
+}
+
+/* Muted cells when access filter is active */
+.cell-muted {
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+/* Highlighted tool names — accessible for SAS researchers */
+.cell-highlight .tool-name {
+  text-decoration: underline;
+  text-decoration-color: rgba(252,67,117,0.7);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+/* Multi-product sub-items within a single cell */
+.tool-sub {
+  margin-top: 8px;
+}
+.tool-sub-divider {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.tool-price {
+  font-size: 0.65rem;
+  color: var(--text-3);
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.tool-action-link {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--teal);
+  text-decoration: none;
+  margin-top: 4px;
+}
+.tool-action-link:hover { color: var(--teal-bright); }
+
+/* Tool type tags */
+.tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.tool-tag {
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.1rem 0.45rem;
+  white-space: nowrap;
+}
+
+/* Tags with tooltips */
+.tool-tag-tip {
+  cursor: default;
+  position: relative;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tool-tag-tip:hover {
+  color: #7FCECC;
+  border-color: #7FCECC;
+}
+.tool-tag-tip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 210px;
+  background: var(--bg-2);
+  color: var(--text-2);
+  border: 1px solid rgba(127,206,204,0.35);
+  border-radius: 5px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.65rem;
+  font-weight: 400;
+  line-height: 1.55;
+  white-space: normal;
+  text-align: left;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.tool-tag-tip:hover::after {
+  opacity: 1;
+}
+
+/* Open Models section below the main table */
+.open-models-section {
+  margin-top: 1rem;
+  padding-bottom: 4rem;
+}
+.open-models-header {
+  margin-bottom: 1.25rem;
+}
+.open-models-header .fn-label {
+  font-size: 0.78rem;
+}
+.open-models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.open-model-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+  background: var(--bg-1);
+  transition: border-color 0.15s, background 0.15s;
+}
+.open-model-card:hover {
+  border-color: var(--border-teal);
+  background: var(--bg-2);
+}
+.open-model-card .tool-name {
+  margin-bottom: 4px;
 }

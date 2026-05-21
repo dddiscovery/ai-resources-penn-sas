@@ -48,14 +48,6 @@ layout: default
             </li>
             {% endfor %}
           </ul>
-          <div class="risk-box">
-            <div class="risk-label">Risks &amp; Caveats</div>
-            <ul class="risk-list">
-              {% for risk in phase.risks %}
-              <li>{{ risk }}</li>
-              {% endfor %}
-            </ul>
-          </div>
         </div>
         <div>
           <div class="col-label">Useful AI functions</div>
@@ -63,6 +55,14 @@ layout: default
             {% for tool in phase.tools %}
             <a href="{{ '/tools/' | relative_url }}#{{ tool.fn }}" class="tool-chip tool-fn-chip">{{ tool.label }}</a>
             {% endfor %}
+          </div>
+          <div class="risk-box">
+            <div class="risk-label">Risks &amp; Caveats</div>
+            <ul class="risk-list">
+              {% for risk in phase.risks %}
+              <li>{{ risk }}</li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
       </div>

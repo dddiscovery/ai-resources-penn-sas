@@ -11,13 +11,13 @@ layout: default
 </div>
 
 <div class="container tools-container">
-  <div class="access-key">
-    <span class="access-key-label">Penn Arts & Sciences Access:</span>
-    <span><span class="chip chip-none">Not available</span></span>
-    <span><span class="chip chip-app">By application</span></span>
-    <span><span class="chip chip-uni">University-wide</span></span>
-    <span class="access-key-note">— Updated as agreements are made. Contact DDDI.</span>
-  </div>
+  <!-- <div class="access-key">
+    <span class="access-key-label">{{ page.access_key.label }}</span>
+    {% for chip in page.access_key.chips %}
+    <span><span class="chip chip-{{ chip.type }} access-chip" data-chip="{{ chip.type }}" onclick="filterAccess('{{ chip.type }}', this)" title="Filter by {{ chip.label }}">{{ chip.label }}</span></span>
+    {% endfor %}
+    <span class="access-key-note">{{ page.access_key.note }}</span>
+  </div> -->
 
   <div class="filter-row">
     {% for filter in page.filters %}
@@ -38,18 +38,33 @@ layout: default
       <tbody>
         {% for row in page.rows %}
         <tr data-fn="{{ row.fn }}">
-          <td>
+          <th scope="row" class="fn-cell">
             <span class="fn-label">{{ row.label }}</span>
             {% if row.desc %}<p class="fn-desc">{{ row.desc }}</p>{% endif %}
-          </td>
+          </th>
           {% for cell in row.cells %}
           {% if cell.empty %}
-          <td class="cell-empty">—</td>
+          <td class="cell-empty" data-chip="empty">—</td>
+          {% elsif cell.items %}
+          <td{% if cell.highlight %} class="cell-highlight"{% endif %}>
+            {% for item in cell.items %}
+            <div class="tool-sub{% unless forloop.first %} tool-sub-divider{% endunless %}">
+              <a class="tool-name" href="{{ item.url }}" target="_blank" rel="noopener">{{ item.name }}</a>
+              {% if item.chip and item.chip != 'none' %}<span class="chip chip-{{ item.chip }} chip-inline">{{ item.chip_label }}</span>{% endif %}
+              {% if item.price %}<div class="tool-price">{{ item.price }}</div>{% endif %}
+              {% if item.link_label %}<a class="tool-action-link" href="{{ item.link_url | default: item.url }}" target="_blank" rel="noopener">{{ item.link_label }} →</a>{% endif %}
+              {% if item.desc %}<div class="tool-desc">{{ item.desc }}</div>{% endif %}
+            </div>
+            {% endfor %}
+          </td>
           {% else %}
-          <td>
+          <td data-chip="{{ cell.chip }}"{% if cell.highlight %} class="cell-highlight"{% endif %}>
             <a class="tool-name" href="{{ cell.url }}" target="_blank" rel="noopener">{{ cell.name }}</a>
-            <span class="chip chip-{{ cell.chip }} chip-inline">{{ cell.chip_label }}</span>
-            <div class="tool-desc">{{ cell.desc }}</div>
+            {% if cell.chip and cell.chip != 'none' %}<span class="chip chip-{{ cell.chip }} chip-inline">{{ cell.chip_label }}</span>{% endif %}
+            {% if cell.price %}<div class="tool-price">{{ cell.price }}</div>{% endif %}
+            {% if cell.link_label %}<a class="tool-action-link" href="{{ cell.link_url | default: cell.url }}" target="_blank" rel="noopener">{{ cell.link_label }} →</a>{% endif %}
+            {% if cell.desc %}<div class="tool-desc">{{ cell.desc }}</div>{% endif %}
+            {% if cell.tags %}<div class="tool-tags">{% for tag in cell.tags %}<span class="tool-tag{% if tag.desc %} tool-tag-tip{% endif %}"{% if tag.desc %} data-tooltip="{{ tag.desc }}"{% endif %}>{{ tag.label | default: tag }}</span>{% endfor %}</div>{% endif %}
           </td>
           {% endif %}
           {% endfor %}
@@ -60,15 +75,58 @@ layout: default
   </div>
 </div>
 
+{{ content }}
+
 <script>
-  function filterTools(fn, btn) {
-    document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('#tools-table tbody tr').forEach(row => {
-      row.style.display = (fn === 'all' || (row.dataset.fn||'').includes(fn)) ? '' : 'none';
+  var activeFns = new Set();
+  var activeChips = new Set();
+
+  function applyFilters() {
+    document.querySelectorAll('#tools-table tbody tr').forEach(function(row) {
+      var fnMatch = activeFns.size === 0 ||
+        Array.from(activeFns).some(function(fn) { return (row.dataset.fn || '').includes(fn); });
+      if (!fnMatch) { row.style.display = 'none'; return; }
+      row.style.display = '';
+      row.querySelectorAll('td[data-chip]').forEach(function(td) {
+        td.classList.toggle('cell-muted', activeChips.size > 0 && !activeChips.has(td.dataset.chip));
+      });
     });
   }
+
+  function filterTools(fn, btn) {
+    if (fn === 'all') {
+      activeFns.clear();
+      document.querySelectorAll('.fpill').forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+    } else {
+      document.querySelector('.fpill[data-fn="all"]').classList.remove('active');
+      if (activeFns.has(fn)) {
+        activeFns.delete(fn);
+        btn.classList.remove('active');
+      } else {
+        activeFns.add(fn);
+        btn.classList.add('active');
+      }
+      if (activeFns.size === 0) {
+        document.querySelector('.fpill[data-fn="all"]').classList.add('active');
+      }
+    }
+    applyFilters();
+  }
+
+  function filterAccess(chipType, el) {
+    if (activeChips.has(chipType)) {
+      activeChips.delete(chipType);
+      el.classList.remove('active');
+    } else {
+      activeChips.add(chipType);
+      el.classList.add('active');
+    }
+    applyFilters();
+  }
+
   window.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.fpill[data-fn="all"]').classList.add('active');
     var hash = window.location.hash.slice(1);
     if (hash) {
       var pill = document.querySelector('.fpill[data-fn="' + hash + '"]');

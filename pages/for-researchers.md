@@ -89,11 +89,12 @@ phases:
     title: "Data Collection & Analysis"
     subtitle: "Working with evidence"
     helps:
+      - "Data cleaning and wrangling pipelines"
+      - "Generating and iterating on visualizations"
       - "Writing and debugging Python / R analysis scripts"
       - "Explaining statistical output in plain language"
       - "Coding qualitative interview transcripts"
-      - "Data cleaning and wrangling pipelines"
-      - "Generating and iterating on visualizations"
+
     risks:
       - "Generated code may be syntactically correct but logically wrong — validate all outputs"
       - "Do not input sensitive or IRB-restricted data into commercial tools"
@@ -126,8 +127,10 @@ phases:
       - "AI editing can inadvertently soften claims in ways that change your argument"
     prompt: |
       Here is my methods section: [paste].
-      Rewrite it so a non-specialist in [adjacent field] can follow
-      without losing technical accuracy. Same length.
+      You are a reviewer from [adjacent field] with no deep background in my specialty.
+      Give me detailed feedback on clarity, structure, and accessibility — where did you
+      lose the thread, what terms need defining, what could be reordered?
+      Do not rewrite; give specific, actionable suggestions I can act on myself.
     tools:
       - fn: "chat"
         label: "Chat & Assistant"
@@ -138,9 +141,9 @@ phases:
     title: "Grants & Proposals"
     subtitle: "Making the case for your work"
     helps:
-      - "Drafting Specific Aims pages"
-      - "Strengthening Significance and Innovation sections"
       - "Tailoring proposals to funder priorities"
+      - "Checking whether your framing and proposal sections meet call-specific requirements (management plan, timeline, broader impacts, etc.)"
+      - "Strengthening Significance and Innovation sections"
       - "Simulating reviewer feedback before submission"
     risks:
       - "<strong class=\"pink-text\">Check funder AI policy first</strong> — NIH, NSF, and many foundations restrict AI use in proposals"
