@@ -4,7 +4,7 @@ layout: default
 
 <div class="hero">
   <div class="hero-content">
-    <div class="hero-eyebrow">{{ page.hero.eyebrow }}</div>
+    {% comment %}<div class="hero-eyebrow">{{ page.hero.eyebrow }}</div>{% endcomment %}
     <h1>{{ page.hero.heading }}</h1>
     <p class="hero-sub">{{ page.hero.subtext }}</p>
     <div class="btn-row">
@@ -19,10 +19,7 @@ layout: default
 
 <div class="about-strip">
   <div class="about-inner">
-    <div class="about-mono">D</div>
-    <div>
-      <h4>About this resource</h4>
-      <p>{{ page.about.text }}</p>
-    </div>
+    <h4>About this resource</h4>
+    <p>{{ page.about.text }}</p>
   </div>
 </div>

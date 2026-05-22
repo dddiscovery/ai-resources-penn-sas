@@ -9,7 +9,18 @@
 }
 
 .matrix-wrap {
-  overflow: visible;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  max-width: 100%;
+  scrollbar-color: rgba(143, 163, 190, 0.35) transparent;
+  /* Fade-right hint: tells users more content exists to the right */
+  background:
+    linear-gradient(to right, var(--bg) 0%, transparent 2rem) left   / 2rem 100% no-repeat,
+    linear-gradient(to left,  var(--bg) 0%, transparent 2rem) right  / 2rem 100% no-repeat,
+    linear-gradient(to right, rgba(0,0,0,0.06), transparent)  left   / 3rem 100% no-repeat,
+    linear-gradient(to left,  rgba(0,0,0,0.06), transparent)  right  / 3rem 100% no-repeat;
+  background-attachment: local, local, scroll, scroll;
 }
 
 .matrix-wrap::-webkit-scrollbar {
@@ -258,4 +269,170 @@
 }
 .open-model-card .tool-name {
   margin-bottom: 4px;
+}
+
+/* Vendor tabs — mobile only (shown via @media below) */
+.vendor-tabs {
+  display: none;
+  flex-wrap: nowrap;
+  gap: 0.35rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.25rem;
+}
+
+.vendor-tab {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.9rem;
+  border: 1px solid var(--border);
+  background: var(--bg-1);
+  color: var(--text-2);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.vendor-tab:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.vendor-tab.active {
+  border-color: var(--teal);
+  background: rgba(43, 138, 138, 0.1);
+  color: var(--teal);
+}
+
+.vendor-col-hidden {
+  visibility: collapse;
+}
+
+/* ── Tablet & mobile: vendor tabs, one column at a time ── */
+@media (max-width: 768px) {
+  .vendor-tabs {
+    display: flex;
+    margin-top: 0.5rem;
+  }
+
+  .matrix-wrap {
+    overflow-x: visible;
+    margin-left: 0;
+    margin-right: 0;
+    background: none;
+  }
+
+  #tools-table {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  #tools-table thead th {
+    width: auto;
+  }
+
+  #tools-table thead th.fn-col {
+    white-space: nowrap;
+    width: 68%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  #tools-table tbody th.fn-cell {
+    width: 68%;
+    min-width: 0;
+    max-width: none;
+    padding: 0.65rem 0.75rem;
+  }
+
+  #tools-table thead th[data-col]:not(.vendor-col-hidden),
+  #tools-table tbody td[data-col]:not(.vendor-col-hidden) {
+    width: 32%;
+    min-width: 0;
+    padding: 0.65rem 0.75rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  #tools-table .vendor-col-hidden {
+    visibility: collapse;
+    width: 0;
+    min-width: 0;
+    padding: 0;
+    border: none;
+  }
+
+  #tools-table tbody td[data-col] .tool-name,
+  #tools-table tbody td[data-col] .tool-action-link,
+  #tools-table tbody td[data-col] .tool-price {
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  #tools-table tbody td[data-col] .tool-tags {
+    flex-wrap: wrap;
+  }
+
+  #tools-table tbody td[data-col] .tool-tag {
+    white-space: normal;
+  }
+
+  .tool-tag-tip::after {
+    display: none;
+  }
+
+  .open-models-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Small phones: tighter typography ──────────────────── */
+@media (max-width: 480px) {
+  .matrix-table {
+    font-size: 0.69rem;
+  }
+
+  .matrix-table thead th {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.6rem;
+  }
+
+  #tools-table thead th.fn-col,
+  #tools-table tbody th.fn-cell {
+    width: 68%;
+    padding: 0.6rem 0.65rem;
+  }
+
+  #tools-table thead th[data-col]:not(.vendor-col-hidden),
+  #tools-table tbody td[data-col]:not(.vendor-col-hidden) {
+    width: 32%;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .tool-name {
+    font-size: 0.8rem;
+  }
+
+  .tool-desc,
+  .tool-price,
+  .tool-action-link,
+  .fn-desc {
+    font-size: 0.6rem;
+  }
+
+  .vendor-tab {
+    font-size: 0.61rem;
+    padding: 0.25rem 0.65rem;
+  }
+
+  .open-models-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -6,7 +6,7 @@ permalink: /
 css: /assets/css/home.css
 
 hero:
-  eyebrow: "Penn School of Arts & Sciences · Data-Driven Discovery Initiative"
+  # eyebrow: "Penn School of Arts & Sciences · Data-Driven Discovery Initiative"
   heading: "AI Resources<br>for <em>Penn Arts & Sciences</em>"
   subtext: "A curated guide to AI and LLM tools for researchers — what's available, what it genuinely does well, and where the risks lie."
   buttons:
@@ -32,6 +32,6 @@ cards:
     link_label: "Browse by task →"
 
 about:
-  text: "Maintained by the <strong>Data-Driven Discovery Initiative (DDDI)</strong> at Penn Arts & Sciences. Access status is updated as Penn license agreements change. Inspired by <a href=\"https://polkwagner.github.io/penn-law-ai-resources/\" target=\"_blank\" rel=\"noopener\">Penn Carey Law AI Resources</a>, maintained by R. Polk Wagner."
+  text: "Maintained by the Data-Driven Discovery Initiative (DDDI) at Penn Arts & Sciences. Access status is updated as Penn license agreements change. Inspired by <a href=\"https://polkwagner.github.io/penn-law-ai-resources/\" target=\"_blank\" rel=\"noopener\">Penn Carey Law AI Resources</a>, maintained by R. Polk Wagner."
 # text (full): "Maintained by the <strong>Data-Driven Discovery Initiative (DDDI)</strong> at Penn Arts & Sciences. Access status is updated as Penn license agreements change. Part of the <a href=\"https://dddiscovery.github.io/datapoints\" target=\"_blank\" rel=\"noopener\">DDDI DataPoints</a> knowledge hub."
 ---

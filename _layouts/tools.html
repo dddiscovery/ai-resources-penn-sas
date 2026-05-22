@@ -4,7 +4,6 @@ layout: default
 
 <div class="page-header">
   <div class="page-header-inner">
-    <div class="page-eyebrow">AI Resources for Penn Arts & Sciences</div>
     <h1 class="page-title">{{ page.title }}.</h1>
     <p class="page-desc">{{ page.description }}</p>
   </div>
@@ -25,13 +24,26 @@ layout: default
     {% endfor %}
   </div>
 
+  <div class="vendor-tabs" role="tablist" aria-label="Select vendor">
+    {% for col in page.columns %}
+    <button class="vendor-tab{% if forloop.first %} active{% endif %}"
+            type="button"
+            data-col="{{ forloop.index0 }}"
+            onclick="selectVendor({{ forloop.index0 }}, this)"
+            role="tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+      {{ col }}
+    </button>
+    {% endfor %}
+  </div>
+
   <div class="matrix-wrap">
     <table class="matrix-table" id="tools-table">
       <thead>
         <tr>
           <th class="fn-col">Function</th>
           {% for col in page.columns %}
-          <th>{{ col }}</th>
+          <th data-col="{{ forloop.index0 }}">{{ col }}</th>
           {% endfor %}
         </tr>
       </thead>
@@ -44,9 +56,9 @@ layout: default
           </th>
           {% for cell in row.cells %}
           {% if cell.empty %}
-          <td class="cell-empty" data-chip="empty">—</td>
+          <td class="cell-empty" data-chip="empty" data-col="{{ forloop.index0 }}">—</td>
           {% elsif cell.items %}
-          <td{% if cell.highlight %} class="cell-highlight"{% endif %}>
+          <td data-col="{{ forloop.index0 }}"{% if cell.highlight %} class="cell-highlight"{% endif %}>
             {% for item in cell.items %}
             <div class="tool-sub{% unless forloop.first %} tool-sub-divider{% endunless %}">
               <a class="tool-name" href="{{ item.url }}" target="_blank" rel="noopener">{{ item.name }}</a>
@@ -58,7 +70,7 @@ layout: default
             {% endfor %}
           </td>
           {% else %}
-          <td data-chip="{{ cell.chip }}"{% if cell.highlight %} class="cell-highlight"{% endif %}>
+          <td data-col="{{ forloop.index0 }}" data-chip="{{ cell.chip }}"{% if cell.highlight %} class="cell-highlight"{% endif %}>
             <a class="tool-name" href="{{ cell.url }}" target="_blank" rel="noopener">{{ cell.name }}</a>
             {% if cell.chip and cell.chip != 'none' %}<span class="chip chip-{{ cell.chip }} chip-inline">{{ cell.chip_label }}</span>{% endif %}
             {% if cell.price %}<div class="tool-price">{{ cell.price }}</div>{% endif %}
@@ -125,6 +137,40 @@ layout: default
     applyFilters();
   }
 
+  var MOBILE_VENDOR_MAX = 768;
+  var activeVendorCol = 0;
+
+  function isMobileVendorView() {
+    return window.matchMedia('(max-width: ' + MOBILE_VENDOR_MAX + 'px)').matches;
+  }
+
+  function selectVendor(colIdx, btn) {
+    activeVendorCol = colIdx;
+    document.querySelectorAll('.vendor-tab').forEach(function(t) {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    if (btn) {
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+    }
+    if (!isMobileVendorView()) return;
+    document.querySelectorAll('#tools-table [data-col]').forEach(function(el) {
+      el.classList.toggle('vendor-col-hidden', el.dataset.col !== String(colIdx));
+    });
+  }
+
+  function syncVendorColumnsForViewport() {
+    var cols = document.querySelectorAll('#tools-table [data-col]');
+    if (!isMobileVendorView()) {
+      cols.forEach(function(el) { el.classList.remove('vendor-col-hidden'); });
+      return;
+    }
+    var tab = document.querySelector('.vendor-tab[data-col="' + activeVendorCol + '"]') ||
+      document.querySelector('.vendor-tab');
+    if (tab) selectVendor(activeVendorCol, tab);
+  }
+
   window.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.fpill[data-fn="all"]').classList.add('active');
     var hash = window.location.hash.slice(1);
@@ -132,5 +178,8 @@ layout: default
       var pill = document.querySelector('.fpill[data-fn="' + hash + '"]');
       if (pill) filterTools(hash, pill);
     }
+    syncVendorColumnsForViewport();
   });
+
+  window.addEventListener('resize', syncVendorColumnsForViewport);
 </script>
