@@ -7,7 +7,7 @@ css: /assets/css/researchers.css
 
 header:
   heading: "AI for Your Research."
-  subtext: "Practical guidance across research tasks — with honest notes on where AI falls short."
+  subtext: "Practical guidance across research tasks."
 
 phases:
   - id: litreview
