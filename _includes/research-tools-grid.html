@@ -1,0 +1,17 @@
+{% assign rt = site.data.research_tools %}
+{% if rt.tools %}
+<div class="open-models-section research-tools-section tools-page-sections-end container">
+  <div class="open-models-header">
+    <span class="fn-label">Research tools</span>
+    <p class="fn-desc research-tools-disclaimer">{{ rt.disclaimer }}</p>
+  </div>
+  <div class="open-models-grid">
+    {% for tool in rt.tools %}
+    <a class="open-model-card" id="{{ tool.id }}" href="{{ tool.href }}" target="_blank" rel="noopener noreferrer">
+      <span class="tool-name">{{ tool.name }}</span>
+      <div class="tool-desc">{{ tool.desc }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

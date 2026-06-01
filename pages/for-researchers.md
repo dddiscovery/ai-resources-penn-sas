@@ -8,6 +8,7 @@ css: /assets/css/researchers.css
 header:
   heading: "AI for Your Research."
   subtext: "Practical guidance across research tasks."
+  note: "<strong>Research doesn't follow a straight line</strong> — and neither does AI use. The phases below often overlap, repeat, and happen in any order. Use this as a menu, not a sequence."
 
 phases:
   - id: litreview
@@ -15,7 +16,6 @@ phases:
     sidebar_label: "Literature Review"
     title: "Literature Review & Discovery"
     subtitle: "Orienting yourself in a field"
-    callout: "<strong>Research doesn't follow a straight line</strong> — and neither does AI use. The phases below often overlap, repeat, and happen in any order. Use this as a menu, not a sequence."
     helps:
       - "Summarizing papers and identifying key claims"
       - "Finding gaps and contradictions across a body of literature"
@@ -125,6 +125,22 @@ phases:
       - "Factual claims can be smoothly stated but wrong — never trust without verification"
       - "Check your institution's and target journal's AI-disclosure policies"
       - "AI editing can inadvertently soften claims in ways that change your argument"
+    use_cases:
+      - title: "Structuring before drafting"
+        desc: "Upload rough notes and ask for several possible organizational structures rather than prose. Evaluating options keeps you in the driver's seat — and you can converse back and forth about narrative structures, hooks, and how to articulate an argument, as you would with a colleague. Asking for a structure means you still have to write it, which also avoids going back and undoing AI voice and errors."
+        mini_prompt: |
+          Here are my rough notes on [topic]: [paste].
+          Give me 3 distinct ways I could structure this as a [paper/essay/report].
+          For each, describe the narrative arc in 2 sentences and name the trade-off.
+          Don't write any prose — just the structures.
+      - title: "Simulating a peer reviewer"
+        desc: "Ask it to position itself as a critical senior colleague who is territorial about the field, or as a non-specialist reader for a journal with wider readership. You can tune the persona to match the feedback you actually need before submission."
+        tool_refs:
+          - refine
+        mini_prompt: |
+          Here is my [section/abstract]: [paste].
+          Act as a senior reviewer in [field] who is skeptical and protective of disciplinary norms.
+          Give me your 3 most critical objections. Be direct and blunt — don't soften.
     prompt: |
       Here is my methods section: [paste].
       You are a reviewer from [adjacent field] with no deep background in my specialty.
@@ -146,10 +162,17 @@ phases:
       - "Strengthening Significance and Innovation sections"
       - "Simulating reviewer feedback before submission"
     risks:
-      - "<strong class=\"pink-text\">Check funder AI policy first</strong> — NIH, NSF, and many foundations restrict AI use in proposals"
+      - "<strong class=\"pink-text\">Check funder AI policy first</strong> — NEH (<a href=\"https://www.neh.gov/grants/manage/organizations\" target=\"_blank\" rel=\"noopener\">see NEH guidance</a>), NSF (SBE, <a href=\"https://www.nsf.gov/policies/ai/merit-review\" target=\"_blank\" rel=\"noopener\">see policy</a>), SSRC, Mellon, Ford, and Guggenheim, among others, may restrict or require disclosure of AI use."
+ 
       - "AI-generated grant text can trigger AI-detection flags"
       - "Preliminary data sections should never rely on AI-generated figures"
       - "Simulated reviewer feedback is generic — it cannot replicate actual study section dynamics"
+    use_cases:
+      - title: "Grant discovery and AI-assisted writing"
+        desc: "Specialized grant tools go further than general-purpose AI — they search funder databases, track deadlines, and coach you section-by-section through proposal requirements. GrantedAI searches 133K+ foundations and 85K+ grants across all 50 states and 15+ countries, then drafts alongside you. GrantAI focuses on generating compelling narratives with minimal effort and is free to try for 7 days."
+        tool_refs:
+          - grantedai
+          - grantai
     prompt: |
       Here is my Specific Aims draft: [paste].
       Act as an NIH study section reviewer.

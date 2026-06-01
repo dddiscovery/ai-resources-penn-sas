@@ -6,6 +6,9 @@ layout: default
   <div class="page-header-inner">
     <h1 class="page-title">{{ page.header.heading }}</h1>
     <p class="page-desc">{{ page.header.subtext }}</p>
+    {% if page.header.note %}
+    <p class="page-header-note">{{ page.header.note }}</p>
+    {% endif %}
   </div>
 </div>
 
@@ -66,10 +69,41 @@ layout: default
         </div>
       </div>
 
+      {% if phase.use_cases %}
+      <div class="use-cases-wrap">
+        <div class="col-label">In Practice</div>
+        {% for uc in phase.use_cases %}
+        <div class="uc-strip">
+          <div class="uc-strip-header">
+            <span class="uc-strip-title">{{ uc.title }}</span>
+          </div>
+          {% if uc.tool_refs %}
+          <div class="uc-strip-tools-block">
+            <span class="uc-strip-tool-label">Specific tools you may want to explore:</span>
+            <ul class="uc-strip-tool-list">
+              {% for ref in uc.tool_refs %}
+                {% for t in site.data.research_tools.tools %}
+                  {% if t.id == ref %}
+              <li><a href="{{ '/tools/' | relative_url }}#{{ t.id }}">{{ t.name }}</a></li>
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          <p class="uc-strip-desc">{{ uc.desc }}</p>
+          {% if uc.mini_prompt %}
+          <button class="uc-try-btn" type="button" onclick="toggleUcPrompt(this)">Try this →</button>
+          <div class="uc-mini-prompt" hidden><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ uc.mini_prompt | strip }}</span></div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       <div class="prompt-wrap">
         <div class="prompt-label">Example Prompt</div>
-        <div class="prompt-block">
-          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>{{ phase.prompt }}</div>
+        <div class="prompt-block"><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ phase.prompt | strip }}</span></div>
       </div>
 
     </div>
@@ -84,11 +118,16 @@ layout: default
     document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
+  function toggleUcPrompt(btn) {
+    const p = btn.nextElementSibling;
+    const open = !p.hidden;
+    p.hidden = open;
+    btn.textContent = open ? 'Try this →' : 'Close ×';
+  }
   function copyPrompt(btn) {
-    const block = btn.closest('.prompt-block');
-    const text = [...block.childNodes]
-      .filter(n => n.nodeType === Node.TEXT_NODE)
-      .map(n => n.textContent).join('').trim();
+    const block = btn.closest('.prompt-block, .uc-mini-prompt');
+    const el = block.querySelector('.prompt-text');
+    const text = (el ? el.textContent : block.textContent).trim();
     navigator.clipboard.writeText(text).then(() => {
       btn.textContent = 'Copied!';
       setTimeout(() => btn.textContent = 'Copy', 1500);

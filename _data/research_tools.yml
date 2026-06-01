@@ -1,0 +1,43 @@
+disclaimer: "Reference only. These are third-party tools researchers have mentioned. We do not recommend or endorse any specific product. Check access, cost, privacy, and funder or journal policies before use."
+
+tools:
+  - id: elicit
+    name: Elicit
+    href: "https://elicit.com/"
+    desc: "Search and synthesize research papers"
+  - id: anara
+    name: Anara
+    href: "https://anara.com/"
+    desc: "Library-aware Q&A with citations"
+  - id: scispace
+    name: SciSpace
+    href: "https://scispace.com/"
+    desc: "Read, explain, and search papers"
+  - id: consensus
+    name: Consensus
+    href: "https://consensus.app/"
+    desc: "Evidence summaries from published research"
+  - id: notebooklm
+    name: NotebookLM
+    href: "https://notebooklm.google/"
+    desc: "Upload sources and explore them in conversation"
+  - id: planyourscience
+    name: Plan Your Science
+    href: "https://www.planyourscience.com/"
+    desc: "AI-assisted research planning"
+  - id: refine
+    name: Refine.ink
+    href: "https://www.refine.ink/"
+    desc: "Peer-review-style feedback on drafts"
+  - id: prism
+    name: Prism
+    href: "https://crixet.com/"
+    desc: "LaTeX writing workspace (formerly Crixet)"
+  - id: grantai
+    name: GrantAI
+    href: "https://www.grantai.co/"
+    desc: "AI-powered grant writing co-pilot for crafting compelling narratives and managing applications"
+  - id: grantedai
+    name: Granted AI
+    href: "https://grantedai.com/"
+    desc: "Search 85K+ grants and 133K+ foundations; section-by-section AI drafting and pre-submission peer review"

@@ -5,7 +5,7 @@
 
 .tools-container {
   padding-top: 2rem;
-  padding-bottom: 4rem;
+  padding-bottom: 0.5rem;
 }
 
 .matrix-wrap {
@@ -237,9 +237,15 @@
   opacity: 1;
 }
 
-/* Open Models section below the main table */
+/* Open Models + Research tools sections below the main table */
 .open-models-section {
+  margin-top: 0.5rem;
+  padding-bottom: 0;
+}
+.open-models-section + .open-models-section {
   margin-top: 1rem;
+}
+.tools-page-sections-end {
   padding-bottom: 4rem;
 }
 .open-models-header {
@@ -247,6 +253,12 @@
 }
 .open-models-header .fn-label {
   font-size: 0.78rem;
+}
+p.research-tools-disclaimer {
+  border-left: 2px solid var(--pink);
+  padding-left: 0.75rem;
+  color: var(--pink);
+  margin-top: 0.5rem;
 }
 .open-models-grid {
   display: grid;
@@ -269,6 +281,21 @@
 }
 .open-model-card .tool-name {
   margin-bottom: 4px;
+}
+
+.research-tools-section {
+  margin-top: 0;
+}
+.research-tools-disclaimer {
+  max-width: 52rem;
+  color: var(--text-3);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+.open-model-card:target {
+  border-color: var(--teal);
+  background: rgba(43, 138, 138, 0.08);
 }
 
 /* Vendor tabs — mobile only (shown via @media below) */
