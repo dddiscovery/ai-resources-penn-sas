@@ -366,21 +366,27 @@ p.research-tools-disclaimer {
 
   #tools-table thead th.fn-col {
     white-space: nowrap;
-    width: 68%;
+    width: 55%;
     min-width: 0;
     max-width: none;
   }
 
   #tools-table tbody th.fn-cell {
-    width: 68%;
+    width: 55%;
     min-width: 0;
     max-width: none;
     padding: 0.65rem 0.75rem;
   }
 
+  /* Hide the long description paragraph in the Function column on mobile
+     — the label alone is enough at this width */
+  #tools-table tbody th.fn-cell .fn-desc {
+    display: none;
+  }
+
   #tools-table thead th[data-col]:not(.vendor-col-hidden),
   #tools-table tbody td[data-col]:not(.vendor-col-hidden) {
-    width: 32%;
+    width: 45%;
     min-width: 0;
     padding: 0.65rem 0.75rem;
     white-space: normal;
@@ -394,6 +400,12 @@ p.research-tools-disclaimer {
     min-width: 0;
     padding: 0;
     border: none;
+  }
+
+  /* WebKit doesn't collapse row height for visibility:collapse td —
+     hide cell children so they don't inflate the row height */
+  #tools-table .vendor-col-hidden > * {
+    display: none;
   }
 
   #tools-table tbody td[data-col] .tool-name,
@@ -433,13 +445,13 @@ p.research-tools-disclaimer {
 
   #tools-table thead th.fn-col,
   #tools-table tbody th.fn-cell {
-    width: 68%;
+    width: 50%;
     padding: 0.6rem 0.65rem;
   }
 
   #tools-table thead th[data-col]:not(.vendor-col-hidden),
   #tools-table tbody td[data-col]:not(.vendor-col-hidden) {
-    width: 32%;
+    width: 50%;
     padding: 0.55rem 0.65rem;
   }
 
@@ -447,7 +459,6 @@ p.research-tools-disclaimer {
     font-size: 0.8rem;
   }
 
-  .tool-desc,
   .tool-price,
   .tool-action-link,
   .fn-desc {
