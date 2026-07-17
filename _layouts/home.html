@@ -16,6 +16,17 @@ layout: default
   <div class="hero-asterisk">✦</div>
 </div>
 
+{% if page.news %}
+<section class="news-strip" aria-label="Latest news">
+  <div class="news-inner">
+    <span class="news-label">{{ page.news.label }}</span>
+    <p class="news-text">{{ page.news.text }}
+      <a class="news-link" href="{{ page.news.link_url }}" target="_blank" rel="noopener">{{ page.news.link_label }} →</a>
+    </p>
+  </div>
+</section>
+{% endif %}
+
 <section class="tool-finder-strip" id="tool-finder" aria-live="polite">
   <div class="tool-finder-inner">
     <header class="tool-finder-header">

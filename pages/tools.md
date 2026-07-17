@@ -5,6 +5,11 @@ title: AI Tools Matrix
 permalink: /tools/
 css: /assets/css/tools.css
 
+news:
+  text: "Penn is about to launch <strong>PennChat</strong>, a secure University AI portal with Claude and ChatGPT models."
+  link_label: "Check the details"
+  link_url: "https://www.thedp.com/article/2026/07/penn-artificial-intelligence-claude-chatgpt-anthropic-data-security"
+
 # access_key:
 #   label: "Penn Arts & Sciences Access:"
 #   chips:

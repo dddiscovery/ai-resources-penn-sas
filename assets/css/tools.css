@@ -8,6 +8,25 @@
   padding-bottom: 0.5rem;
 }
 
+.page-news {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  border-left: 3px solid var(--pink);
+  padding-left: 0.75rem;
+}
+.page-news-link {
+  font-weight: 600;
+  color: var(--pink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+.page-news-link:hover {
+  opacity: 0.8;
+}
+
 .matrix-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;

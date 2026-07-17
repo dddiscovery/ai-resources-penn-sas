@@ -31,6 +31,12 @@ cards:
     desc: "Practical guidance and real risks across research tasks — literature review, analysis, writing, grants. Jump in wherever your work is."
     link_label: "Browse by task →"
 
+news:
+  label: "News"
+  text: "Penn is piloting <strong>PennChat</strong>, a secure University AI portal offering access to Claude and ChatGPT models within Penn's protected network. The pilot runs through mid-August, when Penn expects to launch its official AI service."
+  link_label: "Read the details"
+  link_url: "https://www.thedp.com/article/2026/07/penn-artificial-intelligence-claude-chatgpt-anthropic-data-security"
+
 about:
   text: "Maintained by the Data-Driven Discovery Initiative (DDDI) at Penn Arts & Sciences. Access status is updated as Penn license agreements change. Inspired by <a href=\"https://polkwagner.github.io/penn-law-ai-resources/\" target=\"_blank\" rel=\"noopener\">Penn Carey Law AI Resources</a>, maintained by R. Polk Wagner."
 # text (full): "Maintained by the <strong>Data-Driven Discovery Initiative (DDDI)</strong> at Penn Arts & Sciences. Access status is updated as Penn license agreements change. Part of the <a href=\"https://dddiscovery.github.io/datapoints\" target=\"_blank\" rel=\"noopener\">DDDI DataPoints</a> knowledge hub."

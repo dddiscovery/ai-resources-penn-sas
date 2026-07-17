@@ -3,6 +3,66 @@
    Global styles live in assets/css/main.css
    ========================================================= */
 
+/* ── News strip (between hero and tool finder) ──────── */
+.news-strip {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem 1.5rem;
+}
+
+.news-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: var(--pink-glow);
+  border: 1px solid rgba(252, 67, 117, 0.25);
+  border-left: 3px solid var(--pink);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.news-label {
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pink);
+  background: rgba(252, 67, 117, 0.12);
+  border: 1px solid rgba(252, 67, 117, 0.25);
+  border-radius: 3px;
+  padding: 0.2rem 0.5rem;
+  margin-top: 0.1rem;
+}
+
+.news-text {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.news-link {
+  font-weight: 600;
+  color: var(--pink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+.news-link:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .news-strip {
+    padding: 0 1.25rem 1.25rem;
+  }
+  .news-inner {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
 /* ── Tool finder (inline, between hero and about) ───── */
 .tool-finder-strip {
   max-width: 1280px;
