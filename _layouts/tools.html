@@ -15,13 +15,14 @@ layout: default
 </div>
 
 <div class="container tools-container">
-  <!-- <div class="access-key">
-    <span class="access-key-label">{{ page.access_key.label }}</span>
-    {% for chip in page.access_key.chips %}
-    <span><span class="chip chip-{{ chip.type }} access-chip" data-chip="{{ chip.type }}" onclick="filterAccess('{{ chip.type }}', this)" title="Filter by {{ chip.label }}">{{ chip.label }}</span></span>
-    {% endfor %}
-    <span class="access-key-note">{{ page.access_key.note }}</span>
-  </div> -->
+  {% if page.licensed_key %}
+  <div class="access-key">
+    <span class="chip chip-penn">{{ page.licensed_key.chip_label }}</span>
+    <span class="access-key-note">{{ page.licensed_key.text }}
+      <a href="{{ page.licensed_key.link_url }}" target="_blank" rel="noopener">{{ page.licensed_key.link_label }} →</a>
+    </span>
+  </div>
+  {% endif %}
 
   <div class="filter-row">
     {% for filter in page.filters %}

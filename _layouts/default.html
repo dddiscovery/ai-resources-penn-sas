@@ -32,7 +32,9 @@
     <div class="nav-links">
       <a href="{{ '/' | relative_url }}" class="nav-btn{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Home</a>
       <a href="{{ '/tools/' | relative_url }}" class="nav-btn{% if page.url contains 'tools' %} active{% endif %}">AI Tools</a>
+      <a href="{{ '/for-students/' | relative_url }}" class="nav-btn{% if page.url contains 'for-students' %} active{% endif %}">For Students</a>
       <a href="{{ '/for-researchers/' | relative_url }}" class="nav-btn{% if page.url contains 'for-researchers' %} active{% endif %}">For Researchers</a>
+      <a href="{{ '/ai-pulse/' | relative_url }}" class="nav-btn{% if page.url contains 'ai-pulse' %} active{% endif %}">AI Pulse</a>
       <!-- <a href="https://dddiscovery.github.io/datapoints" class="nav-ext" target="_blank" rel="noopener">DataPoints ↗</a> -->
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle bright / dark mode">
         <!-- Sun icon — visible in dark mode -->

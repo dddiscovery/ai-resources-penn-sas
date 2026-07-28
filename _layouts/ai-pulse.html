@@ -1,0 +1,70 @@
+---
+layout: default
+---
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">{{ page.header.heading }}</h1>
+    <p class="page-desc">{{ page.header.subtext }}</p>
+  </div>
+</div>
+
+<div class="pulse-wrap">
+  <p class="pulse-disclaimer">{{ site.data.ai_feed.disclaimer }}</p>
+
+  <div class="feed-controls">
+    <div class="filter-row feed-filter-row">
+      {% for cat in page.feed_categories %}
+      <button class="fpill feed-filter{% if cat.id == 'all' %} active{% endif %}" type="button" data-feed-category="{{ cat.id }}">{{ cat.label }}</button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="feed-grid" id="feed-grid">
+    {% for item in site.data.ai_feed.feed %}
+    {% if item.reviewed %}
+    <article class="feed-card"
+             data-category="{{ item.category }}"
+             data-date="{{ item.date }}">
+      <div class="feed-card-header">
+        <span class="feed-category-chip feed-category-chip--{{ item.category }}">{{ item.category | replace: '_', ' ' }}</span>
+        <time class="feed-date" datetime="{{ item.date }}">{{ item.date }}</time>
+      </div>
+      {% if item.url and item.url != '' %}
+      <h3 class="feed-card-title"><a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.title }}</a></h3>
+      {% else %}
+      <h3 class="feed-card-title">{{ item.title }}</h3>
+      {% endif %}
+      <p class="feed-card-source">{{ item.source }}</p>
+      <p class="feed-card-summary">{{ item.summary }}</p>
+    </article>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <p class="feed-empty" id="feed-empty" hidden>{{ page.labels.empty_state }}</p>
+</div>
+
+<script>
+  (function () {
+    var feedCategory = 'all';
+    var empty = document.getElementById('feed-empty');
+    document.querySelectorAll('.feed-filter').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.feed-filter').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        feedCategory = btn.getAttribute('data-feed-category');
+        filterFeed();
+      });
+    });
+    function filterFeed() {
+      var visible = 0;
+      document.querySelectorAll('.feed-card').forEach(function (card) {
+        var show = feedCategory === 'all' || card.getAttribute('data-category') === feedCategory;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      if (empty) empty.hidden = visible > 0;
+    }
+    filterFeed();
+  })();
+</script>

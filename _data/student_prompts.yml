@@ -1,0 +1,226 @@
+prompts:
+  - id: essay-outline
+    discipline: humanities
+    intent: feedback
+    status: permission
+    text: |
+      Here is my tentative thesis for a [length] essay in [course],
+      and the evidence I plan to use: [paste].
+      Identify one unsupported leap, one plausible counterargument,
+      and one question I need to answer before I write.
+      Do not rewrite the thesis or propose a replacement.
+    why: "You propose, AI challenges, you decide — the argument stays yours."
+
+  - id: essay-feedback
+    discipline: humanities
+    intent: feedback
+    status: permission
+    text: |
+      Here is a draft paragraph from my essay: [paste].
+      Act as a thoughtful peer reader, not an editor.
+      Tell me where the argument is unclear, where evidence is missing,
+      and what one question a skeptical reader would ask.
+      Do not rewrite my paragraph.
+    why: "Gets critical feedback without handing over your voice."
+
+  - id: close-reading
+    discipline: humanities
+    intent: explain
+    status: independent
+    text: |
+      I'm reading [text/author] for [course]. Here is a passage that
+      confuses me, and my own explanation of it: [paste both].
+      Tell me what I may be misunderstanding and point to words or
+      sentences in the passage I should examine more closely.
+      Do not replace my interpretation with yours.
+    why: "You interpret first — AI is a reading companion, not a substitute for reading."
+
+  - id: pset-stuck
+    discipline: stem
+    intent: explain
+    status: permission
+    text: |
+      I attempted this [math/stats/chem] problem and got as far as
+      follows: [describe your approach].
+      Do not solve it. Identify the relevant concept, tell me whether
+      my approach is promising, and ask me one question that will help
+      me determine the next step.
+    why: "You attempt first — AI coaches without taking over."
+
+  - id: pset-check
+    discipline: stem
+    intent: feedback
+    status: permission
+    text: |
+      Here is my work on this problem: [paste your steps].
+      Check my reasoning step by step. If something is wrong,
+      tell me which step and why — but don't fix it for me.
+    why: "Catches errors without doing the work for you."
+
+  - id: stats-output
+    discipline: stem
+    intent: feedback
+    status: permission
+    text: |
+      Here is output from an analysis I ran in [R/Python/Stata],
+      and my interpretation of it: [paste both].
+      Check whether each statement is supported by the output.
+      Flag omitted assumptions, uncertainty, or possible overinterpretation.
+      Do not write a replacement interpretation.
+    why: "You interpret first; AI audits — interpretation is often the skill being graded."
+
+  - id: debug-code
+    discipline: stem
+    intent: debug
+    status: permission
+    text: |
+      If my course policy permits this use: here is the smallest relevant
+      code excerpt and the error message: [paste].
+      Explain what category of error this is and suggest two diagnostic
+      tests I can perform. Do not provide replacement code.
+    why: "Builds debugging skill — the diagnosis stays with you, and course rules come first."
+
+  - id: code-explain
+    discipline: stem
+    intent: explain
+    status: permission
+    text: |
+      Explain this code line by line as if I'm a beginner in [language]: [paste code].
+      For each section, tell me what it does and why it's written that way.
+      Then suggest one small modification I could try to test my understanding.
+    why: "Builds understanding of code you need to explain or extend."
+
+  - id: lab-report-structure
+    discipline: stem
+    intent: feedback
+    status: permission
+    text: |
+      If my course permits this use: here is my draft methods section
+      and my protocol checklist: [paste].
+      Identify information required for reproducibility that I have omitted.
+      Do not rewrite the section.
+    why: "You draft first — AI checks for gaps, the writing stays yours."
+
+  - id: figure-interpret
+    discipline: stem
+    intent: feedback
+    status: permission
+    text: |
+      If my course permits this use: here is my figure and my description
+      of it: [paste or describe].
+      Check whether each claim is directly supported by the axes, data,
+      and uncertainty shown. Ask me questions wherever I move from
+      observation to interpretation. Do not rewrite my description.
+    why: "Keeps the line between observation and interpretation yours — AI only audits it."
+
+  - id: source-discovery
+    discipline: social_sciences
+    intent: brainstorm
+    status: independent
+    text: |
+      I'm researching [topic] for a paper in [course/discipline].
+      Suggest 5 search queries I might not have tried yet,
+      including synonyms and adjacent concepts, that I can run
+      in Penn Libraries and disciplinary databases.
+      Do not invent specific citations — just search strategies.
+    why: "Expands your search without hallucinated references — the searching happens in real databases."
+
+  - id: paper-summary
+    discipline: social_sciences
+    intent: explain
+    status: permission
+    text: |
+      Based only on this abstract from a paper I'm reading: [paste].
+      State what the authors claim, what method they report,
+      and three questions I should investigate in the full paper.
+      Do not infer limitations or results that are not stated in the abstract.
+    why: "Sets up active reading without inventing findings — you still read the full paper."
+
+  - id: thesis-brainstorm
+    discipline: social_sciences
+    intent: feedback
+    status: permission
+    text: |
+      Here are three observations from my reading and two possible
+      thesis ideas I developed: [paste].
+      Compare their strengths, identify the evidence each would require,
+      and give the strongest counterargument to each.
+      Do not generate a new thesis.
+    why: "The ideas are yours — AI helps you compare and pressure-test them."
+
+  - id: cover-letter
+    discipline: any
+    intent: outline
+    status: independent
+    text: |
+      I'm applying for [role/internship] at [organization].
+      Here is the job description: [paste].
+      Here are my relevant experiences: [paste].
+      Outline a cover letter structure — what goes in each paragraph.
+      Don't write the letter; just the outline with bullet points per section.
+    why: "You write the letter; AI helps you plan it."
+
+  - id: interview-prep
+    discipline: any
+    intent: brainstorm
+    status: independent
+    text: |
+      I have an interview for [role] at [organization].
+      Based on this job description: [paste],
+      what are 5 questions they might ask me?
+      For each, suggest what kind of example from my background would be strong.
+    why: "Prepares you to speak from your own experience."
+
+  - id: concept-analogy
+    discipline: any
+    intent: explain
+    status: independent
+    text: |
+      Explain [concept from your course] using 2 different analogies.
+      Then tell me where each analogy breaks down.
+      Finally, ask me to explain it back in my own words.
+    why: "Tests whether you actually understand, not just whether AI does."
+
+  - id: study-plan
+    discipline: any
+    intent: outline
+    status: independent
+    text: |
+      I have an exam on [topic] in [timeframe].
+      Here are the topics on the syllabus: [paste].
+      Create a study plan that prioritizes weak areas.
+      Include active recall strategies — not just 'read chapter X.'
+    why: "AI as a study coach, not a shortcut to avoid studying."
+
+  - id: reflection-prompt
+    discipline: humanities
+    intent: brainstorm
+    status: independent
+    text: |
+      I need to write a reflection for [course] on [experience/topic].
+      Here are 3 things that stood out to me: [paste].
+      Help me identify a theme connecting them and 2 questions
+      I could explore in 300 words. Don't write the reflection.
+    why: "Helps you find your angle before you write."
+
+  - id: debate-steelman
+    discipline: social_sciences
+    intent: feedback
+    status: independent
+    text: |
+      My argument in this paper is: [state your thesis].
+      Steelman the strongest counterargument — make it as compelling as possible.
+      Then tell me what evidence I would need to address it.
+    why: "Strengthens your argument by confronting real objections."
+
+  - id: presentation-outline
+    discipline: any
+    intent: outline
+    status: independent
+    text: |
+      I need a 10-minute presentation on [topic] for [course].
+      Here are my key points: [paste].
+      Suggest a slide-by-slide outline with a hook for the opening
+      and one memorable takeaway for the closing.
+      Don't write speaker notes — just the structure.
+    why: "Plans your talk so you still deliver it in your own words."

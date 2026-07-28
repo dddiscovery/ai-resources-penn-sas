@@ -1,0 +1,112 @@
+disclaimer: "Items below are drawn from Penn, university, and scholarly sources and are reviewed by the DDDI team before appearing here. Listing is not an endorsement — read critically and check the original source before relying on it."
+
+feed:
+  - id: auto-8cdac2d00f
+    date: "2026-07-15"
+    title: "3 Questions: Neural transparency and the future of AI design"
+    source: "MIT News"
+    url: "https://news.mit.edu/2026/3-questions-neural-transparency-and-future-of-ai-design-0715"
+    category: news
+    summary: "MIT's Pat Pataranutaporn on a new interface that lets everyday users glimpse inside an AI's neural network before their chatbot even responds."
+    reviewed: true
+    disclaimer: false
+
+  - id: auto-45e2880c32
+    date: "2026-07-14"
+    title: "Can AI build a jet engine? JARVIS Challenge tests role of AI copilots in tough-tech engineering"
+    source: "MIT News"
+    url: "https://news.mit.edu/2026/can-ai-build-jet-engine-jarvis-challenge-tests-ai-copilots-in-tough-tech-engineering-0714"
+    category: use_cases
+    summary: "MIT students designed, built, and tested a jet engine with AI copilots — a hands-on assessment of where AI genuinely helps in high-performance engineering, and where it doesn't."
+    reviewed: true
+    disclaimer: false
+
+  - id: seed-001
+    date: "2026-05-28"
+    title: "Three questions to guide thoughtful, human-centered AI use in the classroom"
+    source: "Penn Today"
+    url: "https://penntoday.upenn.edu/news/three-questions-guide-thoughtful-human-centered-ai-use-classroom"
+    category: use_cases
+    summary: "CETLI's Catherine Turner on using AI to support reflection and questioning in coursework — not as a shortcut around learning."
+    reviewed: true
+    disclaimer: false
+
+  - id: seed-002
+    date: "2026-05-20"
+    title: "Building AI models that understand chemical principles"
+    source: "MIT News"
+    url: "https://news.mit.edu/2026/building-ai-models-with-chemical-principles-connor-coley-0520"
+    category: news
+    summary: "MIT's Connor Coley on building machine-learning models grounded in chemistry — and why domain knowledge still matters."
+    reviewed: true
+    disclaimer: false
+
+  - id: seed-003
+    date: "2026-05-26"
+    title: "AI hiring tools can yield racial bias and systemic rejection"
+    source: "Stanford HAI"
+    url: "https://hai.stanford.edu/news/ai-hiring-tools-can-yield-racial-bias-and-systemic-rejection"
+    category: career
+    summary: "Stanford researchers analyze 4 million job applications and find algorithmic screening can amplify bias across employers."
+    reviewed: true
+    disclaimer: false
+
+  - id: seed-004
+    date: "2026-05-10"
+    title: "Education chapter — The 2026 AI Index Report"
+    source: "Stanford HAI"
+    url: "https://hai.stanford.edu/ai-index/2026-ai-index-report/education"
+    category: use_cases
+    summary: "Four in five U.S. high school and college students now use AI for schoolwork — while formal policies lag behind."
+    reviewed: true
+    disclaimer: false
+
+  - id: seed-005
+    date: "2026-05-05"
+    title: "‘JeepyTA’ has entered the chat"
+    source: "Penn Today"
+    url: "https://penntoday.upenn.edu/news/jeepyta-artificial-intelligence-teaching-assistant"
+    category: penn_updates
+    summary: "Penn GSE researchers built a course-aware AI teaching assistant focused on formative feedback, not just syllabus Q&A."
+    reviewed: true
+    disclaimer: false
+
+  - id: auto-d98a97fb61
+    date: "2026-02-12"
+    title: "Why engineers in Philadelphia created ENIAC, the first general-purpose electronic computer"
+    source: "Penn Today"
+    url: "https://penntoday.upenn.edu/penn-in-the-news/why-engineers-philadelphia-created-eniac-first-general-purpose-electronic-computer"
+    category: penn_updates
+    summary: "Penn Engineering Dean Vijay Kumar on why the first general-purpose electronic computer was born in Philadelphia — the Penn origin story behind today's computing."
+    reviewed: true
+    disclaimer: false
+
+  - id: auto-94da698a61
+    date: "2026-02-09"
+    title: "Could artificial intelligence save endangered archives? A Kenyon College cohort aims to find out"
+    source: "Schmidt Sciences"
+    url: "https://www.schmidtsciences.org/could-artificial-intelligence-save-endangered-archives-a-kenyon-college-cohort-aims-to-find-out/"
+    category: use_cases
+    summary: "An undergraduate cohort at Kenyon College is testing whether AI can help preserve and open up endangered archives — a case study in humanities-driven AI."
+    reviewed: true
+    disclaimer: false
+
+  - id: auto-c6e2d60366
+    date: "2026-02-09"
+    title: "Q&A: Can humanities-driven AI reshape digital archive preservation and access?"
+    source: "Schmidt Sciences"
+    url: "https://www.schmidtsciences.org/qa-can-humanities-driven-ai-reshape-digital-archive-preservation-and-access/"
+    category: use_cases
+    summary: "Researchers discuss how AI grounded in humanistic questions could change the way digital archives are preserved, searched, and accessed."
+    reviewed: true
+    disclaimer: false
+
+  - id: auto-9a63a31d64
+    date: "2026-01-27"
+    title: "Schmidt Sciences awards over $3 million to study AI's impact on jobs"
+    source: "Schmidt Sciences"
+    url: "https://www.schmidtsciences.org/schmidt-sciences-awards-over-3-million-to-study-ais-impact-on-jobs/"
+    category: career
+    summary: "Researcher-led field experiments will explore how AI can support rather than supplant humans across a variety of workplaces worldwide."
+    reviewed: true
+    disclaimer: false

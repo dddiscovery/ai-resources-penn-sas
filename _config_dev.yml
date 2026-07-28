@@ -1,0 +1,5 @@
+# Local development overrides.
+# Use: bundle exec jekyll serve --config _config.yml,_config_dev.yml
+# Then open http://localhost:4000/  (not /ai-resources-penn-sas/)
+url: "http://localhost:4000"
+baseurl: ""

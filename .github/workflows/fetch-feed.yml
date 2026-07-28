@@ -1,0 +1,48 @@
+name: Fetch AI Pulse Feed
+
+on:
+  schedule:
+    # Weekly on Monday at 14:00 UTC
+    - cron: "0 14 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  fetch-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Fetch RSS feeds and update ai_feed.yml
+        run: python .github/scripts/fetch_ai_feed.py
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update AI Pulse feed from RSS sources"
+          title: "AI Pulse: weekly feed update"
+          body: |
+            Automated weekly fetch from approved RSS sources.
+
+            **Review checklist:**
+            - [ ] Verify titles and URLs are accurate
+            - [ ] Set `reviewed: true` for items you approve
+            - [ ] Remove irrelevant or duplicate entries
+            - [ ] Confirm summaries are fair and not misleading
+
+            Unreviewed items remain hidden on the site until marked `reviewed: true`.
+          branch: bot/ai-pulse-feed-update
+          delete-branch: true

@@ -445,6 +445,16 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   font-size: 0.72rem;
   color: var(--text-2);
 }
+
+.access-key-note a {
+  color: var(--teal-bright);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.access-key-note a:hover {
+  text-decoration: underline;
+}
 .chip {
   display: inline-block;
   font-size: 0.6rem;
@@ -458,6 +468,8 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 .chip-none { background: transparent; color: var(--text-3); border: 1px solid var(--border); }
 .chip-app  { background: var(--beige-chip); color: var(--beige); border: 1px solid var(--beige-border); }
 .chip-uni  { background: rgba(43,138,138,0.12); color: var(--teal-bright); border: 1px solid var(--border-teal); }
+.chip-penn { background: rgba(77,130,214,0.14); color: #6ea0e8; border: 1px solid rgba(77,130,214,0.45); }
+[data-theme="light"] .chip-penn { color: #2c5eb0; }
 
 /* Matrix table */
 .matrix-wrap { border: 1px solid var(--beige-border); border-radius: 8px; }
