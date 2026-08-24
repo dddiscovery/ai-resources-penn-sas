@@ -1,9 +1,11 @@
 name: Fetch AI Pulse Feed
 
 on:
-  schedule:
-    # Weekly on Monday at 14:00 UTC
-    - cron: "0 14 * * 1"
+  # Paused — AI Pulse page is archived (pages/ai-pulse.md: published: false).
+  # Uncomment the schedule below to resume the weekly automatic fetch.
+  # schedule:
+  #   # Weekly on Monday at 14:00 UTC
+  #   - cron: "0 14 * * 1"
   workflow_dispatch:
 
 permissions:
