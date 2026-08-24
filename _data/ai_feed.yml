@@ -1,112 +1,380 @@
-disclaimer: "Items below are drawn from Penn, university, and scholarly sources and are reviewed by the DDDI team. DDDI is not responsible for the content of the items listed here; we only collect and share them from their original sources."
-
+disclaimer: Items below are drawn from Penn, university, and scholarly sources and are reviewed by the DDDI team. DDDI is not responsible for the content of the items listed here; we only collect and share them from their original sources.
 feed:
-  - id: auto-8cdac2d00f
-    date: "2026-07-15"
-    title: "3 Questions: Neural transparency and the future of AI design"
-    source: "MIT News"
-    url: "https://news.mit.edu/2026/3-questions-neural-transparency-and-future-of-ai-design-0715"
-    category: news
-    summary: "MIT's Pat Pataranutaporn on a new interface that lets everyday users glimpse inside an AI's neural network before their chatbot even responds."
-    reviewed: true
-    disclaimer: false
-
-  - id: auto-45e2880c32
-    date: "2026-07-14"
-    title: "Can AI build a jet engine? JARVIS Challenge tests role of AI copilots in tough-tech engineering"
-    source: "MIT News"
-    url: "https://news.mit.edu/2026/can-ai-build-jet-engine-jarvis-challenge-tests-ai-copilots-in-tough-tech-engineering-0714"
-    category: use_cases
-    summary: "MIT students designed, built, and tested a jet engine with AI copilots — a hands-on assessment of where AI genuinely helps in high-performance engineering, and where it doesn't."
-    reviewed: true
-    disclaimer: false
-
-  - id: seed-001
-    date: "2026-05-28"
-    title: "Three questions to guide thoughtful, human-centered AI use in the classroom"
-    source: "Penn Today"
-    url: "https://penntoday.upenn.edu/news/three-questions-guide-thoughtful-human-centered-ai-use-classroom"
-    category: use_cases
-    summary: "CETLI's Catherine Turner on using AI to support reflection and questioning in coursework — not as a shortcut around learning."
-    reviewed: true
-    disclaimer: false
-
-  - id: seed-002
-    date: "2026-05-20"
-    title: "Building AI models that understand chemical principles"
-    source: "MIT News"
-    url: "https://news.mit.edu/2026/building-ai-models-with-chemical-principles-connor-coley-0520"
-    category: news
-    summary: "MIT's Connor Coley on building machine-learning models grounded in chemistry — and why domain knowledge still matters."
-    reviewed: true
-    disclaimer: false
-
-  - id: seed-003
-    date: "2026-05-26"
-    title: "AI hiring tools can yield racial bias and systemic rejection"
-    source: "Stanford HAI"
-    url: "https://hai.stanford.edu/news/ai-hiring-tools-can-yield-racial-bias-and-systemic-rejection"
-    category: career
-    summary: "Stanford researchers analyze 4 million job applications and find algorithmic screening can amplify bias across employers."
-    reviewed: true
-    disclaimer: false
-
-  - id: seed-004
-    date: "2026-05-10"
-    title: "Education chapter — The 2026 AI Index Report"
-    source: "Stanford HAI"
-    url: "https://hai.stanford.edu/ai-index/2026-ai-index-report/education"
-    category: use_cases
-    summary: "Four in five U.S. high school and college students now use AI for schoolwork — while formal policies lag behind."
-    reviewed: true
-    disclaimer: false
-
-  - id: seed-005
-    date: "2026-05-05"
-    title: "‘JeepyTA’ has entered the chat"
-    source: "Penn Today"
-    url: "https://penntoday.upenn.edu/news/jeepyta-artificial-intelligence-teaching-assistant"
-    category: penn_updates
-    summary: "Penn GSE researchers built a course-aware AI teaching assistant focused on formative feedback, not just syllabus Q&A."
-    reviewed: true
-    disclaimer: false
-
-  - id: auto-d98a97fb61
-    date: "2026-02-12"
-    title: "Why engineers in Philadelphia created ENIAC, the first general-purpose electronic computer"
-    source: "Penn Today"
-    url: "https://penntoday.upenn.edu/penn-in-the-news/why-engineers-philadelphia-created-eniac-first-general-purpose-electronic-computer"
-    category: penn_updates
-    summary: "Penn Engineering Dean Vijay Kumar on why the first general-purpose electronic computer was born in Philadelphia — the Penn origin story behind today's computing."
-    reviewed: true
-    disclaimer: false
-
-  - id: auto-94da698a61
-    date: "2026-02-09"
-    title: "Could artificial intelligence save endangered archives? A Kenyon College cohort aims to find out"
-    source: "Schmidt Sciences"
-    url: "https://www.schmidtsciences.org/could-artificial-intelligence-save-endangered-archives-a-kenyon-college-cohort-aims-to-find-out/"
-    category: use_cases
-    summary: "An undergraduate cohort at Kenyon College is testing whether AI can help preserve and open up endangered archives — a case study in humanities-driven AI."
-    reviewed: true
-    disclaimer: false
-
-  - id: auto-c6e2d60366
-    date: "2026-02-09"
-    title: "Q&A: Can humanities-driven AI reshape digital archive preservation and access?"
-    source: "Schmidt Sciences"
-    url: "https://www.schmidtsciences.org/qa-can-humanities-driven-ai-reshape-digital-archive-preservation-and-access/"
-    category: use_cases
-    summary: "Researchers discuss how AI grounded in humanistic questions could change the way digital archives are preserved, searched, and accessed."
-    reviewed: true
-    disclaimer: false
-
-  - id: auto-9a63a31d64
-    date: "2026-01-27"
-    title: "Schmidt Sciences awards over $3 million to study AI's impact on jobs"
-    source: "Schmidt Sciences"
-    url: "https://www.schmidtsciences.org/schmidt-sciences-awards-over-3-million-to-study-ais-impact-on-jobs/"
-    category: career
-    summary: "Researcher-led field experiments will explore how AI can support rather than supplant humans across a variety of workplaces worldwide."
-    reviewed: true
-    disclaimer: false
+- id: auto-f2b843f8ca
+  date: '2026-08-20'
+  title: Paving the way for greener ammonia production
+  source: MIT News
+  url: https://news.mit.edu/2026/paving-way-for-greener-ammonia-production-0820
+  category: news
+  summary: New MIT research could lead to better materials for a fossil-fuel-free process for making the chemical that's essential to fertilizer and other products.
+  reviewed: false
+  disclaimer: true
+- id: auto-d03ae741cc
+  date: '2026-08-18'
+  title: 'When AI art has no author: Study finds generated images often can’t be traced to training data'
+  source: MIT News
+  url: https://news.mit.edu/2026/when-ai-art-has-no-author-generated-images-often-cant-be-traced-to-training-data-0818
+  category: news
+  summary: A new method for surgically removing training examples from a model reveals that as datasets grow, the link between what a model learns and what it produces dissolves.
+  reviewed: false
+  disclaimer: true
+- id: auto-e1f56b17a8
+  date: '2026-08-17'
+  title: 'Q&A: Rethinking how innovation happens'
+  source: MIT News
+  url: https://news.mit.edu/2026/qa-eugene-fitzgerald-rethinking-how-innovation-happens-0817
+  category: news
+  summary: In his latest book, Professor Eugene Fitzgerald examines the forces that turn breakthroughs into value — and why innovation resists simple formulas.
+  reviewed: false
+  disclaimer: true
+- id: auto-cfa633c1b4
+  date: '2026-08-10'
+  title: With a feel for physics, AI models simulate a wider range of real-world scenarios
+  source: MIT News
+  url: https://news.mit.edu/2026/ai-models-simulate-wider-range-of-real-world-scenarios-0810
+  category: news
+  summary: “GeoPT” helps AI models understand the basics of physics so they can simulate how objects respond to things like wind and water more efficiently and accurately.
+  reviewed: false
+  disclaimer: true
+- id: auto-e2934182cd
+  date: '2026-08-04'
+  title: Solving the solvent problem
+  source: MIT News
+  url: https://news.mit.edu/2026/solving-solvent-problem-sodium-metal-batteries-0804
+  category: news
+  summary: By focusing on electrolytes, MIT scientists are making sodium-metal batteries a more practical energy storage option.
+  reviewed: false
+  disclaimer: true
+- id: auto-df3f16b312
+  date: '2026-08-04'
+  title: The benefits of medical AI assistance vary based on user expertise
+  source: MIT News
+  url: https://news.mit.edu/2026/medical-ai-assistance-benefits-vary-based-on-user-expertise-0804
+  category: news
+  summary: Study finds non-experts deferred to LLM-based diagnostic assistance, even when it was wrong, while clinicians caught AI errors.
+  reviewed: false
+  disclaimer: true
+- id: auto-e451f3b3a1
+  date: '2026-08-03'
+  title: Alexander Rakhlin named director of  the MIT Statistics and Data Science Center
+  source: MIT News
+  url: https://news.mit.edu/2026/alexander-rakhlin-named-director-mit-statistics-data-science-center-0803
+  category: news
+  summary: An expert in machine learning, statistics, and computation, Rakhlin succeeds Professor Ankur Moitra.
+  reviewed: false
+  disclaimer: true
+- id: auto-c352b4ef88
+  date: '2026-07-30'
+  title: Daniela Rus receives Bavarian Minister-President's High-Tech Prize
+  source: MIT News
+  url: https://news.mit.edu/2026/daniela-rus-receives-bavarian-minister-presidents-high-tech-prize-0730
+  category: news
+  summary: Director of CSAIL and MIT professor honored for her contributions to robotics, artificial intelligence, and autonomous systems.
+  reviewed: false
+  disclaimer: true
+- id: auto-e9eb3d4cea
+  date: '2026-07-30'
+  title: Connecting research to policy on Capitol Hill
+  source: MIT News
+  url: https://news.mit.edu/2026/connecting-research-to-policy-on-capitol-hill-0730
+  category: news
+  summary: MIT students and postdocs discussed science funding and research with policymakers in Washington during the MIT Science Policy Initiative’s annual Congressional Visit Days.
+  reviewed: false
+  disclaimer: true
+- id: auto-8772b2c137
+  date: '2026-07-29'
+  title: How a medical database developed at MIT evolved into a global standard of data-sharing
+  source: MIT News
+  url: https://news.mit.edu/2026/how-an-mit-database-evolved-into-global-standard-data-sharing-0729
+  category: news
+  summary: The visionary PhysioNet platform launched 25 years ago, based on a system developed at MIT in the 1970s. It has become one of the most comprehensive biomedical and clinical data repositories in existence.
+  reviewed: false
+  disclaimer: true
+- id: auto-4ad6a42820
+  date: '2026-07-24'
+  title: Working to automate nuclear plant operations
+  source: MIT News
+  url: https://news.mit.edu/2026/working-automate-nuclear-plant-operations-lauren-fortier-0724
+  category: news
+  summary: PhD student Lauren Fortier is building on the experience she gained operating a nuclear plant for the Navy to solve a critical hurdle in the wider adoption of the energy source.
+  reviewed: false
+  disclaimer: true
+- id: auto-95b3ef0240
+  date: '2026-07-23'
+  title: MIT projects selected for funding under US Department of Energy’s Genesis Mission
+  source: MIT News
+  url: https://news.mit.edu/2026/mit-projects-selected-funding-under-doe-genesis-mission-0723
+  category: news
+  summary: Initial research projects advance national priorities across natural resources, manufacturing, nuclear physics, and more.
+  reviewed: false
+  disclaimer: true
+- id: auto-53e63e5b99
+  date: '2026-07-22'
+  title: Professor Emeritus Dimitri Bertsekas, influential computer scientist and prolific author, dies at 83
+  source: MIT News
+  url: https://news.mit.edu/2026/dimitri-bertsekas-influential-computer-scientist-prolific-author-dies-0722
+  category: news
+  summary: Known for his clear and elegant writing style, Bertsekas shaped fields from control and optimization to large-scale computation and artificial intelligence.
+  reviewed: false
+  disclaimer: true
+- id: auto-c745ffe489
+  date: '2026-07-17'
+  title: Following the questions where they lead
+  source: MIT News
+  url: https://news.mit.edu/2026/following-questions-where-they-lead-bailey-flanigan-0717
+  category: news
+  summary: Assistant Professor Bailey Flanigan has arrived at complex computational methods for helping democracy thrive.
+  reviewed: false
+  disclaimer: true
+- id: auto-16e379e5cd
+  date: '2026-07-16'
+  title: A better way to turn 2D designs into 3D models for rapid prototyping
+  source: MIT News
+  url: https://news.mit.edu/2026/turning-2d-designs-into-3d-models-for-rapid-prototyping-0716
+  category: news
+  summary: Researchers developed an automated framework that helps AI models generate CAD programs more accurately and efficiently.
+  reviewed: false
+  disclaimer: true
+- id: auto-e962b5d5be
+  date: '2026-02-12'
+  title: Tech companies like Amazon and Meta are tightening their performance reviews. Here’s what that could signal, according to experts
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/tech-companies-amazon-and-meta-are-tightening-their-performance-reviews-heres-what
+  category: penn_updates
+  summary: "Tech companies like Amazon and Meta are tightening their performance reviews. Here’s what that could signal, according to experts \n  Peter Cappelli of the Wharton School says that it is cheaper for companies to fire people for poor performance than it is to lay them off.\n\nmaid..."
+  reviewed: false
+  disclaimer: true
+- id: auto-d987c9174b
+  date: '2026-02-12'
+  title: Many young people are being prescribed multiple psychiatric drugs at once — which can be risky
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/many-young-people-are-being-prescribed-multiple-psychiatric-drugs-once-which-can
+  category: penn_updates
+  summary: "Many young people are being prescribed multiple psychiatric drugs at once — which can be risky \n  Sean Hennessy of the Perelman School of Medicine led a study that explored the risks of prescribing multiple medications at once.\n\nmaidenc@upenn.edu\n\nThu, 02/12/2026 - 14:27\n\n  ht..."
+  reviewed: false
+  disclaimer: true
+- id: auto-6573d2066d
+  date: '2026-02-12'
+  title: Penn Medicine celebrates 60 years of pioneering transplant surgeries
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/penn-medicine-celebrates-60-years-pioneering-transplant-surgeries
+  category: penn_updates
+  summary: "Penn Medicine celebrates 60 years of pioneering transplant surgeries \n  Penn Medicine’s Transplant Institute celebrates 60 years of pioneering in transplant surgeries.\n\nmaidenc@upenn.edu\n\nThu, 02/12/2026 - 14:25\n\n  https://tinyurl.com/bdjk85cp\n  February 10, 2026\n\n\n  NBC Phila..."
+  reviewed: false
+  disclaimer: true
+- id: auto-cf9f9fe9c1
+  date: '2026-02-12'
+  title: 'We’re ‘not quite understanding‘ the labor market: Mohamed El-Erian'
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/were-not-quite-understanding-labor-market-mohamed-el-erian
+  category: penn_updates
+  summary: "We’re ‘not quite understanding‘ the labor market: Mohamed El-Erian \n  Mohamed El-Erian of the Wharton School assesses current forecasts for economic data and the U.S. labor market.\n\nmaidenc@upenn.edu\n\nThu, 02/12/2026 - 14:25\n\n  https://tinyurl.com/a7ry779s\n  February 11, 2026\n..."
+  reviewed: false
+  disclaimer: true
+- id: auto-64ddbfc1aa
+  date: '2026-02-12'
+  title: '‘Exhibiting Resilience’: Tribal consultation brings modern vision to new museum gallery'
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/exhibiting-resilience-tribal-consultation-brings-modern-vision-new-museum-gallery
+  category: penn_updates
+  summary: "‘Exhibiting Resilience’: Tribal consultation brings modern vision to new museum gallery\n  The Penn Museum’s new exhibit, “Native North America Gallery: Rooted in Resilience, Resisting Erasure,” is highlighted.\n\nmaidenc@upenn.edu\n\nThu, 02/12/2026 - 14:22\n\n  https://tinyurl.com/..."
+  reviewed: false
+  disclaimer: true
+- id: auto-508f40e810
+  date: '2026-02-12'
+  title: 'Cologuard vs. Colonoscopy: Which screening should you get?'
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/cologuard-vs-colonoscopy-which-screening-should-you-get
+  category: penn_updates
+  summary: "Cologuard vs. Colonoscopy: Which screening should you get? \n  Anish Sheth of the Perelman School of Medicine says a colonoscopy is better for cancer screenings than a Cologuard.\n\nmaidenc@upenn.edu\n\nThu, 02/12/2026 - 14:21\n\n  https://tinyurl.com/2z49yews\n  February 11, 2026\n\n\n ..."
+  reviewed: false
+  disclaimer: true
+- id: auto-5ee8e622f1
+  date: '2026-02-12'
+  title: How social media is shaping a Texas Senate race
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/how-social-media-shaping-texas-senate-race
+  category: penn_updates
+  summary: "How social media is shaping a Texas Senate race\n  Pinar Yildirim of the Wharton School comments on how social media platforms can help political candidates raise money and test messaging.\n\nmaidenc@upenn.edu\n\nThu, 02/12/2026 - 14:05\n\n  https://tinyurl.com/8jh72u8b\n  February 6,..."
+  reviewed: false
+  disclaimer: true
+- id: auto-a2749d6b34
+  date: '2026-02-12'
+  title: 'Take a breath: Medicaid hasn’t changed yet'
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/take-breath-medicaid-hasnt-changed-yet
+  category: penn_updates
+  summary: "Take a breath: Medicaid hasn’t changed yet\n  In an opinion essay, Elizabeth Salazar and Diana Montoya-Williams of the Perelman School of Medicine and Leonard Davis Institute of Health Economics write that “Medicaid has not changed yet. Plus, there are things families can do to..."
+  reviewed: false
+  disclaimer: true
+- id: auto-1da5bd3f9d
+  date: '2026-02-12'
+  title: Stopping antidepressants during pregnancy can be a health risk, research shows
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/stopping-antidepressants-during-pregnancy-can-be-health-risk-research-shows
+  category: penn_updates
+  summary: "Stopping antidepressants during pregnancy can be a health risk, research shows\n  Kelly B. Zafman of the Perelman School of Medicine comments on medicine during pregnancy.\n\nmaidenc@upenn.edu\n\nThu, 02/12/2026 - 14:00\n\n  https://tinyurl.com/6xn9ch2j\n  February 11, 2026\n\n\n  The Ne..."
+  reviewed: false
+  disclaimer: true
+- id: auto-6ee0412872
+  date: '2026-08-09'
+  title: Schmidt Sciences grants $26 million to researchers translating climate models to climate action
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/schmidt-sciences-grants-26-million-to-researchers-translating-climate-models-to-climate-action/
+  category: news
+  summary: 'Five international teams will bridge abstract global climate models to the realities of grids, cities, farms, factories and communities Media Contact: Carlie Wiener, cwiener@schmidtsciences.org NEW YORK—Five international research teams will receive $26 million over five years...'
+  reviewed: false
+  disclaimer: true
+- id: auto-f0ffc22c6a
+  date: '2026-07-20'
+  title: The Future of Nutrition Research May Run Through the Sewer
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/the-future-of-nutrition-research-may-run-through-the-sewer/
+  category: news
+  summary: The post The Future of Nutrition Research May Run Through the Sewer appeared first on Schmidt Sciences.
+  reviewed: false
+  disclaimer: true
+- id: auto-20b1833131
+  date: '2026-07-14'
+  title: Five-Year Climate Research Effort Reshapes Climate Modeling, Expands Information Access
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/five-year-climate-research-effort-reshapes-climate-modeling-expands-information-access/
+  category: news
+  summary: 'Five years of Virtual Earth Systems Research Institute -supported research has reached more than 305,000 users in 169 countries; Schmidt Sciences opens new funding round Media Contact: Carlie Wiener, cwiener@schmidtsciences.org NEW YORK — Nine teams have reshaped the modeling ...'
+  reviewed: false
+  disclaimer: true
+- id: auto-cd1ad21c69
+  date: '2026-04-30'
+  title: World’s Largest Animal Migration and Ocean Gyres Play Critical Roles in Global Carbon Cycle
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/worlds-largest-animal-migration-and-ocean-gyres-play-critical-roles-in-global-carbon-cycle/
+  category: news
+  summary: 'Two back-to-back expeditions in the Southwest Atlantic Ocean investigated critical, understudied mechanisms driving carbon export to the deep sea: the guts of migrating animals and phytoplankton living in vast ocean gyres.  Media Contact: Kristen Kusek, kkusek@schmidtocean.org...'
+  reviewed: false
+  disclaimer: true
+- id: auto-77e8d6236e
+  date: '2026-04-21'
+  title: Report Maps Priorities for India’s Low-Carbon Future
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/report-maps-priorities-for-indias-low-carbon-future/
+  category: news
+  summary: 350+ experts across seven scientific institutions pinpoint research goals to accelerate a scalable and sustainable future for 1.4 billion people Media Contact: Carlie Wiener cwiener@schmidtsciences.org NEW YORK/NEW DELHI—More than 350 researchers from seven of India’s leading ...
+  reviewed: false
+  disclaimer: true
+- id: auto-bdeff7c54c
+  date: '2026-03-25'
+  title: From Microplastics to Regenerative Medicine, 2026 Schmidt Science Fellows Will Break Down Barriers And Advance Discovery
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/from-microplastics-to-regenerative-medicine-2026-schmidt-science-fellows-will-break-down-barriers-and-advance-discovery/
+  category: news
+  summary: The post From Microplastics to Regenerative Medicine, 2026 Schmidt Science Fellows Will Break Down Barriers And Advance Discovery appeared first on Schmidt Sciences.
+  reviewed: false
+  disclaimer: true
+- id: auto-67bf6c9838
+  date: '2026-03-19'
+  title: Schmidt Sciences Awards $33 Million to Create Comprehensive Account of Global Freshwater Availability
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/schmidt-sciences-awards-33-million-to-create-comprehensive-account-of-global-freshwater-availability/
+  category: news
+  summary: Four global, interdisciplinary teams will use AI and high-resolution data to measure freshwater supply and inform climate mitigation  Media Contact: Carlie Wiener cwiener@schmidtsciences.org NEW YORK—Four international teams of researchers will receive $33 million from Schmidt...
+  reviewed: false
+  disclaimer: true
+- id: auto-8cdac2d00f
+  date: '2026-07-15'
+  title: '3 Questions: Neural transparency and the future of AI design'
+  source: MIT News
+  url: https://news.mit.edu/2026/3-questions-neural-transparency-and-future-of-ai-design-0715
+  category: news
+  summary: MIT's Pat Pataranutaporn on a new interface that lets everyday users glimpse inside an AI's neural network before their chatbot even responds.
+  reviewed: true
+  disclaimer: false
+- id: auto-45e2880c32
+  date: '2026-07-14'
+  title: Can AI build a jet engine? JARVIS Challenge tests role of AI copilots in tough-tech engineering
+  source: MIT News
+  url: https://news.mit.edu/2026/can-ai-build-jet-engine-jarvis-challenge-tests-ai-copilots-in-tough-tech-engineering-0714
+  category: use_cases
+  summary: MIT students designed, built, and tested a jet engine with AI copilots — a hands-on assessment of where AI genuinely helps in high-performance engineering, and where it doesn't.
+  reviewed: true
+  disclaimer: false
+- id: seed-001
+  date: '2026-05-28'
+  title: Three questions to guide thoughtful, human-centered AI use in the classroom
+  source: Penn Today
+  url: https://penntoday.upenn.edu/news/three-questions-guide-thoughtful-human-centered-ai-use-classroom
+  category: use_cases
+  summary: CETLI's Catherine Turner on using AI to support reflection and questioning in coursework — not as a shortcut around learning.
+  reviewed: true
+  disclaimer: false
+- id: seed-002
+  date: '2026-05-20'
+  title: Building AI models that understand chemical principles
+  source: MIT News
+  url: https://news.mit.edu/2026/building-ai-models-with-chemical-principles-connor-coley-0520
+  category: news
+  summary: MIT's Connor Coley on building machine-learning models grounded in chemistry — and why domain knowledge still matters.
+  reviewed: true
+  disclaimer: false
+- id: seed-003
+  date: '2026-05-26'
+  title: AI hiring tools can yield racial bias and systemic rejection
+  source: Stanford HAI
+  url: https://hai.stanford.edu/news/ai-hiring-tools-can-yield-racial-bias-and-systemic-rejection
+  category: career
+  summary: Stanford researchers analyze 4 million job applications and find algorithmic screening can amplify bias across employers.
+  reviewed: true
+  disclaimer: false
+- id: seed-004
+  date: '2026-05-10'
+  title: Education chapter — The 2026 AI Index Report
+  source: Stanford HAI
+  url: https://hai.stanford.edu/ai-index/2026-ai-index-report/education
+  category: use_cases
+  summary: Four in five U.S. high school and college students now use AI for schoolwork — while formal policies lag behind.
+  reviewed: true
+  disclaimer: false
+- id: seed-005
+  date: '2026-05-05'
+  title: ‘JeepyTA’ has entered the chat
+  source: Penn Today
+  url: https://penntoday.upenn.edu/news/jeepyta-artificial-intelligence-teaching-assistant
+  category: penn_updates
+  summary: Penn GSE researchers built a course-aware AI teaching assistant focused on formative feedback, not just syllabus Q&A.
+  reviewed: true
+  disclaimer: false
+- id: auto-d98a97fb61
+  date: '2026-02-12'
+  title: Why engineers in Philadelphia created ENIAC, the first general-purpose electronic computer
+  source: Penn Today
+  url: https://penntoday.upenn.edu/penn-in-the-news/why-engineers-philadelphia-created-eniac-first-general-purpose-electronic-computer
+  category: penn_updates
+  summary: Penn Engineering Dean Vijay Kumar on why the first general-purpose electronic computer was born in Philadelphia — the Penn origin story behind today's computing.
+  reviewed: true
+  disclaimer: false
+- id: auto-94da698a61
+  date: '2026-02-09'
+  title: Could artificial intelligence save endangered archives? A Kenyon College cohort aims to find out
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/could-artificial-intelligence-save-endangered-archives-a-kenyon-college-cohort-aims-to-find-out/
+  category: use_cases
+  summary: An undergraduate cohort at Kenyon College is testing whether AI can help preserve and open up endangered archives — a case study in humanities-driven AI.
+  reviewed: true
+  disclaimer: false
+- id: auto-c6e2d60366
+  date: '2026-02-09'
+  title: 'Q&A: Can humanities-driven AI reshape digital archive preservation and access?'
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/qa-can-humanities-driven-ai-reshape-digital-archive-preservation-and-access/
+  category: use_cases
+  summary: Researchers discuss how AI grounded in humanistic questions could change the way digital archives are preserved, searched, and accessed.
+  reviewed: true
+  disclaimer: false
+- id: auto-9a63a31d64
+  date: '2026-01-27'
+  title: Schmidt Sciences awards over $3 million to study AI's impact on jobs
+  source: Schmidt Sciences
+  url: https://www.schmidtsciences.org/schmidt-sciences-awards-over-3-million-to-study-ais-impact-on-jobs/
+  category: career
+  summary: Researcher-led field experiments will explore how AI can support rather than supplant humans across a variety of workplaces worldwide.
+  reviewed: true
+  disclaimer: false
