@@ -6,24 +6,13 @@ layout: default
   <div class="page-header-inner">
     <h1 class="page-title">{{ page.header.heading }}</h1>
     <p class="page-desc">{{ page.header.subtext }}</p>
-    {% if page.course_rules_banner %}
-    <div class="course-rules-banner" role="note">
-      <strong>{{ page.course_rules_banner.title }}</strong>
-      <p>{{ page.course_rules_banner.body }}</p>
-      {% if page.course_rules_banner.data_note %}
-      <p>{{ page.course_rules_banner.data_note }}
-        {% if page.course_rules_banner.link_label %}<a href="{{ page.course_rules_banner.link_url | relative_url }}">{{ page.course_rules_banner.link_label }}</a>{% endif %}
-      </p>
-      {% endif %}
-    </div>
-    {% endif %}
   </div>
 </div>
 
 <nav class="student-top-nav" aria-label="Page sections">
   <div class="student-top-nav-inner">
     {% for sec in page.sections %}
-    <button class="student-top-nav-link{% if forloop.first %} active{% endif %}" type="button" data-section="{{ sec.id }}">{{ sec.label }}</button>
+    <button class="student-top-nav-link{% if sec.id == page.default_section %} active{% endif %}" type="button" data-section="{{ sec.id }}">{{ sec.label }}</button>
     {% endfor %}
   </div>
 </nav>
@@ -33,11 +22,24 @@ layout: default
     <div class="sidebar-sticky">
       <div class="sidebar-label">{{ page.labels.sidebar_label }}</div>
       {% for sec in page.sections %}
-      <button class="student-section-link{% if forloop.first %} active{% endif %}" type="button" data-section="{{ sec.id }}">{{ sec.label }}</button>
+      {% assign has_sub = false %}
+      {% if sec.id == 'course-tasks' or sec.id == 'general-guidelines' %}{% assign has_sub = true %}{% endif %}
+      <button class="student-section-link{% if sec.id == page.default_section %} active{% endif %}{% if has_sub %} has-sub{% endif %}" type="button" data-section="{{ sec.id }}"{% if has_sub %} aria-expanded="false" aria-controls="sub-{{ sec.id }}"{% endif %}>
+        <span>{{ sec.label }}</span>{% if has_sub %}<span class="sub-caret" aria-hidden="true"></span>{% endif %}
+      </button>
+
+      {% if sec.id == 'general-guidelines' %}
+      <div class="student-sublist" id="sub-general-guidelines" data-sub-for="general-guidelines" aria-label="Guideline topics" hidden>
+        {% for block in page.general_guidelines.blocks %}
+        <button class="student-sublink student-guideline-sublink" type="button" data-guideline-id="{{ block.heading | slugify }}">{{ block.heading }}</button>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       {% if sec.id == 'course-tasks' %}
-      <div class="student-task-sublist" aria-label="Coursework areas">
+      <div class="student-sublist" id="sub-course-tasks" data-sub-for="course-tasks" aria-label="Coursework areas" hidden>
         {% for task in page.tasks %}
-        <button class="student-task-sublink{% if forloop.first %} active{% endif %}" type="button" data-task-id="{{ task.id }}">{{ task.title }}</button>
+        <button class="student-sublink student-task-sublink{% if forloop.first %} active{% endif %}" type="button" data-task-id="{{ task.id }}">{{ task.title }}</button>
         {% endfor %}
       </div>
       {% endif %}
@@ -47,8 +49,33 @@ layout: default
 
   <div class="student-main">
 
+    <!-- General guidelines -->
+    <section class="student-section{% if page.default_section == 'general-guidelines' %} active{% endif %}" id="general-guidelines">
+      <div class="student-section-inner">
+        <div class="section-header">
+          <h2 class="section-title">{{ page.general_guidelines.title }}</h2>
+          <p class="section-desc">{{ page.general_guidelines.desc }}</p>
+        </div>
+
+        {% if page.general_guidelines.draft_note %}
+        <p class="student-disclaimer">{{ page.general_guidelines.draft_note }}</p>
+        {% endif %}
+
+        <div class="guidelines-body">
+          {% for block in page.general_guidelines.blocks %}
+          <article class="guideline-block" id="gg-{{ block.heading | slugify }}">
+            <h3 class="guideline-heading">{{ block.heading }}</h3>
+            {% for para in block.paras %}
+            <p>{{ para | replace: '%BASEURL%', site.baseurl }}</p>
+            {% endfor %}
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
     <!-- Course Task Cards -->
-    <section class="student-section active" id="course-tasks">
+    <section class="student-section{% if page.default_section == 'course-tasks' %} active{% endif %}" id="course-tasks">
       <div class="student-section-inner">
         <div class="section-header">
           <h2 class="section-title">{{ page.labels.tasks_title }}</h2>
@@ -89,19 +116,6 @@ layout: default
                   </li>
                   {% endfor %}
                 </ul>
-                {% if task.external_tools %}
-                <div class="task-external-tools">
-                  <span class="task-external-tools-label">{{ page.labels.external_tools_heading }}</span>
-                  <ul class="task-external-tools-list">
-                    {% for ext in task.external_tools %}
-                    <li>
-                      <a href="{{ ext.href }}" target="_blank" rel="noopener">{{ ext.name }} ↗</a>
-                      <span class="task-external-tools-desc">{{ ext.desc }}</span>
-                    </li>
-                    {% endfor %}
-                  </ul>
-                </div>
-                {% endif %}
               </div>
               <div>
                 <div class="col-label">{{ page.labels.tools_heading }}</div>
@@ -109,14 +123,6 @@ layout: default
                   {% for tool in task.tools %}
                   <a href="{{ '/tools/' | relative_url }}#{{ tool.fn }}" class="tool-chip tool-fn-chip">{{ tool.label }}</a>
                   {% endfor %}
-                </div>
-                <div class="risk-box risk-box--light">
-                  <div class="risk-label">{{ page.labels.risks_heading }}</div>
-                  <ul class="risk-list">
-                    {% for risk in task.risks %}
-                    <li>{{ risk }}</li>
-                    {% endfor %}
-                  </ul>
                 </div>
               </div>
             </div>
@@ -145,6 +151,7 @@ layout: default
               {% for prompt in task.prompts %}
               <div class="task-prompt-item">
                 <div class="prompt-label">{{ prompt.label }}{% if prompt.status %} <span class="prompt-status-chip prompt-status-chip--{{ prompt.status }}">{{ page.labels.status_labels[prompt.status] }}</span>{% endif %}</div>
+                {% if prompt.note %}<p class="prompt-note">{{ prompt.note }}</p>{% endif %}
                 <div class="prompt-block"><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ prompt.text | strip }}</span></div>
               </div>
               {% endfor %}
@@ -259,9 +266,68 @@ layout: default
     </section>
 
   </div><!-- .student-main -->
+
+  {% assign first_task = page.tasks | first %}
+  {% assign starts_in_tasks = false %}
+  {% if page.default_section == 'course-tasks' %}{% assign starts_in_tasks = true %}{% endif %}
+  <aside class="student-rail" aria-label="Things to keep in mind">
+    <div class="rail-sticky">
+      <div class="rail-inner">
+      {% for r in page.rail_reminders %}
+      {% assign r_active = false %}
+      {% if starts_in_tasks %}
+        {% if r.for_tasks contains first_task.id %}{% assign r_active = true %}{% endif %}
+      {% elsif r.default %}
+        {% assign r_active = true %}
+      {% endif %}
+      <div class="rail-reminder{% if r_active %} active{% endif %}"
+           data-reminder-id="{{ r.id }}"
+           data-for-tasks="{% if r.for_tasks %}{{ r.for_tasks | join: ',' }}{% endif %}"
+           {% if r.default %}data-default="true"{% endif %}>
+        <div class="rail-label">{{ page.labels.rail_heading }}</div>
+        <div class="rail-reminder-title">{{ r.title }}</div>
+        <p class="rail-reminder-body">{{ r.body }}</p>
+      </div>
+      {% endfor %}
+
+      {% for task in page.tasks %}
+      <div class="rail-risks{% if starts_in_tasks and forloop.first %} active{% endif %}" data-task-id="{{ task.id }}">
+        <div class="rail-label rail-label--risks">{{ page.labels.risks_heading }}</div>
+        <ul class="rail-risk-list">
+          {% for risk in task.risks %}
+          <li>{{ risk }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+  </aside>
 </div><!-- .student-wrap -->
 
 <script>
+  /* Right rail: task cautions follow the open task; one standing reminder
+     rotates to suit it, falling back to the one marked default. */
+  function syncRail(taskId, inTasks) {
+    var rail = document.querySelector('.student-rail');
+    if (!rail) return;
+
+    rail.querySelectorAll('.rail-risks').forEach(function (b) {
+      b.classList.toggle('active', inTasks && b.getAttribute('data-task-id') === taskId);
+    });
+
+    var chosen = null, fallback = null;
+    rail.querySelectorAll('.rail-reminder').forEach(function (r) {
+      if (r.getAttribute('data-default') === 'true') fallback = r;
+      var forTasks = (r.getAttribute('data-for-tasks') || '').split(',');
+      if (inTasks && taskId && forTasks.indexOf(taskId) !== -1) chosen = r;
+    });
+    var show = chosen || fallback;
+    rail.querySelectorAll('.rail-reminder').forEach(function (r) {
+      r.classList.toggle('active', r === show);
+    });
+  }
+
   function showTask(id) {
     document.querySelectorAll('.task-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('task-' + id).classList.add('active');
@@ -273,6 +339,8 @@ layout: default
     document.querySelectorAll('.student-task-sublink').forEach(l => {
       l.classList.toggle('active', l.getAttribute('data-task-id') === id);
     });
+    var tasksView = document.getElementById('course-tasks');
+    syncRail(id, !!tasksView && tasksView.classList.contains('active'));
   }
 
   function copyPrompt(btn) {
@@ -287,7 +355,7 @@ layout: default
 
   (function () {
     /* Section switching via TOC */
-    function showSection(id) {
+    function showSection(id, keepScroll) {
       document.querySelectorAll('.student-main .student-section').forEach(function (s) {
         s.classList.toggle('active', s.id === id);
       });
@@ -300,6 +368,15 @@ layout: default
       document.querySelectorAll('.student-task-sublink').forEach(function (l) {
         l.classList.toggle('active', inTasks && l.getAttribute('data-task-id') === currentTask);
       });
+      if (id !== 'general-guidelines') {
+        document.querySelectorAll('.student-guideline-sublink').forEach(function (l) {
+          l.classList.remove('active');
+        });
+      }
+      syncRail(currentTask, inTasks);
+      /* Callers that are about to scroll somewhere specific pass keepScroll,
+         so the view does not first rewind to the top of the wrap. */
+      if (keepScroll) return;
       var wrap = document.querySelector('.student-wrap');
       var wrapTop = wrap.getBoundingClientRect().top + window.scrollY - 88;
       if (window.scrollY > wrapTop) window.scrollTo({ top: wrapTop });
@@ -341,15 +418,95 @@ layout: default
       });
     }
 
+    /* Sidebar dropdowns — collapsed until the section header is clicked.
+       One open at a time; clicking the open one collapses it again. */
+    (function () {
+      var headers = document.querySelectorAll('.student-section-link.has-sub');
+      var lists = document.querySelectorAll('.student-sublist');
+
+      function closeAll() {
+        lists.forEach(function (l) { l.hidden = true; });
+        headers.forEach(function (h) { h.setAttribute('aria-expanded', 'false'); });
+      }
+
+      /* Any section click collapses what is open, so the sidebar always
+         reflects where you actually are; headers with children then open. */
+      document.querySelectorAll('.student-section-link').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-section');
+          var wasOpen = btn.getAttribute('aria-expanded') === 'true';
+          closeAll();
+          if (wasOpen || !btn.classList.contains('has-sub')) return;
+          lists.forEach(function (l) {
+            if (l.getAttribute('data-sub-for') === id) l.hidden = false;
+          });
+          btn.setAttribute('aria-expanded', 'true');
+        });
+      });
+    })();
+
+    /* Guideline sub-links scroll to their block within the one section */
+    document.querySelectorAll('.student-guideline-sublink').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var wasActive = document.getElementById('general-guidelines').classList.contains('active');
+        showSection('general-guidelines', true);
+        document.querySelectorAll('.student-guideline-sublink').forEach(function (l) {
+          l.classList.toggle('active', l === btn);
+        });
+        var target = document.getElementById('gg-' + btn.getAttribute('data-guideline-id'));
+        if (!target) return;
+        var y = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 104);
+        /* Glide when already reading this section; jump when arriving from
+           another one, where a long animated travel is just noise. */
+        window.scrollTo({ top: y, behavior: wasActive ? 'smooth' : 'auto' });
+      });
+    });
+
     /* Sidebar task sub-links */
     document.querySelectorAll('.student-task-sublink').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        showSection('course-tasks');
+        var wasActive = document.getElementById('course-tasks').classList.contains('active');
+        showSection('course-tasks', true);
         showTask(btn.getAttribute('data-task-id'));
         var panels = document.querySelector('.task-panels');
-        if (panels) panels.scrollIntoView({ behavior: 'smooth' });
+        if (!panels) return;
+        var y = Math.max(0, panels.getBoundingClientRect().top + window.scrollY - 104);
+        window.scrollTo({ top: y, behavior: wasActive ? 'smooth' : 'auto' });
       });
     });
+
+    /* Rail box spans from the page-header rule (while it is on screen) or the
+       site nav (once it is not) down to the bottom of the viewport, so the
+       centred content always reads as centred in the area below the divider.
+       The CSS fallback handles the no-JS case. */
+    (function () {
+      var NAV = 88;
+      var railBox = document.querySelector('.rail-sticky');
+      var wrap = document.querySelector('.student-wrap');
+      if (!railBox || !wrap) return;
+      var narrow = window.matchMedia('(max-width: 1024px)');
+      var ticking = false;
+
+      function syncRailBox() {
+        ticking = false;
+        if (narrow.matches) {
+          railBox.style.top = '';
+          railBox.style.height = '';
+          return;
+        }
+        var top = Math.max(NAV, wrap.getBoundingClientRect().top);
+        railBox.style.top = top + 'px';
+        railBox.style.height = (window.innerHeight - top) + 'px';
+      }
+      function request() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(syncRailBox);
+      }
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request);
+      syncRailBox();
+    })();
 
     /* Sticky task bar compact mode */
     var taskBar = document.getElementById('task-bar');

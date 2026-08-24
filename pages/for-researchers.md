@@ -1,24 +1,26 @@
 ---
 layout: researchers
-title: AI for Researchers
+title: AI for Research
 description: Practical AI guidance across research tasks — literature review, coding, analysis, writing, and grants — with honest notes on risks.
 permalink: /for-researchers/
 css: /assets/css/researchers.css
 
 header:
-  heading: "AI for Your Research."
+  heading: "AI for Your Research"
   subtext: "Practical guidance across research tasks."
   note: "<strong>Research doesn't follow a straight line</strong> — and neither does AI use. The phases below often overlap, repeat, and happen in any order. Use this as a menu, not a sequence."
 
 phases:
   - id: litreview
     num: "01"
+    callout: "<strong>Norms vary sharply by field.</strong> Many researchers — more so in the humanities — object to using AI to summarize papers at all, and hold their graduate students to that standard. Before this becomes part of your workflow, find out what your department, your collaborators, and your advisor actually accept."
     sidebar_label: "Literature Review"
     title: "Literature Review & Discovery"
     subtitle: "Orienting yourself in a field"
     helps:
       - "Summarizing papers and identifying key claims"
       - "Finding gaps and contradictions across a body of literature"
+      - "Interrogating a paper you have uploaded — whether the authors used a particular method, controlled for a given variable, or tested a population with a particular characteristic — where that detail sits in a technical appendix or footnote"
       - "Explaining jargon from adjacent fields"
       - "Generating search queries and keyword variations"
       - "Drafting annotated bibliographies"
@@ -27,6 +29,7 @@ phases:
       - "Training cutoffs mean recent work may be missing entirely"
       - "Summaries can flatten nuance or misrepresent methodology"
       - "AI-generated search queries may reinforce existing biases"
+      - "Uploading a published paper to a commercial tool may breach the publisher's licence — check your terms before sharing full texts"
     prompt: |
       I'm reviewing literature on [topic]. Here are 3 abstracts: [paste].
       What are the key claims? Are there contradictions or gaps?
@@ -59,12 +62,14 @@ phases:
 
   - id: coding
     num: "03"
+    callout: "<strong>Norms vary sharply by field.</strong> Writing code with AI is routine in some disciplines and contentious in others. Check what your field and your collaborators expect before relying on it, and be especially careful about assuming your students may do the same."
     sidebar_label: "Coding"
     title: "Coding & Scripting"
     subtitle: "Automating and building research tools"
     helps:
       - "Writing Python / R / STATA scripts from scratch or from a description"
       - "Debugging errors and tracing unexpected outputs"
+      - "Understanding code someone else wrote — asking what a script does and why, rather than reading through it line by line"
       - "Translating code between languages (e.g., STATA → Python)"
       - "Automating repetitive data collection or file-processing tasks"
       - "Setting up reproducible analysis environments and pipelines"
@@ -112,6 +117,7 @@ phases:
 
   - id: writing
     num: "05"
+    callout: "<strong>Norms vary sharply by field.</strong> Using AI to structure entire written sections is the use most likely to draw objection, particularly in the humanities, and journals and funders increasingly ask you to disclose it. Confirm what your field, your co-authors, and your target venue permit."
     sidebar_label: "Writing"
     title: "Writing & Communication"
     subtitle: "Shaping and sharing your findings"

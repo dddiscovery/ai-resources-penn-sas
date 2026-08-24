@@ -210,7 +210,7 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 /* ── Footer ────────────────────────────────────────── */
 .site-footer {
   border-top: 1px solid var(--border);
-  padding: 1.5rem 2rem;
+  padding: 0.8rem 2rem;
   margin-top: 4rem;
 }
 .footer-inner {
@@ -263,15 +263,6 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   max-width: 480px;
   margin: 1.25rem auto 2.5rem;
   line-height: 1.75;
-}
-.hero-asterisk {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.4rem;
-  color: var(--teal);
-  opacity: 0.4;
 }
 .btn-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
 .btn-dark {
@@ -655,7 +646,13 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 }
 .tool-chip:hover { border-color: var(--teal); color: var(--teal-bright); }
 .tool-fn-chip { text-decoration: none; }
-.tool-fn-chip:hover { background: #fc4357; border-color: #fc4357; color: #fff; }
+/* Hover stays inside the chip's own olive family rather than flipping to a
+   solid pink that matches nothing around it. Same trio as .chip-app. */
+.tool-fn-chip:hover {
+  background: var(--beige-chip);
+  border-color: var(--beige);
+  color: var(--beige);
+}
 .tool-chip-special {
   border-color: var(--beige-border);
   color: var(--text-2);

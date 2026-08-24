@@ -4,11 +4,6 @@
    ========================================================= */
 
 /* ── Page header (shared .page-header styles live in main.css) ── */
-.page-header .course-rules-banner {
-  margin: 1.25rem 0 0.5rem;
-  max-width: 64rem;
-}
-
 /* ── Section layout (sidebar + main) ──────────────────── */
 .student-top-nav {
   display: none;
@@ -57,7 +52,7 @@
 .student-wrap {
   display: flex;
   gap: 0;
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   min-height: 0;
 }
@@ -101,14 +96,39 @@
   background: rgba(43, 138, 138, 0.06);
 }
 
-/* Task sub-links under "Find your task" */
-.student-task-sublist {
+.student-section-link.has-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sub-caret {
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+  border-left: 4px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  opacity: 0.5;
+  transition: transform 0.18s ease;
+}
+
+.student-section-link[aria-expanded="true"] .sub-caret {
+  transform: rotate(90deg);
+  opacity: 0.85;
+}
+
+/* Collapsible sub-lists under "General guidelines" and "Find your task" */
+.student-sublist {
   display: flex;
   flex-direction: column;
   padding: 0.1rem 0 0.35rem;
 }
 
-.student-task-sublink {
+.student-sublist[hidden] { display: none; }
+
+.student-sublink {
   display: block;
   width: 100%;
   text-align: left;
@@ -123,12 +143,12 @@
   transition: all 0.15s;
 }
 
-.student-task-sublink:hover {
+.student-sublink:hover {
   color: var(--text);
   background: rgba(255, 255, 255, 0.03);
 }
 
-.student-task-sublink.active {
+.student-sublink.active {
   color: var(--teal-bright);
   border-left-color: var(--teal);
   background: rgba(43, 138, 138, 0.06);
@@ -314,13 +334,23 @@
 
 .task-panel-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
 .risk-box--light {
   margin-top: 1rem;
+}
+
+.prompt-note {
+  margin: 0 0 0.5rem;
+  padding-left: 0.7rem;
+  border-left: 2px solid rgba(252, 67, 117, 0.5);
+  font-size: 0.74rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  max-width: 44rem;
 }
 
 .student-disclaimer {
@@ -333,43 +363,6 @@
   line-height: 1.65;
   margin-bottom: 1.25rem;
   max-width: 42rem;
-}
-
-.course-rules-banner {
-  background: rgba(201, 162, 39, 0.08);
-  border: 1px solid rgba(201, 162, 39, 0.45);
-  border-left: 4px solid #c9a227;
-  border-radius: 6px;
-  padding: 1.1rem 1.35rem;
-  margin-bottom: 2rem;
-  font-size: 0.84rem;
-  color: var(--text-2);
-  line-height: 1.7;
-}
-
-.course-rules-banner strong {
-  display: block;
-  font-size: 0.95rem;
-  color: var(--text);
-  margin-bottom: 0.4rem;
-}
-
-.course-rules-banner p {
-  margin: 0;
-}
-
-.course-rules-banner p + p {
-  margin-top: 0.6rem;
-}
-
-.course-rules-banner a {
-  color: var(--teal-bright);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.course-rules-banner a:hover {
-  text-decoration: underline;
 }
 
 .prompt-status-chip {
@@ -772,4 +765,203 @@
   .student-section .section-title { font-size: clamp(1.4rem, 5vw, 1.8rem); }
   .scenario-nav--prev { margin-left: -0.25rem; }
   .scenario-nav--next { margin-right: -0.25rem; }
+}
+
+
+/* ── Right rail — standing reminders + the open task's cautions ──────────
+   Deliberately borderless on the left: the reviewer wanted no divider
+   between the main column and the rail. */
+.student-rail {
+  width: 260px;
+  flex-shrink: 0;
+  /* no vertical padding: .rail-sticky sets its own top and height so the
+     content centres against the divider rather than against the padding */
+  padding: 0 0 0 2.25rem;
+}
+
+/* Sticky box spans the viewport below the site nav. Because it is sticky
+   rather than transformed, it can never ride up over the page-header rule —
+   at the top of the page it starts at the divider and centres in what is
+   visible below it. */
+.rail-sticky {
+  position: sticky;
+  top: 88px;
+  height: calc(100vh - 88px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* auto margins centre the content, and collapse to 0 when it is taller than
+   the box — so tall rails start at the top and scroll instead of clipping */
+.rail-inner {
+  margin-block: auto;
+  width: 100%;
+}
+
+.rail-reminder,
+.rail-risks {
+  display: none;
+}
+
+.rail-reminder.active,
+.rail-risks.active {
+  display: block;
+  animation: railFade 0.25s ease;
+}
+
+@keyframes railFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.rail-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.6rem;
+}
+
+.rail-reminder {
+  border-left: 2px solid #c9a227;
+  padding-left: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.rail-reminder-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+}
+
+.rail-reminder-body {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+.rail-label--risks {
+  color: #fc4375;
+}
+
+.rail-risk-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rail-risk-list li {
+  position: relative;
+  padding-left: 0.9rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.rail-risk-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fc4375;
+}
+
+/* ── General guidelines ─────────────────────────────────────────────── */
+/* No max-width: the guidelines body matches the task panels' full column
+   width so the three columns read identically across both views. */
+.guidelines-body {
+  max-width: none;
+}
+
+/* The intro line sits above that body, so it shares its width rather than
+   the narrower default measure used by the other sections. */
+#general-guidelines .section-desc {
+  max-width: none;
+}
+
+.guideline-block + .guideline-block {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.guideline-heading {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.35rem;
+  color: var(--text);
+  margin: 0 0 0.9rem;
+}
+
+.guideline-block p {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+
+.guideline-block p:last-child {
+  margin-bottom: 0;
+}
+
+.guideline-block a {
+  color: var(--teal-bright);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.guideline-block a:hover {
+  text-decoration: underline;
+}
+
+/* ── Rail responsive: below ~1024px it joins the flow under the main
+   column rather than sitting beside it. ─────────────────────────────── */
+@media (max-width: 1180px) {
+  .student-rail { width: 220px; padding-left: 1.5rem; }
+}
+
+@media (max-width: 1024px) {
+  .student-wrap { flex-wrap: wrap; }
+  .student-rail {
+    width: 100%;
+    order: 3;
+    /* left inset matches the sidebar so the rail lines up with the main column */
+    padding: 0 2.25rem 3rem calc(170px + 2.25rem);
+  }
+  .rail-sticky {
+    position: static;
+    height: auto;
+    display: block;
+    overflow-y: visible;
+  }
+  .rail-inner { margin-block: 0; }
+  .rail-reminder { margin-bottom: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+  .student-rail { padding: 0 1.25rem 2.5rem; }
+}
+
+@media (max-width: 480px) {
+  .student-rail { padding: 0 1rem 2rem; }
+}
+
+
+.student-guideline-sublink {
+  line-height: 1.45;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.guideline-block {
+  scroll-margin-top: 104px;
 }

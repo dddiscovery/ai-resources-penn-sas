@@ -5,7 +5,6 @@ layout: default
 <div class="page-header">
   <div class="page-header-inner">
     <h1 class="page-title">{{ page.header.heading }}</h1>
-    <p class="page-desc">{{ page.header.subtext }}</p>
   </div>
 </div>
 
@@ -20,23 +19,23 @@ layout: default
     </div>
   </div>
 
-  <div class="feed-grid" id="feed-grid">
+  <div class="feed-list" id="feed-list">
     {% for item in site.data.ai_feed.feed %}
     {% if item.reviewed %}
-    <article class="feed-card"
+    <article class="feed-item"
              data-category="{{ item.category }}"
              data-date="{{ item.date }}">
-      <div class="feed-card-header">
+      <div class="feed-item-meta">
         <span class="feed-category-chip feed-category-chip--{{ item.category }}">{{ item.category | replace: '_', ' ' }}</span>
+        <span class="feed-source">{{ item.source }}</span>
         <time class="feed-date" datetime="{{ item.date }}">{{ item.date }}</time>
       </div>
       {% if item.url and item.url != '' %}
-      <h3 class="feed-card-title"><a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.title }}</a></h3>
+      <h3 class="feed-item-title"><a href="{{ item.url }}" target="_blank" rel="noopener">{{ item.title }}</a></h3>
       {% else %}
-      <h3 class="feed-card-title">{{ item.title }}</h3>
+      <h3 class="feed-item-title">{{ item.title }}</h3>
       {% endif %}
-      <p class="feed-card-source">{{ item.source }}</p>
-      <p class="feed-card-summary">{{ item.summary }}</p>
+      <p class="feed-item-summary">{{ item.summary }}</p>
     </article>
     {% endif %}
     {% endfor %}
@@ -58,7 +57,7 @@ layout: default
     });
     function filterFeed() {
       var visible = 0;
-      document.querySelectorAll('.feed-card').forEach(function (card) {
+      document.querySelectorAll('.feed-item').forEach(function (card) {
         var show = feedCategory === 'all' || card.getAttribute('data-category') === feedCategory;
         card.hidden = !show;
         if (show) visible++;

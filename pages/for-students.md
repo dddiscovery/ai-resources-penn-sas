@@ -1,35 +1,28 @@
 ---
 layout: students
-title: AI for Students
-description: Practical AI guidance for SAS students — coursework tasks, prompts, student scenarios, and curated AI news.
+title: AI for Learning
+description: "Practical guidance on using AI in your College coursework: where it genuinely helps, what it costs you, and how to stay in control of your own learning."
 permalink: /for-students/
 css: /assets/css/students.css
 
 header:
-  heading: "AI for Students."
-  subtext: "Explore what AI can do for your coursework, research, and career — and how to stay in the driver's seat."
-
-course_rules_banner:
-  title: "Course rules come first."
-  body: "These examples are not permission to use AI on an assignment. Some instructors permit AI for brainstorming, feedback, or debugging; others prohibit it — under Penn's Code of Academic Integrity, using AI without your instructor's permission can constitute unauthorized assistance or plagiarism. Before using AI on graded work, check the syllabus or ask your instructor. When AI use is permitted, follow the instructor's disclosure or citation requirements."
-  data_note: "Do not upload personal information, unpublished research, or other sensitive data. Course materials — readings, slides, lecture notes — are often copyrighted and may be covered by your course's AI policy, so check before sharing them with an AI tool. For anything involving coursework or personal data, prefer Penn-licensed AI tools."
-  link_label: "See which tools are Penn-licensed →"
-  link_url: "/tools/"
+  heading: "AI for Learning"
+  subtext: "Explore how you can use AI to get the most out of your College coursework."
 
 labels:
   tasks_title: "Find your task"
-  tasks_desc: "Pick a coursework area — expand to see where AI may help, what to watch for, and prompts to try."
+  tasks_desc: "Pick a coursework area to see where AI may help, what to watch for, and prompts to try."
   helps_heading: "When permitted, AI may help with"
   tools_heading: "Useful AI functions"
   risks_heading: "Watch out for"
+  rail_heading: "Keep in mind"
   do_heading: "Do"
   dont_heading: "Don't"
   prompts_heading: "Prompts to try"
-  external_tools_heading: "Penn resources first — third-party examples are not endorsements"
   library_title: "Prompt library"
-  library_desc: "Copyable prompts for coursework — filter by discipline or intent. Check the label on each prompt: many require your instructor's permission before use on coursework."
+  library_desc: "Copyable prompts for coursework. Filter by discipline or intent. Check the label on each prompt: many require your instructor's permission before use on coursework."
   scenarios_title: "Student stories"
-  scenarios_desc: "Fictional composite scenarios — swipe or use arrows to browse."
+  scenarios_desc: "Fictional composite scenarios. Swipe or use arrows to browse."
   scenario_tried: "What they tried"
   scenario_worked: "What worked"
   scenario_didnt: "What didn't"
@@ -50,21 +43,188 @@ disclosure_template:
 
 tasks_disclaimer: "Tools and links in this section are listed for reference and exploration only. DDDI does not advertise, recommend, or endorse any specific product. Check access, cost, privacy, and your course or employer policies before use."
 
+sections:
+  - id: general-guidelines
+    label: "General guidelines"
+  - id: course-tasks
+    label: "Find your task"
+  - id: prompt-library
+    label: "Prompt library"
+  - id: scenarios
+    label: "Student stories"
+
+default_section: general-guidelines
+
+general_guidelines:
+  title: "General guidelines"
+  desc: "How AI can help you learn, and how it can get in the way. Worth reading before you reach for a tool."
+  blocks:
+    - heading: "Productive struggle is the point"
+      paras:
+        - >-
+          The purpose of coursework is for you to learn, and that requires active engagement
+          and, often, “productive struggle.” AI can be an effective supplement to deepen or
+          expand your work, but any time you replace your own effort with AI's, you are
+          missing a chance to get better at a task, fully internalize content, or improve
+          your critical thinking. Be intentional about when and how you use assistance, and
+          never hand over the keys to your education.
+        - >-
+          Learning happens when you do the work. The effort of retrieving something from
+          memory, of holding a hard problem in your head until it yields, of writing a
+          sentence three times before it says what you mean: that effort is not a tax on
+          learning. It is the mechanism of learning. Work that feels smooth often teaches you
+          less than work that feels hard.
+        - >-
+          AI removes friction. That is what makes it useful, and it is exactly where the risk
+          lives. A tool that produces a clean paragraph, a working function, or a tidy summary
+          in three seconds has removed the part of the task where the learning was going to
+          happen. You still get the artifact. You do not get the capability.
+        - >-
+          So the question to ask before each use is not “can AI do this?” but “if AI does
+          this, what do I lose the chance to practice?” Sometimes the honest answer is
+          “nothing I need”: formatting a bibliography, converting units, tidying a data file.
+          Sometimes the answer is “the entire skill this assignment exists to build.”
+    - heading: "Course rules come first"
+      paras:
+        - >-
+          Some instructors permit AI for brainstorming, feedback, or debugging; others
+          prohibit it. Under Penn's
+          <a href="https://catalog.upenn.edu/pennbook/code-of-academic-integrity/" target="_blank" rel="noopener">Code of Academic Integrity</a>,
+          using AI without your instructor's permission can constitute unauthorized
+          assistance or plagiarism. Before using AI for any coursework, check the syllabus or
+          ask your instructor, and follow their instructions regarding usage and citation.
+    - heading: "Consider intellectual property"
+      paras:
+        - >-
+          Course materials—readings, slides, lecture notes, assignments—are not understood as
+          public documents, and their creators may not have given permission for them to be
+          shared, including uploading into LLMs. Do not upload anything without permission,
+          and always prefer <a href="%BASEURL%/tools/">Penn-licensed tools</a>, particularly
+          <a href="https://pennchat.upenn.edu/" target="_blank" rel="noopener">PennChat</a>,
+          which is walled off for the Penn community, does not train any models, and is free
+          for you to access.
+    - heading: "AI as a thought partner"
+      paras:
+        - >-
+          The most defensible way to use these tools in coursework is as an interlocutor
+          rather than a producer: something you argue with, not something you delegate to.
+        - >-
+          A thought partner takes a position you have already formed and pushes on it. It asks
+          what you meant. It names the counterargument you were avoiding. It tells you which
+          step of your reasoning it could not follow. In every one of those exchanges the
+          thinking stays yours; the AI supplies pressure, not content.
+        - >-
+          This is also, conveniently, where the tools are strongest. Models are unreliable
+          narrators of fact but capable readers of structure: better at telling you that your
+          third paragraph does not follow from your second than at telling you what your third
+          paragraph should say.
+        - >-
+          A rough test: if you deleted the AI's output entirely, would your understanding still
+          be better than before you started? If yes, it was a thought partner. If the output
+          <em>is</em> the work, it was not.
+    - heading: "Integrity is about the work, not the tool"
+      paras:
+        - >-
+          Submitting work with inaccurate or fabricated citations, unattributed quotations, or
+          unmarked paraphrase is a violation of academic integrity in itself, independent of whether you invented them or an AI did. “The model generated it” is not a defense,
+          because the obligation was never about where the text came from. It is about you
+          vouching for what you submit.
+        - >-
+          This matters more with AI than it used to, because these tools fabricate
+          confidently. A citation with a plausible author, a plausible journal, a plausible
+          year, and a DOI that resolves to nothing is a common failure mode, not an exotic
+          one. Every reference you submit is a claim you are personally making about the
+          scholarly record.
+        - >-
+          Verify every citation against the actual source. Read what you cite. Quote exactly
+          and mark it. Paraphrase in your own structure and attribute it. These were the rules
+          before; they have not changed.
+    - heading: "You will have to talk about your work"
+      paras:
+        - >-
+          Faculty are increasingly adding oral components: discussion sections that count,
+          in-class defenses of a submitted argument, one-on-one conversations about your
+          paper. This is a direct response to AI, and it is spreading.
+        - >-
+          AI-produced writing does not prepare you for any of it. You cannot defend an argument
+          you did not construct, and the gap shows immediately: the essay is fluent and the
+          conversation about it is not.
+        - >-
+          The same gap follows you out of the building. Job interviews are, almost entirely,
+          exercises in talking about work you claim to have done, and so is much of the first
+          year of a job. Being able to explain your own reasoning under questioning, in real
+          time, to someone who knows the subject is not a bonus skill layered on top of the
+          coursework. It is a large part of what the coursework was building.
+    - heading: "The practical stakes"
+      paras:
+        - >-
+          It is tempting to read all of this as a rule you might get caught breaking. It isn't.
+          The reason to stay in control of your own learning is that the alternative leaves you
+          with a transcript and not much else.
+        - >-
+          Coursework builds particular skills: reading something difficult and knowing what it
+          says, constructing an argument that survives objection, debugging a problem nobody
+          has written about, sitting with a question long enough to answer it. They remain
+          valuable precisely because AI can produce a passable imitation of their outputs.
+          When the output is cheap, the scarce thing is the judgment to tell whether it is any
+          good, and that judgment comes from having done the work yourself.
+        - >-
+          Use AI to go further than you could alone. Don't use it to avoid becoming someone who
+          could go there.
+
+rail_reminders:
+  # Fallback for the views that have no task of their own
+  - id: struggle
+    default: true
+    title: "Productive struggle is the point"
+    body: >-
+      If AI does this for you, ask what you lose the chance to practice. Sometimes the answer
+      is nothing you need. Sometimes it's the entire skill the assignment exists to build.
+  - id: quantitative
+    title: "A right answer is not understanding"
+    body: >-
+      A correct answer is no substitute for the reasoning that produced it, and a grade is no
+      substitute for your grasp of how this logical world fits together. AI can walk you
+      through a theorem or check your result. It cannot give you the instinct for which method
+      a new problem is asking for.
+    for_tasks: [quantitative]
+  - id: coding
+    title: "Code that runs is not code you know"
+    body: >-
+      AI can write flawless code and spare you the repetitive syntax lookups and the grind of
+      debugging. It cannot give you the judgment to tell a working solution from a good one,
+      or the ability to fix what you never understood in the first place.
+    for_tasks: [coding]
+  - id: integrity
+    title: "Integrity is about the work"
+    body: >-
+      Inaccurate or fabricated citations, unattributed quotes, and unmarked paraphrase are
+      academic integrity violations in themselves, whether you invented them or a model did.
+    for_tasks: [research, lab]
+  - id: oral
+    title: "You will have to talk about your work"
+    body: >-
+      Faculty are adding oral discussions and in-class defenses. AI-produced writing won't
+      prepare you for those, or for discussing your own work in a job interview.
+    for_tasks: [writing, exams]
+
 tasks:
   - id: writing
     title: "Writing"
     subtitle: "Essays, reflection papers, personal statements"
     helps:
-      - "Challenging a thesis you developed — spotting gaps, leaps, and counterarguments"
+      - "Challenging a thesis you developed: spotting gaps, leaps, and counterarguments"
       - "Getting feedback on clarity and argument flow in your drafts"
       - "Checking your own reading of a difficult passage"
     risks:
-      - "AI prose can sound polished but generic — your voice matters"
+      - "Writing is a key way of developing your thinking, even—especially—when it feels very, very hard. Don't miss the chance to think for yourself."
+      - "You cannot fully control what a model produces: it will confidently assert things you never claimed and never checked. Everything you submit, you are vouching for."
+      - "AI prose can sound polished but generic; your voice matters"
       - "Always check your syllabus and course AI policy before using AI on graded work"
     dos:
-      - "Start from your own thesis and notes — use AI to question them, not to write"
+      - "Start from your own thesis and notes; use AI to question them, not to write"
       - "Ask for critiques and questions, not finished paragraphs"
-      - "Write from your own notes and argument — never paraphrase AI-generated text into a submission"
+      - "Write from your own notes and argument; never paraphrase AI-generated text into a submission"
     donts:
       - "Submit AI-generated text as your own writing"
       - "Skip reading the source material AI summarizes"
@@ -102,8 +262,10 @@ tasks:
       - "Checking reasoning you have already written out, step by step"
       - "Checking your interpretation of statistical output against the numbers"
     risks:
+      - "Watching a solution appear is not the same as being able to produce one. The struggle before the answer is where the method becomes yours."
+      - "A model will produce a confident answer whether or not it has the method right, and its arithmetic mistakes look exactly like its correct arithmetic."
       - "AI can solve problems correctly but skip the reasoning you need to learn"
-      - "Double-check all calculations — models make arithmetic errors"
+      - "Double-check all calculations; models make arithmetic errors"
     dos:
       - "Attempt the problem first and show AI your approach"
       - "Ask for hints and explanations, not full solutions"
@@ -125,7 +287,7 @@ tasks:
         text: |
           Here is my work on this problem: [paste your steps].
           Check my reasoning step by step. If something is wrong,
-          tell me which step and why — but don't fix it for me.
+          tell me which step and why, but don't fix it for me.
     tools:
       - fn: chat
         label: "Chat & Assistant"
@@ -138,10 +300,12 @@ tasks:
       - "Explaining unfamiliar code line by line"
       - "Building practice projects outside graded coursework"
     risks:
-      - "Many courses prohibit AI on assignments — working through bugs independently is often the skill being taught"
-      - "Generated code can look correct but produce wrong results — always test on small examples"
+      - "Debugging is the skill the assignment is teaching. Handing the error straight to a model skips the part where you learn to read one."
+      - "Code you did not write is code you cannot maintain, extend, or defend; you will eventually be asked to do all three."
+      - "Many courses prohibit AI on assignments; working through bugs independently is often the skill being taught"
+      - "Generated code can look correct but produce wrong results; always test on small examples"
     dos:
-      - "Use AI for personal projects and practice exercises — for coursework only when the instructor explicitly permits it"
+      - "Use AI for personal projects and practice exercises; for coursework, only when the instructor explicitly permits it"
       - "Ask for explanations and diagnostic strategies before asking for replacement code"
       - "Test every script on known inputs first"
     donts:
@@ -175,6 +339,8 @@ tasks:
       - "Checking your figure descriptions against the data actually shown"
       - "Structuring notes you already collected"
     risks:
+      - "Interpreting your own results is the scientific work. If AI draws the conclusion, you have run the experiment without doing the science."
+      - "A model will describe a figure it cannot see and characterize data it has not checked. Every claim in your report is yours to stand behind."
       - "Never use AI to generate or fabricate experimental data"
       - "Never upload human-subject data, identifiable information, unpublished research data, a research group's data, or proprietary material without explicit permission and an approved tool"
     dos:
@@ -184,7 +350,7 @@ tasks:
     donts:
       - "Generate fake data or results"
       - "Let AI write conclusions you haven't drawn yourself"
-      - "Alter or selectively omit results — retain your raw data and follow the assignment's instructions about including data or appendices"
+      - "Alter or selectively omit results; retain your raw data and follow the assignment's instructions about including data or appendices"
     prompts:
       - label: "Check your methods"
         status: permission
@@ -212,17 +378,22 @@ tasks:
       - "Generating search queries to run in Penn Libraries and disciplinary databases"
       - "Previewing abstracts to decide what to read fully"
       - "Pressure-testing thesis ideas you developed from your reading"
+      - "Pulling specific detail out of a paper you already have, such as which method the authors used or what they controlled for, when it is buried in an appendix or a footnote"
     risks:
-      - "AI hallucinates citations — always verify DOIs and sources"
+      - "Reading widely and deciding what matters is how you develop judgment in a field. A summary hands you the conclusion without the judgment."
+      - "Every reference you submit is a claim you are personally making about the scholarly record; a fabricated one is your error, not the model's."
+      - "AI hallucinates citations; always verify DOIs and sources"
       - "Summaries can miss nuance; read the full paper for anything you cite"
+      - "Disciplinary norms differ sharply. Many researchers, especially in the humanities, object to AI-assisted summarizing or drafting at all, and advisors often hold their students to that standard. Ask before you use it on supervised work."
     dos:
-      - "Use AI for search strategies — do the actual searching in Penn Libraries and disciplinary databases"
+      - "Use AI for search strategies; do the actual searching in Penn Libraries and disciplinary databases"
       - "Verify every citation before including it"
       - "Read full papers for anything you cite in your work"
     donts:
       - "Trust AI-generated bibliographies without checking"
       - "Cite a paper based only on an AI summary"
       - "Skip the actual reading because AI summarized it"
+      - "Assume your advisor shares your view of what counts as acceptable AI use"
     prompts:
       - label: "Search strategies"
         status: independent
@@ -242,51 +413,61 @@ tasks:
       - fn: chat
         label: "Chat & Assistant"
 
-  - id: career
-    title: "Career & Beyond"
-    subtitle: "Cover letters, interview prep, skill exploration"
+  # Content contributed by Sudeep Bhatia (18 Aug 2026), with additional
+  # learning-loss / loss-of-control cautions per the reviewer's item 6.
+  - id: exams
+    title: "Exam Prep"
+    subtitle: "Practice questions, study planning"
     helps:
-      - "Outlining cover letters and application materials"
-      - "Preparing for interviews with likely questions"
-      - "Exploring career paths and skill gaps"
+      - "Quizzing you on concepts you are studying"
+      - "Extending instructor-provided practice questions with similar or varied examples"
+      - "Creating a study plan that emphasizes active recall and practice"
     risks:
-      - "Generic AI cover letters stand out — personalize everything"
-      - "Interview answers must come from your real experience"
+      - "AI can confidently give incorrect explanations or answers, so make sure to verify all AI outputs with the course materials"
+      - "Using AI to study can feel productive without actually testing what you can recall on your own"
+      - "A study guide you did not build teaches you far less than one you did: the summarizing is the studying."
+      - "You cannot control whether generated practice questions match your instructor's emphasis, format, or difficulty. Check them against past exams."
     dos:
-      - "Use AI to plan and outline, then write in your voice"
-      - "Practice answering AI-generated interview questions aloud"
-      - "Remove phone numbers, addresses, ID numbers, and other unnecessary personal information before pasting a résumé or application materials"
+      - "Try answering questions before asking AI for explanations or feedback"
+      - "Ask AI to quiz you, vary the questions, and follow up on areas where you struggle"
+      - "Use AI to simulate test-taking conditions, such as timed practice and question-by-question testing"
+      - "Write your explanation from memory before asking AI to check it"
+      - "Check AI-generated practice questions against your syllabus and past exams"
     donts:
-      - "Submit AI-written cover letters without heavy editing"
-      - "Fabricate experiences for interview prep"
-      - "Rely on AI to choose your career path for you"
+      - "Upload slides, lecture notes, readings, practice exams, or other course materials unless your instructor has explicitly approved doing so"
+      - "Ask AI for answers to practice or past exams when your instructor prohibits that use"
+      - "Replace retrieval practice and problem solving with reading AI-generated summaries"
+      - "Ask AI to summarize material you have not read yet"
     prompts:
-      - label: "Cover letter outline"
+      - label: "Practice exam"
+        status: permission
+        note: >-
+          This prompt starts from uploaded course materials, which is exactly the use
+          the intellectual property guidance warns about. Get your instructor's explicit
+          approval first, and upload only to a Penn-licensed tool.
+        text: |
+          I've uploaded my instructor-provided practice questions, lecture slides,
+          and assigned readings. Create a new practice exam that matches the topics,
+          difficulty, and style of the provided questions without simply reproducing
+          them. Give me one question at a time and wait for my answer before
+          continuing. After I finish, give me feedback on the areas I should review.
+      - label: "Quiz me"
         status: independent
         text: |
-          I'm applying for [role] at [organization].
-          Job description: [paste]. My experiences: [paste].
-          Outline a cover letter structure — bullet points per section.
-          Don't write the letter.
-      - label: "Interview prep"
+          Quiz me on [topic] from [course]. Ask one question at a time and wait
+          for my answer before telling me whether it was right.
+          Start with recall, then move to application.
+          Do not give me the answer before I have attempted it.
+      - label: "Check my explanation"
         status: independent
         text: |
-          I have an interview for [role]. Based on this job description: [paste],
-          what are 5 questions they might ask? For each, suggest
-          what kind of example from my background would be strong.
+          I'm studying [topic]. Here is my explanation of it, written from memory
+          without notes: [paste].
+          Tell me what is wrong, what is imprecise, and what I left out.
+          Do not write a corrected version; point me back to what I should review.
     tools:
       - fn: chat
         label: "Chat & Assistant"
-    external_tools:
-      - name: Penn Career Services (Handshake)
-        href: "https://careerservices.upenn.edu/"
-        desc: "Penn's official career hub — advising, events, and Handshake job and internship listings. Start here."
-      - name: Simplify
-        href: "https://simplify.jobs/"
-        desc: "Third-party example, not an endorsement — AI job search with personalized matches, resume tailoring, application autofill, and a job tracker."
-      - name: Jobright
-        href: "https://jobright.ai/"
-        desc: "Third-party example, not an endorsement — AI job search copilot with matched roles, tailored resumes, and networking suggestions."
 
 scenarios:
   - persona: "Maya · Junior · English"
@@ -299,14 +480,14 @@ scenarios:
   - persona: "James · Sophomore · Biology"
     discipline: stem
     context: "Stuck on a genetics problem set"
-    tried: "Pasted the problem into ChatGPT and asked for the solution — without checking whether his course allowed it."
+    tried: "Pasted the problem into ChatGPT and asked for the solution, without checking whether his course allowed it."
     worked: "Only what came after: he reworked the problem himself, and from then on asked AI to check reasoning he had already written out instead of asking for answers."
     didnt_work: "Copying the solution. The AI skipped a step in the Punnett square reasoning his professor specifically tested, and he got a similar exam question wrong because he hadn't learned the concept."
 
   - persona: "Priya · Senior · Economics"
     discipline: social_sciences
     context: "Running regressions for her senior thesis"
-    tried: "With her advisor's approval, used Copilot in VS Code to debug R scripts — keeping her unpublished thesis data out of the tool. She wrote her own interpretation of each regression before asking AI to critique it."
+    tried: "With her advisor's approval, used Copilot in VS Code to debug R scripts, keeping her unpublished thesis data out of the tool. She wrote her own interpretation of each regression before asking AI to critique it."
     worked: "Debugging saved hours. The AI critique flagged wording that overstated her results, and she disclosed the AI assistance in her thesis as her department required."
     didnt_work: "AI once suggested removing a control variable that was actually important. She caught it by cross-checking with her advisor."
 
@@ -314,7 +495,7 @@ scenarios:
     discipline: any
     context: "Exploring whether to take a CS course"
     tried: "Asked ChatGPT to explain what you'd learn in an intro programming course and generate 3 tiny practice exercises."
-    worked: "The exercises gave a realistic taste of coding. He tried them, got stuck, tried again — and decided he enjoyed the puzzle-solving."
+    worked: "The exercises gave a realistic taste of coding. He tried them, got stuck, tried again, and decided he enjoyed the puzzle-solving."
     didnt_work: "The AI oversimplified how hard the course would be. He still struggled in week 3, but was prepared for that."
 
   - persona: "Jordan · Junior · Political Science"
@@ -327,24 +508,16 @@ scenarios:
   - persona: "Sam · Sophomore · Mathematics"
     discipline: stem
     context: "Working through a difficult proof-based homework set"
-    tried: "His course allowed AI for studying but not on submitted work — so he asked AI to explain concepts and analogous examples from lecture notes, never the assigned problems, then reconstructed each proof independently."
+    tried: "His course allowed AI for studying but not on submitted work, so he asked AI to explain concepts and analogous examples from lecture notes, never the assigned problems, then reconstructed each proof independently."
     worked: "Step-by-step explanations helped when the textbook was too dense. Reconstructing afterward cemented the logic."
     didnt_work: "When he asked AI to prove a theorem from a practice set, the proof had a subtle error in step 4 that he wouldn't have caught without class."
 
   - persona: "Nina · First-year · Chemistry"
     discipline: stem
     context: "Weekly problem sets in general chemistry"
-    tried: "Considered using AI when stuck, but the syllabus said the problem sets were designed to build the exact skills tested on exams — so she decided not to use AI on them at all."
-    worked: "Working through the problems herself was slow at first, but by midterm she could handle new problem types without help — which was the point. She saved AI for quizzing herself on definitions, where the policy allowed it."
-    didnt_work: "Early on she peeked at an AI walkthrough for one problem and realized she had absorbed the answer without the reasoning — that's what convinced her to stop."
-
-sections:
-  - id: course-tasks
-    label: "Find your task"
-  - id: prompt-library
-    label: "Prompt library"
-  - id: scenarios
-    label: "Student stories"
+    tried: "Considered using AI when stuck, but the syllabus said the problem sets were designed to build the exact skills tested on exams, so she decided not to use AI on them at all."
+    worked: "Working through the problems herself was slow at first, but by midterm she could handle new problem types without help, which was the point. She saved AI for quizzing herself on definitions, where the policy allowed it."
+    didnt_work: "Early on she peeked at an AI walkthrough for one problem and realized she had absorbed the answer without the reasoning; that's what convinced her to stop."
 
 scenario_disciplines:
   - id: all
