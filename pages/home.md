@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Home
+title: "AI Resources for Penn Arts & Sciences"
 description: A curated guide to AI and LLM tools for Penn Arts & Sciences researchers.
 permalink: /
 css: /assets/css/home.css

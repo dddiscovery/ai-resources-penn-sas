@@ -69,6 +69,8 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   justify-content: space-between;
 }
 .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
+.nav-brand-link { display: flex; align-items: center; text-decoration: none; }
+.nav-brand-link:hover { opacity: 0.8; }
 .nav-dddi {
   font-size: 0.6rem;
   font-weight: 600;

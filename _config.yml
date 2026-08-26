@@ -4,6 +4,10 @@ url: "https://dddiscovery.github.io"
 baseurl: "/ai-resources-penn-sas"
 # baseurl: ""
 
+# External links used in the site chrome
+links:
+  dddi: "https://datascience.sas.upenn.edu/"
+
 
 markdown: kramdown
 kramdown:
