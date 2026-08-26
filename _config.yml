@@ -7,6 +7,7 @@ baseurl: "/ai-resources-penn-sas"
 # External links used in the site chrome
 links:
   dddi: "https://datascience.sas.upenn.edu/"
+  penn_sas: "https://www.sas.upenn.edu/"
 
 
 markdown: kramdown
