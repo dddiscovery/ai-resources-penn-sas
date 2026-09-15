@@ -1,8 +1,10 @@
 title: AI Resources for Penn Arts & Sciences
 description: "A curated guide to AI and LLM tools for Penn Arts & Sciences researchers: what's available, what it genuinely does well, and where the risks lie."
 url: "https://dddiscovery.github.io"
-# baseurl: "/ai-resources-penn-sas"
-baseurl: ""
+# Production path on GitHub Pages. Keep this set: an empty baseurl here breaks every
+# CSS, image and link path on the live site. For local serving, _config_dev.yml
+# already overrides it to "" (bin/serve loads both files).
+baseurl: "/ai-resources-penn-sas"
 
 # External links used in the site chrome
 links:
