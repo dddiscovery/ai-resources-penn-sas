@@ -4,7 +4,7 @@ layout: default
 
 <div class="hero">
   <div class="hero-content">
-    {% comment %}<div class="hero-eyebrow">{{ page.hero.eyebrow }}</div>{% endcomment %}
+    <div class="hero-eyebrow">{{ page.hero.eyebrow }}</div>
     <h1>{{ page.hero.heading }}</h1>
     <p class="hero-sub">{{ page.hero.subtext }}</p>
     <div class="btn-row">
@@ -18,319 +18,51 @@ layout: default
 {% if page.news %}
 <section class="news-strip" aria-label="Latest news">
   <div class="news-inner">
-    <span class="news-label">{{ page.news.label }}</span>
+    <h2 class="news-label">{{ page.news.label }}</h2>
     <p class="news-text">{{ page.news.text }}
-      <a class="news-link" href="{{ page.news.link_url }}" target="_blank" rel="noopener">{{ page.news.link_label }} →</a>
+      <a class="news-link" href="{{ page.news.link_url }}" target="_blank" rel="noopener noreferrer">{{ page.news.link_label }} <span aria-hidden="true">&rarr;</span><span class="sr-only"> (opens in new tab)</span></a>
     </p>
   </div>
 </section>
 {% endif %}
 
-<section class="tool-finder-strip" id="tool-finder" aria-live="polite">
-  <div class="tool-finder-inner">
-    <header class="tool-finder-header">
-      <h4>Find your AI tool</h4>
-      <p>Describe a task — we'll try to point you to the right category and Penn tools.</p>
+{% assign ev = page.evaluating %}
+{% if ev %}
+<section class="evalmap-strip" id="evaluating" aria-labelledby="evaluating-heading">
+  <div class="evalmap-inner">
+    <header class="evalmap-header">
+      <p class="evalmap-eyebrow">{{ ev.eyebrow }}</p>
+      <h2 id="evaluating-heading">{{ ev.heading }}</h2>
+      <p class="evalmap-intro">{{ ev.intro }}</p>
     </header>
 
-    <div class="tool-finder-body">
-      <div class="tool-finder-prompts" id="tool-finder-prompts">
-        <button type="button" class="tool-finder-prompt" data-query="I have a grant application due tonight">I have a grant due tonight</button>
-        <button type="button" class="tool-finder-prompt" data-query="I need to clean and analyze my survey dataset">I need to clean my dataset</button>
-        <button type="button" class="tool-finder-prompt" data-query="I want to build a chatbot for my lab website">I want to build a chatbot</button>
-      </div>
-      <button type="button" class="tool-finder-surprise" id="tool-finder-surprise">Surprise me</button>
-    </div>
+    {% include quadmap.html map=ev.map %}
 
-    <form class="tool-finder-input-row" id="tool-finder-form">
-      <input type="text" class="tool-finder-input" id="tool-finder-input" placeholder="Describe your task…" autocomplete="off" maxlength="280">
-      <button type="submit" class="tool-finder-send">Send</button>
-    </form>
+    <div class="callout evalmap-callout">{{ ev.callout }}</div>
 
-    <div class="tool-finder-results" id="tool-finder-results"></div>
+    <a class="evalmap-link" href="{{ ev.link.url | relative_url }}">{{ ev.link.label }} <span aria-hidden="true">&rarr;</span></a>
   </div>
 </section>
+{% endif %}
 
-<div class="about-strip">
-  <div class="about-inner">
-    <h4>About this resource</h4>
-    <p>{{ page.about.text }}</p>
+{% assign cr = site.data.contributors %}
+<section class="colophon" aria-labelledby="colophon-heading">
+  <div class="colophon-inner">
+    <div class="colophon-about">
+      <h2 id="colophon-heading">{{ page.about.heading }}</h2>
+      <p>{{ page.about.text }}</p>
+    </div>
+    {% if cr.names and cr.names.size > 0 %}
+    <div class="colophon-credits">
+      <h2>{{ cr.heading }}</h2>
+      {% if cr.order_note %}<p class="colophon-order">{{ cr.order_note }}</p>{% endif %}
+      <ul class="colophon-names">
+        {% for name in cr.names %}
+        <li>{{ name }}</li>
+        {% endfor %}
+      </ul>
+      {% if cr.note %}<p class="colophon-note">{{ cr.note }}</p>{% endif %}
+    </div>
+    {% endif %}
   </div>
-</div>
-
-<script>
-(function () {
-  var BASE = {{ site.baseurl | jsonify }};
-
-  var CATEGORIES = [
-    {
-      id: 'chat',
-      label: 'Chat & Assistant',
-      matrixHash: '#chat',
-      keywords: [
-        'write', 'writing', 'draft', 'drafting', 'edit', 'editing', 'revise',
-        'grant', 'grants', 'proposal', 'proposals', 'fellowship', 'deadline',
-        'summary', 'summarize', 'summarise', 'summarizing', 'abstract',
-        'paper', 'manuscript', 'thesis', 'dissertation', 'essay', 'report',
-        'email', 'letter', 'proofread', 'grammar', 'paraphrase',
-        'explain', 'brainstorm', 'outline', 'literature', 'lit review',
-        'translate', 'presentation', 'slides', 'communicate', 'communication',
-        'deadline', 'tonight', 'due'
-      ],
-      tools: [
-        { name: 'Claude.ai', url: 'https://claude.ai', reason: 'Long context, file uploads, strong reasoning' },
-        { name: 'ChatGPT Edu', url: 'https://openai.com/chatgpt/education/', reason: '$13/mo — Penn faculty & staff' },
-        { name: 'Copilot Chat (Basic)', url: 'https://isc.upenn.edu/resources/activate-microsoft-copilot-chat', reason: 'Free with your Penn M365 account' },
-        { name: 'Grammarly', url: 'https://www.grammarly.com/', reason: '$87/yr — Penn affiliates' }
-      ]
-    },
-    {
-      id: 'coding',
-      label: 'Coding',
-      matrixHash: '#coding',
-      keywords: [
-        'code', 'coding', 'program', 'programming', 'script', 'scripting',
-        'python', 'julia', 'matlab', 'stata', 'sql', 'rstudio', 'tidyverse',
-        'in r', 'using r', 'r script', 'r code',
-        'debug', 'debugging', 'refactor', 'function', 'algorithm',
-        'data', 'dataset', 'datasets', 'clean', 'cleaning', 'wrangle', 'wrangling',
-        'analyze', 'analyse', 'analysis', 'pandas', 'numpy', 'ggplot',
-        'notebook', 'jupyter', 'scrape', 'scraping', 'crawl',
-        'git', 'github', 'repo', 'repository', 'ide', 'vscode',
-        'statistical', 'statistics', 'regression', 'modeling', 'modelling'
-      ],
-      tools: [
-        { name: 'Cursor', url: 'https://cursor.com', reason: 'AI-native IDE built on VS Code' },
-        { name: 'GitHub Copilot', url: 'https://github.com/features/copilot', reason: 'Deep IDE integration, PR reviews' },
-        { name: 'Claude Code', url: 'https://code.claude.com/docs/en/overview', reason: 'Agentic coding across your whole codebase' },
-        { name: 'Gemini Code Assist', url: 'https://codeassist.google', reason: 'Free tier — inline suggestions in your editor' }
-      ]
-    },
-    {
-      id: 'api',
-      label: 'API / Dev',
-      matrixHash: '#api',
-      keywords: [
-        'api', 'apis', 'endpoint', 'endpoints', 'rest', 'graphql',
-        'build', 'building', 'app', 'application', 'webapp', 'website',
-        'deploy', 'deployment', 'pipeline', 'automation', 'automate',
-        'bot', 'chatbot', 'agent', 'agents', 'integrate', 'integration',
-        'backend', 'frontend', 'microservice', 'serverless', 'lambda',
-        'batch', 'workflow', 'orchestrat', 'sdk', 'webhook'
-      ],
-      tools: [
-        { name: 'Claude API', url: 'https://platform.claude.com/docs/en/home', reason: '200k context window, strong for complex tasks' },
-        { name: 'OpenAI API', url: 'https://openai.com/api/', reason: 'Most widely documented ecosystem' },
-        { name: 'Gemini API', url: 'https://ai.google.dev/gemini-api/docs', reason: 'Generous free tier for prototyping' }
-      ]
-    }
-  ];
-
-  var SURPRISE_QUERIES = [
-    'Summarize 40 PDFs for my lit review',
-    'Debug my R script before lab meeting',
-    'Automate weekly survey exports into a dashboard',
-    'Draft an NSF broader impacts paragraph',
-    'Build a Slack bot that answers lab FAQs'
-  ];
-
-  var OUT_OF_SCOPE_HTML =
-    'Oops — I\'m not a real LLM <span aria-hidden="true">🤷</span>. Ask me something about writing, coding, or research — like <em>I need to draft a grant</em>, <em>clean my survey data</em>, or <em>build a chatbot for my lab</em>.';
-
-  var ETHICS_REJECTION_HTML =
-    'Nah, I\'m not gonna help you with that. AI can <em>support</em> your research — not replace your authorship, coursework, or peer review. Try something like <em>outline my argument</em>, <em>debug my analysis code</em>, or <em>summarize papers I\'ve already read</em>.';
-
-  var ETHICS_PHRASES = [
-    'write my article', 'write my paper for me', 'write my essay for me',
-    'write my homework', 'write my assignment', 'write my dissertation for me',
-    'write my thesis for me', 'write my peer review', 'write the peer review',
-    'write the peer review for me', 'peer review for me',
-    'do my homework', 'do my assignment', 'do my exam', 'do my coursework',
-    'do my paper for me', 'take my exam', 'complete my homework',
-    'finish my assignment', 'finish my homework', 'finish my paper for me',
-    'ghostwrite', 'ghost write', 'plagiarize', 'plagiarise', 'cheat on',
-    'submit as my own', 'entire paper for me', 'whole paper for me'
-  ];
-
-  var ETHICS_PATTERNS = [
-    /write\s+(?:my|the)\s+(?:article|essay|homework|assignment|peer\s+review)\b/i,
-    /do\s+my\s+(?:homework|assignment|exam|coursework|paper)\b/i,
-    /(?:finish|complete)\s+my\s+(?:homework|assignment|essay|paper)\b/i,
-    /peer\s+review\s+for\s+me\b/i
-  ];
-
-  function matrixUrl(hash) {
-    return (BASE || '') + '/tools/' + (hash || '');
-  }
-
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function matchesKeyword(text, kw) {
-    var k = kw.toLowerCase().trim();
-    if (!k) return false;
-    if (k.indexOf(' ') !== -1) {
-      return text.indexOf(k) !== -1;
-    }
-    var escaped = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return new RegExp('\\b' + escaped + '\\b', 'i').test(text);
-  }
-
-  function isEthicsViolation(input) {
-    var text = input.toLowerCase().trim();
-    if (!text) return false;
-    var i;
-    for (i = 0; i < ETHICS_PHRASES.length; i++) {
-      if (matchesKeyword(text, ETHICS_PHRASES[i])) return true;
-    }
-    for (i = 0; i < ETHICS_PATTERNS.length; i++) {
-      if (ETHICS_PATTERNS[i].test(text)) return true;
-    }
-    return false;
-  }
-
-  function scoreInput(input) {
-    var text = input.toLowerCase().trim();
-    if (!text) return [];
-
-    return CATEGORIES.map(function (cat) {
-      var hits = [];
-      cat.keywords.forEach(function (kw) {
-        if (matchesKeyword(text, kw) && hits.indexOf(kw) === -1) {
-          hits.push(kw);
-        }
-      });
-      return {
-        id: cat.id,
-        label: cat.label,
-        matrixHash: cat.matrixHash,
-        tools: cat.tools,
-        hits: hits,
-        score: hits.length
-      };
-    })
-      .filter(function (cat) { return cat.score > 0; })
-      .sort(function (a, b) { return b.score - a.score; });
-  }
-
-  function renderEthicsRejection() {
-    var resultsEl = document.getElementById('tool-finder-results');
-    if (!resultsEl) return;
-    resultsEl.innerHTML =
-      '<p class="tool-finder-summary tool-finder-summary--ethics">' +
-      ETHICS_REJECTION_HTML +
-      '</p>';
-    resultsEl.classList.add('is-visible');
-  }
-
-  function renderResults(matches, query) {
-    var resultsEl = document.getElementById('tool-finder-results');
-    if (!resultsEl) return;
-
-    if (!matches.length) {
-      resultsEl.innerHTML =
-        '<p class="tool-finder-summary tool-finder-summary--fallback">' +
-        OUT_OF_SCOPE_HTML +
-        '</p>';
-      resultsEl.classList.add('is-visible');
-      return;
-    }
-
-    var summary =
-      matches.length === 1
-        ? 'Here\'s what fits your task:'
-        : 'I found ' + matches.length + ' tasks in your message.';
-
-    var html = '<p class="tool-finder-summary">' + escapeHtml(summary) + '</p>';
-
-    matches.forEach(function (cat) {
-      var kwTags = cat.hits
-        .map(function (kw) {
-          return '<span class="tool-finder-kw">' + escapeHtml(kw) + '</span>';
-        })
-        .join('');
-
-      var toolsHtml = cat.tools
-        .map(function (tool) {
-          return (
-            '<li><a href="' +
-            escapeHtml(tool.url) +
-            '" target="_blank" rel="noopener">' +
-            escapeHtml(tool.name) +
-            '</a> <span class="tool-reason">— ' +
-            escapeHtml(tool.reason) +
-            '</span></li>'
-          );
-        })
-        .join('');
-
-      html +=
-        '<div class="tool-finder-category tool-finder-category--' +
-        escapeHtml(cat.id) +
-        '">' +
-        '<div class="tool-finder-category-header">' +
-        '<a class="tool-finder-category-link" href="' +
-        escapeHtml(matrixUrl(cat.matrixHash)) +
-        '">→ ' +
-        escapeHtml(cat.label) +
-        '</a>' +
-        '<div class="tool-finder-kw-tags">' +
-        kwTags +
-        '</div>' +
-        '</div>' +
-        '<ul class="tool-finder-tools">' +
-        toolsHtml +
-        '</ul>' +
-        '</div>';
-    });
-
-    resultsEl.innerHTML = html;
-    resultsEl.classList.add('is-visible');
-  }
-
-  function handleQuery(raw) {
-    var query = (raw || '').trim();
-    if (!query) return;
-    var input = document.getElementById('tool-finder-input');
-    if (input) input.value = query;
-    if (isEthicsViolation(query)) {
-      renderEthicsRejection();
-    } else {
-      var matches = scoreInput(query);
-      renderResults(matches, query);
-    }
-    var resultsEl = document.getElementById('tool-finder-results');
-    if (resultsEl) resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-
-  var form = document.getElementById('tool-finder-form');
-  var prompts = document.getElementById('tool-finder-prompts');
-  var surprise = document.getElementById('tool-finder-surprise');
-
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var input = document.getElementById('tool-finder-input');
-      handleQuery(input ? input.value : '');
-    });
-  }
-  if (prompts) {
-    prompts.addEventListener('click', function (e) {
-      var btn = e.target.closest('.tool-finder-prompt');
-      if (!btn) return;
-      handleQuery(btn.getAttribute('data-query') || btn.textContent);
-    });
-  }
-  if (surprise) {
-    surprise.addEventListener('click', function () {
-      var q = SURPRISE_QUERIES[Math.floor(Math.random() * SURPRISE_QUERIES.length)];
-      handleQuery(q);
-    });
-  }
-})();
-</script>
+</section>

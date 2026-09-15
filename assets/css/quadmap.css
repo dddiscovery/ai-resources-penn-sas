@@ -1,0 +1,145 @@
+/* =========================================================
+   quadmap — the 2x2 map of the four failure words
+   →  assets/css/quadmap.css
+   Markup in _includes/quadmap.html. Shared by the home page and §4 of the
+   ten-minute guide, so any page using the include must list this sheet in its
+   own `css:` front matter.
+
+   A table laid out like a confusion matrix: column headers across the top,
+   row headers down the left, the four quadrants where they cross. HTML rather
+   than SVG, so the text reflows and honours the reader's font size (the point
+   of html{font-size:112.5%} in main.css).
+   ========================================================= */
+
+.quadmap {
+  width: 100%;
+  max-width: 52rem;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+/* ── Headers ─────────────────────────────────────────── */
+/* 0.65rem is the small-label floor the guide pages hold to: 0.6rem measured 9.6px
+   against a default 16px root, under the 10px very-small-text threshold. */
+.quadmap-axis {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--text-3);
+}
+.quadmap-corner { width: 2.5rem; }
+.quadmap-col {
+  text-align: left;
+  vertical-align: bottom;
+  padding: 0 1.5rem 0.65rem;
+}
+.quadmap-row {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0 0.9rem 0 0;
+}
+/* Row labels run up the side, read bottom to top like a chart's y-axis, so the column
+   stays narrow and each label spans the height of its row. The rotation sits on an
+   inner span: writing-mode on a table cell itself is unevenly supported. */
+.quadmap-row-text {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+/* ── Quadrants ───────────────────────────────────────── */
+/* Separate borders, drawn right and bottom on every cell and closed on the outer
+   top and left, so the four cells share single hairlines and the block can take
+   rounded corners, which collapsed table borders cannot. */
+.quadmap-cell {
+  background: var(--bg-1);
+  padding: 1.4rem 1.5rem;
+  vertical-align: top;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.quadmap tbody tr:first-child .quadmap-cell { border-top: 1px solid var(--border); }
+.quadmap tbody .quadmap-cell:nth-child(2) { border-left: 1px solid var(--border); }
+.quadmap tbody tr:first-child .quadmap-cell:nth-child(2) { border-top-left-radius: 10px; }
+.quadmap tbody tr:first-child .quadmap-cell:last-child   { border-top-right-radius: 10px; }
+.quadmap tbody tr:last-child  .quadmap-cell:nth-child(2) { border-bottom-left-radius: 10px; }
+.quadmap tbody tr:last-child  .quadmap-cell:last-child   { border-bottom-right-radius: 10px; }
+
+.quadmap-label {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+.quadmap-term {
+  font-family: var(--font-code);
+  font-size: 0.65rem;
+  color: var(--pink-text);
+  line-height: 1.5;
+  margin-bottom: 0.6rem;
+}
+.quadmap-body {
+  font-size: 0.76rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+/* The one quadrant you want to be in. Marked by the tint alone: --teal-text on top of
+   --teal-glow measures 3.6:1 at this size, under the 4.5:1 floor, and the label already
+   says "Worth trusting" so the colour was never carrying the meaning (WCAG 1.4.1). */
+.quadmap-cell--good { background: var(--teal-glow); }
+
+/* Where a cell sits, for the single-column layout below. Wide screens have the real
+   headers, so it is not rendered there. */
+.quadmap-where { display: none; }
+
+
+/* ── Narrow ────────────────────────────────────────────── */
+/* One column top to bottom. A three-column table does not fit a phone, and headers
+   cannot follow cells that stack, so the headers go and each cell names its own
+   position instead. */
+@media (max-width: 768px) {
+  .quadmap,
+  .quadmap tbody,
+  .quadmap tr,
+  .quadmap-cell { display: block; width: auto; }
+  .quadmap thead,
+  .quadmap-row { display: none; }
+
+  .quadmap tbody {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .quadmap-cell,
+  .quadmap tbody tr:first-child .quadmap-cell,
+  .quadmap tbody .quadmap-cell:nth-child(2) {
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+    padding: 1.15rem 1.25rem;
+  }
+  .quadmap tbody tr:first-child .quadmap-cell:nth-child(2) { border-top: 0; }
+  /* The wide layout rounds each outer cell corner with selectors more specific than the
+     reset above; the doubled class outranks them. The tbody does the rounding here. */
+  .quadmap.quadmap tbody tr .quadmap-cell:nth-child(n) { border-radius: 0; }
+
+  .quadmap-where {
+    display: block;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 0.4rem;
+  }
+}

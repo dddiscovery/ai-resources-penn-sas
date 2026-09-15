@@ -1,0 +1,71 @@
+{% comment %}
+  Narrow-screen task switcher for the guide pages: a native <select> that sticks under
+  whatever is already stuck to the top, so you can change task from anywhere in a long
+  panel. Below 769px it stands in for the sidebar, which is hidden there; on wider
+  screens the sidebar does this job and the picker is not shown.
+
+  A native select rather than a custom menu: the phone's own picker opens, it is fully
+  keyboard and screen-reader operable with no ARIA to maintain, and its label is real.
+
+    {% include task-picker.html items=page.tasks label=page.labels.tasks_title %}
+    {% include task-picker.html items=page.phases label=page.labels.tasks_title title_key="sidebar_label" %}
+
+  `title_key` names the field shown for each option (default: title). Choosing an option
+  calls the page's own showTask(id), which must keep the select in step when the task is
+  changed some other way (the sidebar, or a restore from the URL).
+{% endcomment %}
+{% assign key = include.title_key | default: "title" %}
+<div class="task-picker" id="task-picker">
+  <label class="sr-only" for="task-picker-select">{{ include.label }}</label>
+  <div class="task-picker-field">
+    <select class="task-picker-select" id="task-picker-select">
+      {% for item in include.items %}
+      <option value="{{ item.id }}"{% if forloop.first %} selected{% endif %}>{{ item[key] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+<script>
+  (function () {
+    var picker = document.getElementById('task-picker');
+    var select = document.getElementById('task-picker-select');
+    if (!picker || !select) return;
+
+    select.addEventListener('change', function () { showTask(select.value); });
+
+    /* Stick flush under the lowest bar already stuck above: the site nav, plus the
+       section pills on pages that have them. Measured rather than hard-coded, because
+       those bars change height with the viewport and with font loading. */
+    var stuckTop = 0;
+    function place() {
+      var bottom = 0;
+      document.querySelectorAll('.site-nav, .guide-top-nav').forEach(function (bar) {
+        var cs = getComputedStyle(bar);
+        if (cs.display === 'none' || cs.position !== 'sticky') return;
+        bottom = Math.max(bottom, (parseFloat(cs.top) || 0) + bar.getBoundingClientRect().height);
+      });
+      stuckTop = Math.round(bottom);
+      picker.style.top = stuckTop + 'px';
+      markStuck();
+    }
+
+    /* A rule under the bar only once it is actually stuck, so content scrolling beneath
+       has an edge; before that it would just be a stray line under the select. */
+    var ticking = false;
+    function markStuck() {
+      ticking = false;
+      if (getComputedStyle(picker).display === 'none') return;
+      picker.classList.toggle('is-stuck', picker.getBoundingClientRect().top <= stuckTop + 0.5);
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(markStuck); }
+    }, { passive: true });
+    window.addEventListener('resize', place);
+    window.addEventListener('sitenavresize', place);
+    /* The section pills above can change height when webfonts land too, and nothing
+       announces that, so measure again once they have. */
+    window.addEventListener('load', place);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+    place();
+  })();
+</script>

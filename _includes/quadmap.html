@@ -1,0 +1,49 @@
+{% comment %}
+  The 2x2 map of the four failure words, laid out like a confusion matrix. Used by the
+  home page and by §4 of the ten-minute guide, so both read from one `map:` shape in
+  front matter:
+  {% include quadmap.html map=page.evaluating.map %}
+
+  A real <table>: the two answers to "does it stick to the source?" head the columns,
+  the two answers to "does it hold its answer?" head the rows, so every quadrant sits
+  exactly where its two labels cross, and assistive tech reads each cell with both of
+  its headers. Quadrants are picked by their `pos`, not by the order they are written.
+
+  Below 769px the table unfolds into a single column. The headers cannot follow the
+  cells there, so each cell carries a small line naming where it sits; that line is not
+  rendered on wide screens, where the real headers already say it.
+
+  Styles live in assets/css/quadmap.css; a page using this include has to list that
+  sheet in its own `css:`.
+{% endcomment %}
+{% assign m = include.map %}
+{% assign rows = "top,bottom" | split: "," %}
+{% assign sides = "left,right" | split: "," %}
+<table class="quadmap">
+  <thead>
+    <tr>
+      <td class="quadmap-corner"></td>
+      <th class="quadmap-axis quadmap-col" scope="col">{{ m.x_low }}</th>
+      <th class="quadmap-axis quadmap-col" scope="col">{{ m.x_high }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    {% if row == "top" %}{% assign row_label = m.y_high %}{% else %}{% assign row_label = m.y_low %}{% endif %}
+    <tr>
+      <th class="quadmap-axis quadmap-row" scope="row"><span class="quadmap-row-text">{{ row_label }}</span></th>
+      {% for side in sides %}
+      {% assign pos = row | append: "-" | append: side %}
+      {% if side == "left" %}{% assign col_label = m.x_low %}{% else %}{% assign col_label = m.x_high %}{% endif %}
+      {% assign q = m.quadrants | where: "pos", pos | first %}
+      <td class="quadmap-cell quadmap-cell--{{ q.id }}">
+        <p class="quadmap-where">{{ row_label }} · {{ col_label }}</p>
+        <h3 class="quadmap-label">{{ q.label }}</h3>
+        {% if q.term != "" %}<p class="quadmap-term">{{ q.term }}</p>{% endif %}
+        <p class="quadmap-body">{{ q.body }}</p>
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

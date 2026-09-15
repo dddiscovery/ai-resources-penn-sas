@@ -1,0 +1,125 @@
+---
+layout: default
+---
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <p class="page-eyebrow">{{ page.header.eyebrow }}</p>
+    <h1 class="page-title">{{ page.header.heading }}</h1>
+    <p class="page-desc">{{ page.header.subtext }}</p>
+  </div>
+</div>
+
+<div class="eval-wrap">
+
+  {% comment %}
+    §1 renders only when `example:` is present in the front matter. It is presented to
+    the reader as a real exchange, so it stays absent until there is a real transcript
+    to put in it.
+  {% endcomment %}
+  {% if page.example %}
+  <section class="eval-section" id="example" aria-labelledby="example-title">
+    <div class="section-header">
+      <h2 class="section-title" id="example-title">{{ page.example.title }}</h2>
+      <p class="section-desc">{{ page.example.desc }}</p>
+    </div>
+
+    <div class="transcript">
+      {% if page.example.setup %}<p class="transcript-setup">{{ page.example.setup }}</p>{% endif %}
+      {% if page.example.model %}<p class="transcript-model">{{ page.example.model }}</p>{% endif %}
+
+      {% for turn in page.example.turns %}
+      <div class="transcript-turn">
+        <h3 class="transcript-speaker">{{ turn.speaker }}</h3>
+        <p class="transcript-text">{{ turn.text }}</p>
+
+        {% if turn.annotations %}
+        <ul class="annotations">
+          {% for a in turn.annotations %}
+          <li class="annotation">
+            <p class="annotation-quote">{{ a.quote }}</p>
+            <p class="annotation-term">{{ a.term }}</p>
+            <p class="annotation-note">{{ a.note }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- §2 The four failure words -->
+  <section class="eval-section" id="failures" aria-labelledby="failures-title">
+    <div class="section-header">
+      <h2 class="section-title" id="failures-title">{{ page.failures.title }}</h2>
+      <p class="section-desc">{{ page.failures.desc }}</p>
+    </div>
+
+    <div class="terms">
+      {% for item in page.failures.items %}
+      <article class="term-card" id="{{ item.id }}">
+        <h3 class="term-name">{{ item.term }}</h3>
+        <p class="term-aka">{{ item.aka }}</p>
+        <p class="term-plain">{{ item.plain }}</p>
+
+        <div class="term-row">
+          <h4 class="term-row-label">Why the word</h4>
+          <p>{{ item.why }}</p>
+        </div>
+        <div class="term-row term-row--test">
+          <h4 class="term-row-label">Check it yourself</h4>
+          <p>{{ item.test }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- §3 Measurement vocabulary -->
+  <section class="eval-section" id="measuring" aria-labelledby="measuring-title">
+    <div class="section-header">
+      <h2 class="section-title" id="measuring-title">{{ page.measuring.title }}</h2>
+      <p class="section-desc">{{ page.measuring.desc }}</p>
+    </div>
+
+    <dl class="glossary">
+      {% for item in page.measuring.items %}
+      <div class="glossary-item">
+        <dt class="glossary-term">{{ item.term }}</dt>
+        <dd class="glossary-body">{{ item.body }}</dd>
+      </div>
+      {% endfor %}
+    </dl>
+
+    {% if page.measuring.callout %}
+    <div class="callout">{{ page.measuring.callout }}</div>
+    {% endif %}
+  </section>
+
+  <!-- §4 The map -->
+  <section class="eval-section" id="map" aria-labelledby="map-title">
+    <div class="section-header">
+      <h2 class="section-title" id="map-title">{{ page.map.title }}</h2>
+      <p class="section-desc">{{ page.map.desc }}</p>
+    </div>
+
+    {% include quadmap.html map=page.map %}
+  </section>
+
+  <!-- §5 Closing -->
+  <section class="eval-section" id="closing" aria-labelledby="closing-title">
+    <div class="section-header">
+      <h2 class="section-title" id="closing-title">{{ page.closing.title }}</h2>
+    </div>
+
+    <div class="closing-body">
+      {% for para in page.closing.paras %}
+      <p>{{ para }}</p>
+      {% endfor %}
+      {% if page.closing.note %}<p class="closing-note">{{ page.closing.note }}</p>{% endif %}
+    </div>
+  </section>
+
+</div>

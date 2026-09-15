@@ -1,45 +1,125 @@
-/* ── Variables — dark mode (default) ───────────────── */
+/* ══ Colour tokens ═══════════════════════════════════════════════════════════
+   Two tiers per accent:
+     --teal / --pink / --olive / --gold      decorative — borders, glyphs, chip fills,
+                                             the big ghosted numerals
+     --teal-text / --pink-text / …           text-safe — >=4.5:1 against every surface
+                                             in that theme (WCAG 1.4.3)
+   Splitting them is what lets the site keep its teal/pink identity while passing
+   contrast: the vivid hue survives on decoration, and text uses a sibling of the
+   same hue, darkened (light theme) or lightened (dark theme).
+
+   Structure note: :root still carries the DARK values and [data-theme="light"] still
+   overrides them, exactly as before — that keeps the ~25 existing
+   `[data-theme="light"] .selector` rules across six files working untouched. Light is
+   nonetheless the *default theme*, because the inline script in default.html sets
+   data-theme="light" before first paint when no preference is stored.
+
+   The bug being fixed: [data-theme="light"] previously redefined only 9 of 19 tokens,
+   so the accents — tuned against a near-black #06101E — were reused unchanged on a
+   near-white surface. That is why every coloured word failed in light mode. Both
+   blocks below now define the full set.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Dark values (also the :root fallback) ─────────── */
 :root {
-  --bg:          #06101E;
-  --bg-1:        #0B1628;
-  --bg-2:        #101E36;
-  --bg-3:        #162440;
-  --border:      rgba(255,255,255,0.07);
-  --border-teal: rgba(43,138,138,0.35);
-  --text:        #E8EEF7;
-  --text-2:      #8FA3BE;
-  --text-3:      #4A6180;
-  --teal:        #2B8A8A;
-  --teal-bright: #3AACAC;
-  --teal-glow:   rgba(43,138,138,0.18);
-  --pink:        #fc4375;
-  --pink-glow:   rgba(252,67,117,0.12);
-  --beige:        #7BA23F;
-  --beige-border: rgba(123,162,63,0.30);
-  --beige-chip:   rgba(123,162,63,0.10);
-  --font-code:    'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+  --bg:            #06101E;
+  --bg-1:          #0B1628;
+  --bg-2:          #101E36;
+  --bg-3:          #162440;
+
+  --text:          #E8EEF7;   /* 16.36 – 13.23 */
+  --text-2:        #8FA3BE;   /*  7.41 –  5.99 */
+  --text-3:        #748DAE;   /*  5.60 –  4.53   was #4A6180 at 3.01 – 2.43 */
+
+  --teal:          #2B8A8A;
+  --teal-text:     #309999;   /*  5.58 –  4.51   was #2B8A8A at 4.64 – 3.75 */
+  --teal-bright:   #3AACAC;   /*  6.97 –  5.64 */
+  --pink:          #fc4375;
+  --pink-text:     #FF6B92;   /*  7.06 –  5.71, and 5.52 on the pink-tinted chip.
+                                 #fc4375 itself was 4.40 there: the .news-label chip
+                                 stacks a 12% pink tint on a 12% pink strip, which lifts
+                                 the background just past the 4.5 threshold. */
+  --olive:         #7BA23F;
+  --olive-text:    #7BA23F;   /*  6.43 –  5.21 */
+  --gold:          #c9a227;
+  --gold-text:     #c9a227;   /*  7.89 –  6.38 */
+
+  /* Legacy alias: page-level CSS refers to --beige for this olive-green accent. */
+  --beige:         #7BA23F;
+  --beige-border:  rgba(123,162,63,0.30);
+  --beige-chip:    rgba(123,162,63,0.10);
+
+  --teal-glow:     rgba(43,138,138,0.18);
+  --pink-glow:     rgba(252,67,117,0.12);
+
+  --border:        rgba(255,255,255,0.07);  /* decorative rules — no contrast minimum */
+  --border-control:rgba(255,255,255,0.35);  /* control boundaries — 3.19:1 (WCAG 1.4.11) */
+  --border-teal:   rgba(43,138,138,0.35);
+  --focus-ring:    #3AACAC;                 /* 6.97:1 on --bg */
+
+  /* Display colour for h1 / .page-title. Dark mode has no Penn Blue option — the
+     official #011F5B is 1.35:1 on --bg — so it resolves to --text here and only the
+     light theme carries the brand navy. */
+  --heading:       #E8EEF7;
+
+  --font-serif:    'EB Garamond', Georgia, 'Times New Roman', serif;
+  --font-code:     'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+  color-scheme: dark;
 }
 
-/* ── Variables — bright mode ────────────────────────
-   Theme colour: #06101E (used as primary text & accent)
-   Accent colours (teal, pink, beige) stay the same.
-   Nav stays dark — it's the #06101E anchor in both modes.
+/* ── Light values (the default theme) ────────────────
+   Surfaces are neutral rather than the previous warm beige, to sit closer to Penn's
+   white-ground brand. --text is a Penn Blue-family navy at hue 211° / 67% saturation
+   rather than the official var(--text) (220° / 98%): it sits between Penn Blue and the
+   site's teal, so navy and accents read as one palette instead of two. 14.57:1 on white.
    ─────────────────────────────────────────────────── */
 [data-theme="light"] {
-  --bg:          #FDFCFA;
-  --bg-1:        #F5F3EE;
-  --bg-2:        #EBE8E1;
-  --bg-3:        #DED9CF;
-  --border:      rgba(1,31,91,0.22);
-  --text:        #011f5b;
-  --text-2:      #2E4A6B;
-  --text-3:      #7A98B8;
-  --border-teal: rgba(43,138,138,0.30);
+  --bg:            #FFFFFF;
+  --bg-1:          #F6F8FA;
+  --bg-2:          #ECEFF4;
+  --bg-3:          #DEE3EB;
+
+  --text:          #0E2A47;   /* 14.57 – 11.31 */
+  --text-2:        #2C4A6E;   /*  9.08 –  7.05 */
+  --text-3:        #486889;   /*  5.81 –  4.50   was #7A98B8 at 2.92 – 2.13 */
+
+  --teal:          #2B8A8A;
+  --teal-text:     #236F6F;   /*  5.87 –  4.56   was #2B8A8A at 4.01 – 2.92 */
+  --teal-bright:   #236F6F;   /*  no "brighter" headroom here: #3AACAC was 2.67 – 1.95 */
+  --pink:          #fc4375;
+  --pink-text:     #CB0339;   /*  5.81 –  4.51   was #fc4375 at 3.30 – 2.41 */
+  --olive:         #7BA23F;
+  --olive-text:    #536D2B;   /*  5.85 –  4.54   was #7BA23F at 2.89 – 2.11 */
+  --gold:          #c9a227;
+  --gold-text:     #7A6218;   /*  5.85 –  4.54   was #c9a227 at 2.36 – 1.72, worst on site */
+
+  --beige:         #7BA23F;
+  --beige-border:  rgba(83,109,43,0.35);
+  --beige-chip:    rgba(123,162,63,0.14);
+
+  --teal-glow:     rgba(43,138,138,0.10);
+  --pink-glow:     rgba(252,67,117,0.08);
+
+  --border:        rgba(14,42,71,0.20);
+  --border-control:#6E7F91;   /* 4.11:1 on white, 3.19:1 on --bg-3 */
+  --border-teal:   rgba(35,111,111,0.35);
+  --focus-ring:    #0E2A47;
+
+  /* Official Penn Blue (PMS 288), per Brand Guidelines p.18/p.38, which require
+     consistent use of Penn red and blue across all schools and departments.
+     15.57:1 on white — the display face is the one place the exact brand value can
+     be used without reworking the whole accent system. */
+  --heading:       #011F5B;
+  color-scheme: light;
 }
 
 /* ── Reset & base ──────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; }
+/* Percentage, not px: 16px would discard the reader's own browser font-size setting,
+   because an absolute length overrides the `medium` keyword their preference resolves to.
+   112.5% means "one eighth larger than whatever they chose" — 18px on a default browser,
+   24px for someone who set 21px. Every size on the site is a rem off this one number. */
+html { font-size: 112.5%; }
 body {
   font-family: 'Poppins', system-ui, sans-serif;
   background: var(--bg);
@@ -48,8 +128,97 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3 { font-family: 'DM Serif Display', 'Crimson Text', Georgia, serif; font-weight: 400; }
+/* 500, not 400: EB Garamond is an old-style face with lighter stems than the Didone
+   it replaces, so headings need one step up to hold the same weight on the page. */
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; }
 p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
+
+/* ── Visual labels promoted to real headings ───────────
+   These were <div>/<span> acting as headings — they now carry h2/h3/h4 so the document
+   outline is real (WCAG 1.3.1), but they must keep looking exactly as before. Each class
+   already sets its own font-size and colour; only font-family would otherwise leak in
+   from the serif heading rule above, so that is all this resets.
+   ─────────────────────────────────────────────────── */
+.sidebar-label, .col-label, .prompt-label, .fn-label,
+.rail-label, .do-dont-label, .scenario-detail-label, .scenario-persona,
+.makeover-col-label, .shift-cost-label, .makeover-note-label,
+.policy-stance-label, .keep-yours-label, .uc-strip-title,
+.task-panel-sub, .filter-group-label {
+  font-family: 'Poppins', system-ui, sans-serif;
+}
+
+/* ── Accessibility utilities ───────────────────────────
+   .sr-only  — available to assistive tech, never painted.
+   .skip-link — WCAG 2.4.1; the site nav is 5 links + a toggle, and guide pages add a
+   sticky sub-nav plus a ~12-button sidebar, so without this a keyboard user tabs through
+   15–20 controls before reaching content on every page load.
+   ─────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: -5rem;   /* fixed, not -100%: a percentage resolves against the containing block,
+                   which is not guaranteed to be taller than the link itself */
+  z-index: 1000;
+  padding: 0.6rem 1rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--teal);
+  border-radius: 3px;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0.5rem; }
+
+/* ── Inline links in prose (WCAG 1.4.1 Use of Color) ───
+   A link inside a sentence has to be tellable from the surrounding words by something
+   other than hue. The teal accents run 1.54:1 (light) and 1.32:1 (dark) against body
+   copy — colour alone would need 3:1 — so these get an underline instead of a new colour.
+   Scoping to p / li / .access-key-note is safe: every link in those containers is prose.
+   Chips, cards, pills and nav buttons live in divs and spans and are untouched.
+   ─────────────────────────────────────────────────── */
+p a,
+li a,
+.access-key-note a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* ── Focus visibility (WCAG 2.4.7) ─────────────────────
+   Before this rule the entire codebase had exactly two focus declarations, one of which
+   was `outline: none`. 52 :hover rules had no focus equivalent. :focus-visible keeps the
+   ring off mouse clicks while guaranteeing it for keyboard users.
+   ─────────────────────────────────────────────────── */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Anchor/section targets must clear the sticky nav (WCAG 2.4.11 Focus Not Obscured).
+   Per-page sticky sub-navs raise this further in their own stylesheets. */
+:target,
+[id] { scroll-margin-top: 5.5rem; }
+
+/* ── Reduced motion (WCAG 2.3.3) ───────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html { scroll-behavior: auto !important; }
+}
 
 /* ── NAV ───────────────────────────────────────────── */
 .site-nav {
@@ -76,7 +245,7 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--teal-text);
 }
 .nav-vbar { width: 1px; height: 1.2rem; background: var(--border-teal); }
 
@@ -95,15 +264,19 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   align-items: center;
   justify-content: center;
   background: none;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-control);
   border-radius: 3px;
   color: var(--text-2);
   cursor: pointer;
   padding: 0.3rem 0.5rem;
+  /* WCAG 2.2 2.5.8 Target Size (Minimum). The padding alone rendered 28x23, and the
+     <=480px override trims it further, so the floor is set here for every breakpoint. */
+  min-width: 24px;
+  min-height: 24px;
   margin-left: 0.75rem;
   transition: border-color 0.2s, color 0.2s;
 }
-.theme-toggle:hover { border-color: var(--teal); color: var(--teal-bright); }
+.theme-toggle:hover { border-color: var(--teal); color: var(--teal-text); }
 .theme-toggle svg { width: 14px; height: 14px; }
 .theme-toggle .icon-sun  { display: block; }
 .theme-toggle .icon-moon { display: none; }
@@ -111,23 +284,17 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 [data-theme="light"] .theme-toggle .icon-moon { display: block; }
 
 /* ---- Bright mode nav overrides ---- */
-[data-theme="light"] .nav-title        { color: #011f5b; }
-[data-theme="light"] .nav-btn          { color: #2E4A6B; }
-[data-theme="light"] .nav-btn:hover    { color: #011f5b; }
-[data-theme="light"] .nav-ext          { color: #2E4A6B; border-color: rgba(1,31,91,0.20); }
-[data-theme="light"] .nav-ext:hover    { color: #011f5b; border-color: #011f5b; }
-[data-theme="light"] .theme-toggle     { color: #2E4A6B; border-color: rgba(1,31,91,0.20); }
-[data-theme="light"] .theme-toggle:hover { color: #011f5b; border-color: #011f5b; }
+[data-theme="light"] .nav-title        { color: var(--text); }
+[data-theme="light"] .nav-btn          { color: var(--text-2); }
+[data-theme="light"] .nav-btn:hover    { color: var(--text); }
+[data-theme="light"] .nav-ext          { color: var(--text-2); border-color: var(--border); }
+[data-theme="light"] .nav-ext:hover    { color: var(--text); border-color: var(--text); }
+[data-theme="light"] .theme-toggle     { color: var(--text-2); border-color: var(--border); }
+[data-theme="light"] .theme-toggle:hover { color: var(--text); border-color: var(--text); }
 
 /* ---- Bright mode component overrides ---- */
 [data-theme="light"] .matrix-wrap {
-  border-color: rgba(1,31,91,0.30);
-}
-[data-theme="light"] .phase-btn:hover {
-  background: rgba(6,16,30,0.04);
-}
-[data-theme="light"] .phase-btn.active {
-  background: rgba(43,138,138,0.08);
+  border-color: var(--border-control);
 }
 [data-theme="light"] .prompt-block {
   background: #1a2d3d;
@@ -143,7 +310,7 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   background: rgba(6,16,30,0.10);
 }
 .nav-title {
-  font-family: 'Crimson Text', serif;
+  font-family: var(--font-serif);
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--text);
@@ -177,7 +344,7 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   transition: color 0.2s, border-color 0.2s;
 }
 .nav-btn:hover { color: var(--text); }
-.nav-btn.active { color: var(--teal-bright); border-bottom-color: var(--teal); }
+.nav-btn.active { color: var(--teal-text); border-bottom-color: var(--teal); }
 .nav-ext {
   display: inline-flex;
   align-items: center;
@@ -192,7 +359,7 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   margin-left: 0.75rem;
   transition: border-color 0.2s, color 0.2s;
 }
-.nav-ext:hover { border-color: var(--teal); color: var(--teal-bright); }
+.nav-ext:hover { border-color: var(--teal); color: var(--teal-text); }
 
 /* ── Shared layout ─────────────────────────────────── */
 .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
@@ -215,28 +382,62 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--teal-text);
   white-space: nowrap;
 }
 
 /* ── Footer ────────────────────────────────────────── */
 .site-footer {
   border-top: 1px solid var(--border);
-  padding: 0.8rem 2rem;
+  padding: 1.1rem 2rem;
   margin-top: 4rem;
 }
 .footer-inner {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  text-align: right;
-  font-size: 0.72rem;
+  /* The column gap is only a minimum separation — space-between does the aligning —
+     but it still counts toward the wrap calculation, so keep it small. */
+  gap: 0.6rem 1rem;
+  /* Sized so the Penn link row and the byline sit on one line, flush to opposite edges,
+     at the 1280px container. Narrower windows wrap them onto two rows. The value is a
+     fraction of a root that is now 12.5% larger, so this still renders bigger than the
+     0.66rem it replaces did before that change.
+     Deliberately NOT raised to the 0.65rem small-label floor the guide pages use: measured
+     at the 1280px container, anything above 0.63rem wraps the byline onto its own row and
+     0.63rem leaves only 21px of slack. It does not need the floor as badly either — at the
+     root above it renders 11.16px, where the 0.56rem guide labels rendered 10.08px. */
+  font-size: 0.62rem;
   color: var(--text-3);
 }
-.footer-inner a { color: var(--teal); text-decoration: none; }
-.footer-inner a:hover { color: var(--teal-bright); }
+
+/* Penn's five required global resource links. A list, not a sentence, so the prose
+   underline rule above is switched back off — these read as navigation. */
+.footer-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.8rem;
+  list-style: none;
+}
+.footer-links li { white-space: nowrap; }
+.footer-links a {
+  color: var(--text-2);
+  text-decoration: none;
+}
+.footer-links a:hover {
+  color: var(--teal-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-copy {
+  margin-left: auto;
+  text-align: right;
+}
+.footer-copy a { color: var(--teal-text); }
 
 
 /* ════════════════════════════════════════════════════ */
@@ -246,35 +447,48 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 6rem 2rem 5rem;
+  padding: 4.5rem 2rem 4rem;
   text-align: center;
 }
 .hero::before { display: none; }
 .hero-content { position: relative; z-index: 1; }
+/* Real small caps rather than text-transform: uppercase. The Penn logotype sets
+   "UNIVERSITY of PENNSYLVANIA" in small caps (Brand Guidelines p.19), and echoing that
+   here is the cheapest way for the page to read as Penn's. The two cannot be combined:
+   uppercase leaves no lowercase for font-variant-caps to act on, so it is reset. */
 .hero-eyebrow {
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 1.5rem;
+  font-family: var(--font-serif);
+  font-variant-caps: all-small-caps;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: none;
+  color: var(--teal-text);
+  margin-bottom: 1.25rem;
 }
 .hero h1 {
-  font-family: 'DM Serif Display', serif;
+  font-family: var(--font-serif);
+  font-weight: 600;
   font-size: clamp(1.8rem, 4vw, 3rem);
-  line-height: 1.1;
-  color: var(--text);
-  margin-bottom: 0.75rem;
+  line-height: 1.15;
+  color: var(--heading);
+  /* Replaces a hard <br> in the content string: the measure decides the break, so the
+     title still sets on two lines but reflows instead of breaking in the wrong place.
+     text-wrap: balance is progressive — unsupported browsers just wrap normally. */
+  max-width: 20ch;
+  margin: 0 auto 0.75rem;
+  text-wrap: balance;
 }
 .hero h1 em {
   font-style: italic;
 }
 .hero-sub {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-2);
-  max-width: 480px;
+  max-width: 540px;
   margin: 1.25rem auto 2.5rem;
-  line-height: 1.75;
+  line-height: 1.7;
+  text-wrap: pretty;
 }
 .btn-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
 .btn-dark {
@@ -308,83 +522,33 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   border-radius: 3px;
   transition: border-color 0.2s, color 0.2s;
 }
-.btn-ghost:hover { border-color: var(--teal); color: var(--teal-bright); }
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal-text); }
 
-/* Landing cards */
-.landing-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  padding: 4rem 2rem;
-  max-width: 1280px;
-  margin: 0 auto;
+/* .landing-cards / .lcard* removed: the layout never had a loop for page.cards, so the
+   component and its data in home.md were both dead. .about-strip / .about-inner removed
+   too — superseded by .colophon in home.css. */
+
+
+/* ── Section heading (shared by the guide layouts and /evaluating-ai/) ──
+   Lives here rather than in guide.css so pages that do not load guide.css can still
+   use the pattern. */
+.section-header {
+  margin-bottom: 2rem;
 }
-.lcard {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  padding: 2.5rem;
-  cursor: pointer;
-  transition: border-color 0.2s, transform 0.2s;
-  background: var(--bg-1);
-  text-decoration: none;
-  display: block;
-  color: inherit;
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--heading);
+  margin-bottom: 0.4rem;
 }
-.lcard:hover {
-  border-color: var(--border-teal);
-  transform: translateY(-3px);
-  filter: brightness(1.08);
-}
-.lcard-num {
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  color: var(--teal);
-  margin-bottom: 1.25rem;
-}
-.lcard h3 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.9rem;
-  line-height: 1.1;
-  color: var(--text);
-  margin-bottom: 0.75rem;
-}
-.lcard p {
-  font-size: 0.8rem;
+
+.section-desc {
+  font-size: 0.82rem;
   color: var(--text-2);
-  line-height: 1.7;
-  margin-bottom: 1.25rem;
+  line-height: 1.65;
+  max-width: 36rem;
 }
-.lcard-link {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--teal-bright);
-  text-transform: uppercase;
-}
-
-/* About strip */
-.about-strip {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem 4rem;
-}
-.about-inner {
-  background: var(--bg-1);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-.about-inner::before { display: none; }
-.about-inner h4 { font-size: 1rem; color: var(--text); margin-bottom: 0.35rem; }
-.about-inner p { font-size: 0.78rem; color: var(--text-2); line-height: 1.65; }
-.about-inner a { color: var(--teal); text-decoration: none; }
-.about-inner a:hover { color: var(--teal-bright); }
 
 
 /* ════════════════════════════════════════════════════ */
@@ -399,19 +563,22 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 }
 .page-header::before { display: none; }
 .page-header-inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; }
+/* Small-label floor, as .tool-tag and the guide labels: 0.6rem measured 9.6px against
+   a default 16px root, under the 10px very-small-text threshold. */
 .page-eyebrow {
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--teal-text);
   margin-bottom: 0.5rem;
 }
 .page-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: var(--font-serif);
+  font-weight: 600;
   font-size: clamp(1.6rem, 3vw, 2.4rem);
-  color: var(--text);
-  line-height: 1.1;
+  color: var(--heading);
+  line-height: 1.15;
   margin-bottom: 0.5rem;
 }
 .page-desc { font-size: 0.8rem; color: var(--text-2); }
@@ -424,15 +591,15 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   font-weight: 500;
   letter-spacing: 0.04em;
   padding: 0.3rem 0.9rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-control);
   background: var(--bg-1);
   color: var(--text-2);
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.15s;
 }
-.fpill:hover { border-color: var(--pink); color: var(--pink); }
-.fpill.active { border-color: var(--pink); background: rgba(252,67,117,0.10); color: var(--pink); }
+.fpill:hover { border-color: var(--pink); color: var(--pink-text); }
+.fpill.active { border-color: var(--pink); background: rgba(252,67,117,0.10); color: var(--pink-text); }
 
 /* Access key */
 .access-key {
@@ -450,17 +617,15 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 }
 
 .access-key-note a {
-  color: var(--teal-bright);
+  color: var(--teal-text);
   font-weight: 600;
-  text-decoration: none;
-}
-
-.access-key-note a:hover {
-  text-decoration: underline;
 }
 .chip {
   display: inline-block;
-  font-size: 0.6rem;
+  /* 0.65rem, not the 0.6rem this was: 9.6px at a default 16px root sits under the 10px
+     floor checkers flag as very small text, and these carry the access status ("Penn-
+     licensed", "Open weights") that decides whether a reader can use the tool at all. */
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -469,8 +634,8 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   white-space: nowrap;
 }
 .chip-none { background: transparent; color: var(--text-3); border: 1px solid var(--border); }
-.chip-app  { background: var(--beige-chip); color: var(--beige); border: 1px solid var(--beige-border); }
-.chip-uni  { background: rgba(43,138,138,0.12); color: var(--teal-bright); border: 1px solid var(--border-teal); }
+.chip-app  { background: var(--beige-chip); color: var(--olive-text); border: 1px solid var(--beige-border); }
+.chip-uni  { background: rgba(43,138,138,0.12); color: var(--teal-text); border: 1px solid var(--border-teal); }
 .chip-penn { background: rgba(77,130,214,0.14); color: #6ea0e8; border: 1px solid rgba(77,130,214,0.45); }
 [data-theme="light"] .chip-penn { color: #2c5eb0; }
 
@@ -493,7 +658,7 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 /* Function col width set via .fn-col */
 .matrix-table thead th:nth-child(4) { width: 15%; } /* Google — long name */
 .matrix-table thead th:nth-child(5) { width: 15%; } /* Microsoft — two products */
-.matrix-table thead th:first-child { color: var(--teal); border-right: 1px solid var(--border); }
+.matrix-table thead th:first-child { color: var(--teal-text); border-right: 1px solid var(--border); }
 .matrix-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
 .matrix-table tbody tr:last-child { border-bottom: none; }
 .matrix-table tbody tr:hover td { background: rgba(252,67,117,0.06); }
@@ -502,104 +667,44 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--teal);
+  color: var(--teal-text);
   border-right: 1px solid var(--border);
   white-space: nowrap;
 }
 .tool-name {
-  font-family: 'Crimson Text', serif;
+  font-family: var(--font-serif);
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text);
   text-decoration: none;
   display: block;
 }
-.tool-name:hover { color: var(--pink); }
+.tool-name:hover { color: var(--pink-text); }
 .tool-desc { font-size: 0.68rem; color: var(--text-3); margin-top: 0.3rem; line-height: 1.5; }
 .cell-empty { color: var(--text-3); font-size: 0.75rem; }
 
 
 /* ════════════════════════════════════════════════════ */
-/*  FOR RESEARCHERS                                     */
+/*  GUIDE PAGES — chrome shared by research / teaching  */
+/*  / learning. The shell itself is assets/css/guide.css */
 /* ════════════════════════════════════════════════════ */
 
-.researchers-wrap { display: flex; gap: 0; min-height: 80vh; }
-
-/* Sidebar */
-.sidebar {
-  width: 220px;
-  flex-shrink: 0;
-  border-right: 1px solid var(--border);
-  padding: 2.5rem 0;
-}
 .sidebar-sticky { position: sticky; top: 80px; }
 .sidebar-label {
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--teal-text);
   padding: 0 1.5rem;
   margin-bottom: 1rem;
 }
-.phase-btn {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  border-left: 2px solid transparent;
-  padding: 0.65rem 1.5rem;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.75rem;
-  color: var(--text-2);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.phase-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
-.phase-btn.active {
-  color: var(--teal-bright);
-  border-left-color: var(--teal);
-  background: rgba(43,138,138,0.06);
-}
-.phase-num { font-size: 0.58rem; color: var(--text-3); margin-right: 0.4rem; letter-spacing: 0.05em; }
-.phase-btn.active .phase-num { color: var(--teal); }
-
-/* Phase content */
-.phase-content { display: none; flex: 1; padding: 2.5rem 3rem 4rem; min-width: 0; }
-.phase-content.active { display: block; }
-
-.phase-big-num {
-  display: block;
-  font-family: 'DM Serif Display', serif;
-  font-size: 7rem;
-  line-height: 0.85;
-  color: rgba(43,138,138,0.08);
-  margin-bottom: -1.5rem;
-  user-select: none;
-}
-.phase-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 2.4rem;
-  color: var(--text);
-  margin-bottom: 0.15rem;
-}
-.phase-sub {
-  font-size: 0.72rem;
-  color: var(--text-3);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-}
-
-.phase-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem; }
-
 .col-label {
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--teal-text);
   margin-bottom: 0.75rem;
 }
 .check-list { list-style: none; }
@@ -612,35 +717,9 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   line-height: 1.5;
   align-items: flex-start;
 }
-.check-list li svg { flex-shrink: 0; margin-top: 2px; color: var(--teal); }
+.check-list li svg { flex-shrink: 0; margin-top: 2px; color: var(--teal-text); }
 
 /* Risk section */
-.risk-box {
-  border: 1px solid rgba(252,67,117,0.2);
-  border-left: 3px solid var(--pink);
-  background: rgba(252,67,117,0.04);
-  border-radius: 0 6px 6px 0;
-  padding: 1rem 1.25rem;
-  margin-top: 1rem;
-}
-.risk-label {
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--pink);
-  margin-bottom: 0.6rem;
-}
-.risk-list { list-style: none; }
-.risk-list li {
-  font-size: 0.75rem;
-  color: var(--text-2);
-  padding-left: 1rem;
-  position: relative;
-  margin-bottom: 0.4rem;
-  line-height: 1.5;
-}
-.risk-list li::before { content: '—'; position: absolute; left: 0; color: var(--pink); opacity: 0.6; }
 
 /* Tool chips */
 .tool-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
@@ -656,14 +735,14 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
   transition: all 0.15s;
   text-decoration: none;
 }
-.tool-chip:hover { border-color: var(--teal); color: var(--teal-bright); }
+.tool-chip:hover { border-color: var(--teal); color: var(--teal-text); }
 .tool-fn-chip { text-decoration: none; }
 /* Hover stays inside the chip's own olive family rather than flipping to a
    solid pink that matches nothing around it. Same trio as .chip-app. */
 .tool-fn-chip:hover {
   background: var(--beige-chip);
   border-color: var(--beige);
-  color: var(--beige);
+  color: var(--olive-text);
 }
 .tool-chip-special {
   border-color: var(--beige-border);
@@ -673,9 +752,8 @@ p, li, span, button, a { font-family: 'Poppins', system-ui, sans-serif; }
 .tool-chip-special:hover { background: rgba(6,16,30,0.8); }
 
 /* Prompt block */
-.prompt-wrap { margin-top: 2rem; }
 .prompt-label {
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -695,11 +773,21 @@ pre {
   font-family: var(--font-code);
 }
 
+.prompt-block,
+.uc-mini-prompt {
+  /* The Copy button is absolutely positioned in the top-right corner: 0.5rem down plus
+     its own height, both fixed in rem, so its box always ends ~2rem below the block's
+     top edge. Every variant must reserve at least this much padding-top or the button
+     lands on the first line of the prompt — which is what the narrow-screen overrides
+     used to do. Variants override the sides and the bottom, never this. */
+  --prompt-pad-top: 2.25rem;
+}
+
 .prompt-block {
   background: #040810;
   border: 1px solid rgba(43,138,138,0.2);
   border-radius: 6px;
-  padding: 2rem 1.5rem 1.25rem;
+  padding: var(--prompt-pad-top) 1.5rem 1.25rem;
   position: relative;
   font-size: 0.8rem;
   color: #7FCECC;
@@ -712,7 +800,7 @@ pre {
   top: 0.5rem;
   right: 0.75rem;
   font-family: 'Poppins', sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -725,8 +813,18 @@ pre {
   opacity: 0;
   transition: opacity 0.2s, color 0.2s;
 }
-.prompt-block:hover .copy-btn { opacity: 1; }
-.copy-btn:hover { color: var(--teal-bright); border-color: var(--teal); }
+/* :focus-within matters as much as :hover here — the button is opacity:0 at rest, so a
+   keyboard user would otherwise tab into a control with no visual presence at all. */
+.prompt-block:hover .copy-btn,
+.prompt-block:focus-within .copy-btn { opacity: 1; }
+
+/* A touch screen has no hover, so the rule above never fires there and the Copy button
+   stays invisible — on phones and tablets the prompts had no copy affordance at all.
+   Where hover is unavailable the button is simply always shown. */
+@media (hover: none) {
+  .copy-btn { opacity: 1; }
+}
+.copy-btn:hover { color: var(--teal-text); border-color: var(--teal); }
 
 /* Callout */
 .callout {

@@ -1,0 +1,464 @@
+/* =========================================================
+   teaching — page-specific styles  →  assets/css/teaching.css
+   Loaded after assets/css/guide.css, which carries the shell and the
+   components shared with the For Learning page. Global styles live in
+   assets/css/main.css.
+
+   Only components that do not exist on the student page live here:
+   the mode toggle, the suggested-order strip, the "keep this yours"
+   block, the assessment shifts, the assignment makeovers, and the
+   policy stance cards.
+   ========================================================= */
+
+/* ── Mode toggle ──────────────────────────────────────────
+   One persistent choice that swaps the suggested order, each task's
+   framing, and the mode-specific prompts. Everything not marked with
+   data-for-mode is shared and stays put. */
+[data-mode] [data-for-mode] { display: none; }
+[data-mode="adapt"] [data-for-mode="adapt"],
+[data-mode="build"] [data-for-mode="build"] { display: block; }
+
+.mode-toggle-wrap {
+  margin-bottom: 2rem;
+}
+
+.mode-toggle {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-1);
+}
+
+.mode-btn {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-2);
+  background: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+
+.mode-btn:hover { color: var(--text); }
+
+.mode-btn.active {
+  color: var(--teal-text);
+  background: rgba(43, 138, 138, 0.12);
+  box-shadow: inset 0 0 0 1px var(--border-teal);
+}
+
+.mode-blurb {
+  margin: 0.85rem 0 0;
+  max-width: 44rem;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+/* ── Suggested order ──────────────────────────────────────
+   Navigation into the tasks below, not content: each step opens the
+   task it names. */
+.sequence-strip {
+  margin-bottom: 2.25rem;
+}
+
+.sequence-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.sequence-step { display: flex; }
+
+.sequence-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+  background: var(--bg-1);
+  border: 1px solid var(--border-control);
+  border-radius: 6px;
+  padding: 0.85rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.sequence-btn:hover {
+  border-color: var(--border-teal);
+  background: var(--bg-2);
+}
+
+/* ── Small-label floor ─────────────────────────────────
+   Every uppercase micro-label below was 0.56–0.62rem, which is 8.96–9.92px at a default
+   16px root — under the 10px floor that accessibility checkers flag as "very small text",
+   and hard to read as letterspaced uppercase regardless. 0.65rem is the floor used across
+   the guide family (see the same value on .col-label / .do-dont-label / .rail-label), and
+   it clears 10px whether or not the reader keeps the browser default.
+   ─────────────────────────────────────────────────── */
+.sequence-num {
+  font-family: var(--font-code);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--teal-text);
+}
+
+.sequence-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sequence-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.sequence-desc {
+  font-size: 0.7rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+/* ── Task panel additions ─────────────────────────────── */
+.task-intro {
+  max-width: 46rem;
+  margin: 0 0 1.5rem;
+  font-size: 0.84rem;
+  line-height: 1.75;
+  color: var(--text-2);
+}
+
+/* The one block that must not be skimmed past: what AI does not get to do. */
+.keep-yours {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--border-teal);
+  border-left: 3px solid var(--teal);
+  border-radius: 6px;
+  background: rgba(43, 138, 138, 0.05);
+}
+
+.keep-yours-label {
+  color: var(--teal-text);
+  margin-bottom: 0.6rem;
+}
+
+.keep-yours-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.keep-yours-list li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.55rem;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.keep-yours-list li:last-child { margin-bottom: 0; }
+
+.keep-yours-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.58rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+/* Mode chips on prompts — reuses .prompt-status-chip from guide.css */
+.prompt-status-chip--adapt {
+  background: rgba(43, 138, 138, 0.1);
+  color: var(--teal-text);
+  border: 1px solid var(--border-teal);
+}
+
+.prompt-status-chip--build {
+  background: var(--beige-chip);
+  color: var(--olive-text);
+  border: 1px solid var(--beige-border);
+}
+
+/* Prompts hidden by mode are list items, not blocks */
+[data-mode="adapt"] .task-prompt-item[data-for-mode="adapt"],
+[data-mode="build"] .task-prompt-item[data-for-mode="build"] { display: block; }
+
+/* ── AI-resilient assessment ──────────────────────────── */
+.assessment-intro {
+  max-width: 46rem;
+  margin: 0 0 2.25rem;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+
+.shift-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 0.75rem 0 3rem;
+}
+
+.shift-card {
+  position: relative;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-1);
+}
+
+.shift-num {
+  font-family: var(--font-code);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--teal-text);
+}
+
+.shift-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.3rem 0 0.7rem;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.shift-from {
+  color: var(--text-3);
+  text-decoration: line-through;
+  text-decoration-color: var(--pink);
+  text-decoration-thickness: 1px;
+}
+
+.shift-arrow { color: var(--text-3); font-size: 0.9rem; }
+.shift-to { color: var(--text); }
+
+.shift-body {
+  margin: 0 0 0.85rem;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
+.shift-cost {
+  margin: 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.74rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.shift-cost-label,
+.makeover-note-label {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.2rem;
+}
+
+/* ── Assignment makeovers ─────────────────────────────── */
+.makeovers-wrap { margin-top: 0.5rem; }
+
+.makeovers-desc {
+  max-width: 44rem;
+  margin: 0.4rem 0 1.25rem;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+.makeover-filter-row { margin-bottom: 1.25rem; }
+
+.makeover-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.makeover-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-1);
+  padding: 1.15rem 1.35rem 1.35rem;
+}
+
+.makeover-card[hidden] { display: none !important; }
+
+.makeover-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.makeover-course-type {
+  font-size: 0.68rem;
+  color: var(--text-3);
+}
+
+.makeover-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.makeover-after {
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--border);
+}
+
+.makeover-col-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.55rem;
+}
+
+.makeover-col-label--before { color: var(--pink-text); }
+.makeover-col-label--after  { color: var(--teal-text); }
+
+.makeover-task {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.makeover-note {
+  margin: 0 0 0.7rem;
+  font-size: 0.74rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.makeover-note:last-child { margin-bottom: 0; }
+
+.makeover-note--cost .makeover-note-label { color: var(--gold-text); }
+
+/* ── Policy stances ───────────────────────────────────── */
+.policy-stance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 0.75rem 0 2.5rem;
+}
+
+.policy-stance {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-1);
+  padding: 1.2rem 1.35rem;
+}
+
+.policy-stance-name {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.9rem;
+}
+
+.policy-stance-row { margin-bottom: 0.85rem; }
+.policy-stance-row:last-child { margin-bottom: 0; }
+
+.policy-stance-label {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-text);
+  margin-bottom: 0.25rem;
+}
+
+.policy-stance-row--watch .policy-stance-label { color: var(--pink-text); }
+
+.policy-stance-row p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+.policy-checks { margin-bottom: 2rem; }
+
+.policy-alignment {
+  max-width: 46rem;
+  margin: 0;
+  padding: 1rem 1.15rem;
+  border-left: 2px solid var(--teal);
+  background: rgba(43, 138, 138, 0.05);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8rem;
+  line-height: 1.75;
+  color: var(--text-2);
+}
+
+.policy-alignment a,
+.makeover-note a {
+  color: var(--teal-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.policy-alignment a:hover { text-decoration: underline; }
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 1180px) {
+  .sequence-list { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  .shift-grid,
+  .policy-stance-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .sequence-list { grid-template-columns: 1fr; }
+  .mode-toggle { display: flex; width: 100%; }
+  /* nowrap is what made this control 376px wide at its minimum — wider than a phone,
+     which dragged the whole guide column off-screen. Let the labels wrap instead. */
+  .mode-btn { flex: 1; text-align: center; padding: 0.5rem 0.6rem; white-space: normal; }
+  .makeover-cols { grid-template-columns: 1fr; gap: 1.25rem; }
+  .makeover-after {
+    padding-left: 0;
+    padding-top: 1.25rem;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 480px) {
+  .makeover-card { padding: 1rem 1.1rem 1.15rem; }
+  .shift-card,
+  .policy-stance { padding: 1rem 1.1rem; }
+  .shift-title { font-size: 1.05rem; }
+}

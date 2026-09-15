@@ -1,13 +1,14 @@
 title: AI Resources for Penn Arts & Sciences
-description: A curated guide to AI and LLM tools for Penn Arts & Sciences researchers — what's available, what it genuinely does well, and where the risks lie.
+description: "A curated guide to AI and LLM tools for Penn Arts & Sciences researchers: what's available, what it genuinely does well, and where the risks lie."
 url: "https://dddiscovery.github.io"
-baseurl: "/ai-resources-penn-sas"
-# baseurl: ""
+# baseurl: "/ai-resources-penn-sas"
+baseurl: ""
 
 # External links used in the site chrome
 links:
   dddi: "https://datascience.sas.upenn.edu/"
   penn_sas: "https://www.sas.upenn.edu/"
+  upenn: "https://www.upenn.edu"
 
 
 markdown: kramdown

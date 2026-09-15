@@ -1,39 +1,53 @@
 ---
 layout: researchers
 title: AI for Research
-description: Practical AI guidance across research tasks — literature review, coding, analysis, writing, and grants — with honest notes on risks.
+description: Practical AI guidance across research tasks (literature review, coding, analysis, writing, and grants), with honest notes on risks.
 permalink: /for-researchers/
-css: /assets/css/researchers.css
+css: [/assets/css/guide.css, /assets/css/researchers.css]
+
+labels:
+  sidebar_label: "On this page"
+  tasks_title: "Find your task"
+  tools_heading: "Useful AI functions"
+  do_heading: "Do"
+  dont_heading: "Don't"
+  use_cases_heading: "In Practice"
+  uc_tools_label: "Specific tools you may want to explore:"
+  uc_try_label: "Try this"
+  uc_close_label: "Close"
+  prompt_heading: "Example Prompts"
 
 header:
   heading: "AI for Your Research"
   subtext: "Practical guidance across research tasks."
-  note: "<strong>Research doesn't follow a straight line</strong> — and neither does AI use. The phases below often overlap, repeat, and happen in any order. Use this as a menu, not a sequence."
+  note: "<strong>Research doesn't follow a straight line</strong>, and neither does AI use. The phases below often overlap, repeat, and happen in any order. Use this as a menu, not a sequence."
 
 phases:
   - id: litreview
     num: "01"
-    callout: "<strong>Norms vary sharply by field.</strong> Many researchers — more so in the humanities — object to using AI to summarize papers at all, and hold their graduate students to that standard. Before this becomes part of your workflow, find out what your department, your collaborators, and your advisor actually accept."
+    callout: "<strong>Norms vary sharply by field.</strong> Many researchers, more so in the humanities, object to using AI to summarize papers at all, and hold their graduate students to that standard. Before this becomes part of your workflow, find out what your department, your collaborators, and your advisor actually accept."
     sidebar_label: "Literature Review"
     title: "Literature Review & Discovery"
     subtitle: "Orienting yourself in a field"
     helps:
       - "Summarizing papers and identifying key claims"
       - "Finding gaps and contradictions across a body of literature"
-      - "Interrogating a paper you have uploaded — whether the authors used a particular method, controlled for a given variable, or tested a population with a particular characteristic — where that detail sits in a technical appendix or footnote"
+      - "Interrogating a paper you have uploaded (whether the authors used a particular method, controlled for a given variable, or tested a population with a particular characteristic) where that detail sits in a technical appendix or footnote"
       - "Explaining jargon from adjacent fields"
       - "Generating search queries and keyword variations"
       - "Drafting annotated bibliographies"
     risks:
-      - "Models hallucinate citations — always verify DOIs before use"
+      - "Models hallucinate citations; always verify DOIs before use"
       - "Training cutoffs mean recent work may be missing entirely"
       - "Summaries can flatten nuance or misrepresent methodology"
       - "AI-generated search queries may reinforce existing biases"
-      - "Uploading a published paper to a commercial tool may breach the publisher's licence — check your terms before sharing full texts"
-    prompt: |
-      I'm reviewing literature on [topic]. Here are 3 abstracts: [paste].
-      What are the key claims? Are there contradictions or gaps?
-      Suggest 3 search queries I haven't tried yet.
+      - "Uploading a published paper to a commercial tool may breach the publisher's licence; check your terms before sharing full texts"
+    prompts:
+      - label: "Reading three abstracts for claims and gaps"
+        text: |
+          I'm reviewing literature on [topic]. Here are 3 abstracts: [paste].
+          What are the key claims? Are there contradictions or gaps?
+          Suggest 3 search queries I haven't tried yet.
     tools:
       - fn: "chat"
         label: "Chat & Assistant"
@@ -49,13 +63,15 @@ phases:
       - "Comparing study design approaches across fields"
       - "Reviewing methods protocols from adjacent disciplines"
     risks:
-      - "AI anchors on common designs — niche field-specific norms often missed"
+      - "AI anchors on common designs; niche field-specific norms often missed"
       - "Brainstormed confounds may be plausible but domain-wrong"
-      - "No IRB or ethics awareness — AI cannot substitute for institutional review"
-    prompt: |
-      I'm designing a study to test [hypothesis]. My approach: [describe].
-      Act as a skeptical reviewer: what are the 3 most likely confounds?
-      What alternative designs would address them?
+      - "No IRB or ethics awareness; AI cannot substitute for institutional review"
+    prompts:
+      - label: "Stress-testing a design before you commit to it"
+        text: |
+          I'm designing a study to test [hypothesis]. My approach: [describe].
+          Act as a skeptical reviewer: what are the 3 most likely confounds?
+          What alternative designs would address them?
     tools:
       - fn: "chat"
         label: "Chat & Assistant"
@@ -69,19 +85,21 @@ phases:
     helps:
       - "Writing Python / R / STATA scripts from scratch or from a description"
       - "Debugging errors and tracing unexpected outputs"
-      - "Understanding code someone else wrote — asking what a script does and why, rather than reading through it line by line"
+      - "Understanding code someone else wrote, asking what a script does and why, rather than reading through it line by line"
       - "Translating code between languages (e.g., STATA → Python)"
       - "Automating repetitive data collection or file-processing tasks"
       - "Setting up reproducible analysis environments and pipelines"
     risks:
-      - "Generated code can look correct but produce silently wrong results — always test on known data"
+      - "Generated code can look correct but produce silently wrong results; always test on known data"
       - "AI cannot reason about your specific dataset structure without seeing a sample"
-      - "Version mismatches and deprecated APIs are common in generated code — check the docs"
+      - "Version mismatches and deprecated APIs are common in generated code; check the docs"
       - "Do not paste private, IRB-restricted, or personally identifiable data into any commercial tool"
-    prompt: |
-      Here is a Python error I'm getting: [paste error + relevant code].
-      What is causing it? Fix the issue and explain what was wrong
-      so I understand and can avoid it next time.
+    prompts:
+      - label: "Understanding an error, not just clearing it"
+        text: |
+          Here is a Python error I'm getting: [paste error + relevant code].
+          What is causing it? Fix the issue and explain what was wrong
+          so I understand and can avoid it next time.
     tools:
       - fn: "coding"
         label: "Coding"
@@ -101,14 +119,16 @@ phases:
       - "Coding qualitative interview transcripts"
 
     risks:
-      - "Generated code may be syntactically correct but logically wrong — validate all outputs"
+      - "Generated code may be syntactically correct but logically wrong; validate all outputs"
       - "Do not input sensitive or IRB-restricted data into commercial tools"
-      - "Statistical interpretations can be confidently wrong — verify with a domain expert"
+      - "Statistical interpretations can be confidently wrong; verify with a domain expert"
       - "Qualitative coding may miss cultural context and researcher positionality"
-    prompt: |
-      Here is the output of my regression in R: [paste].
-      Explain each coefficient in plain language.
-      Flag anything that looks unusual or worth investigating.
+    prompts:
+      - label: "Reading regression output in plain language"
+        text: |
+          Here is the output of my regression in R: [paste].
+          Explain each coefficient in plain language.
+          Flag anything that looks unusual or worth investigating.
     tools:
       - fn: "coding"
         label: "Coding"
@@ -127,32 +147,35 @@ phases:
       - "Editing for clarity and concision"
       - "Drafting abstracts, cover letters, and lay summaries"
     risks:
-      - "AI prose tends toward over-polished generic voice — revise to preserve your own style"
-      - "Factual claims can be smoothly stated but wrong — never trust without verification"
+      - "AI prose tends toward over-polished generic voice; revise to preserve your own style"
+      - "Factual claims can be smoothly stated but wrong; never trust without verification"
       - "Check your institution's and target journal's AI-disclosure policies"
       - "AI editing can inadvertently soften claims in ways that change your argument"
     use_cases:
-      - title: "Structuring before drafting"
-        desc: "Upload rough notes and ask for several possible organizational structures rather than prose. Evaluating options keeps you in the driver's seat — and you can converse back and forth about narrative structures, hooks, and how to articulate an argument, as you would with a colleague. Asking for a structure means you still have to write it, which also avoids going back and undoing AI voice and errors."
-        mini_prompt: |
-          Here are my rough notes on [topic]: [paste].
-          Give me 3 distinct ways I could structure this as a [paper/essay/report].
-          For each, describe the narrative arc in 2 sentences and name the trade-off.
-          Don't write any prose — just the structures.
       - title: "Simulating a peer reviewer"
         desc: "Ask it to position itself as a critical senior colleague who is territorial about the field, or as a non-specialist reader for a journal with wider readership. You can tune the persona to match the feedback you actually need before submission."
         tool_refs:
           - refine
-        mini_prompt: |
-          Here is my [section/abstract]: [paste].
-          Act as a senior reviewer in [field] who is skeptical and protective of disciplinary norms.
-          Give me your 3 most critical objections. Be direct and blunt — don't soften.
-    prompt: |
-      Here is my methods section: [paste].
-      You are a reviewer from [adjacent field] with no deep background in my specialty.
-      Give me detailed feedback on clarity, structure, and accessibility — where did you
-      lose the thread, what terms need defining, what could be reordered?
-      Do not rewrite; give specific, actionable suggestions I can act on myself.
+        # The Try this button renders only when mini_prompt exists. Uncomment to bring
+        # both back.
+        # mini_prompt: |
+        #   Here is my [section/abstract]: [paste].
+        #   Act as a senior reviewer in [field] who is skeptical and protective of disciplinary norms.
+        #   Give me your 3 most critical objections. Be direct and blunt; don't soften.
+    prompts:
+      - label: "Structuring before drafting"
+        text: |
+          Here are my rough notes on [topic]: [paste].
+          Give me 3 distinct ways I could structure this as a [paper/essay/report].
+          For each, describe the narrative arc in 2 sentences and name the trade-off.
+          Don't write any prose, just the structures.
+      - label: "Feedback from a reader outside your specialty"
+        text: |
+          Here is my methods section: [paste].
+          You are a reviewer from [adjacent field] with no deep background in my specialty.
+          Give me detailed feedback on clarity, structure, and accessibility: where did you
+          lose the thread, what terms need defining, what could be reordered?
+          Do not rewrite; give specific, actionable suggestions I can act on myself.
     tools:
       - fn: "chat"
         label: "Chat & Assistant"
@@ -168,22 +191,24 @@ phases:
       - "Strengthening Significance and Innovation sections"
       - "Simulating reviewer feedback before submission"
     risks:
-      - "<strong class=\"pink-text\">Check funder AI policy first</strong> — NEH (<a href=\"https://www.neh.gov/grants/manage/organizations\" target=\"_blank\" rel=\"noopener\">see NEH guidance</a>), NSF (SBE, <a href=\"https://www.nsf.gov/policies/ai/merit-review\" target=\"_blank\" rel=\"noopener\">see policy</a>), SSRC, Mellon, Ford, and Guggenheim, among others, may restrict or require disclosure of AI use."
+      - "<strong class=\"pink-text\">Check funder AI policy first</strong>: NEH (<a href=\"https://www.neh.gov/grants/manage/organizations\" target=\"_blank\" rel=\"noopener\">see NEH guidance</a>), NSF (SBE, <a href=\"https://www.nsf.gov/policies/ai/merit-review\" target=\"_blank\" rel=\"noopener\">see policy</a>), SSRC, Mellon, Ford, and Guggenheim, among others, may restrict or require disclosure of AI use."
  
       - "AI-generated grant text can trigger AI-detection flags"
       - "Preliminary data sections should never rely on AI-generated figures"
-      - "Simulated reviewer feedback is generic — it cannot replicate actual study section dynamics"
+      - "Simulated reviewer feedback is generic; it cannot replicate actual study section dynamics"
     use_cases:
       - title: "Grant discovery and AI-assisted writing"
-        desc: "Specialized grant tools go further than general-purpose AI — they search funder databases, track deadlines, and coach you section-by-section through proposal requirements. GrantedAI searches 133K+ foundations and 85K+ grants across all 50 states and 15+ countries, then drafts alongside you. GrantAI focuses on generating compelling narratives with minimal effort and is free to try for 7 days."
+        desc: "Specialized grant tools go further than general-purpose AI: they search funder databases, track deadlines, and coach you section-by-section through proposal requirements. GrantedAI searches 133K+ foundations and 85K+ grants across all 50 states and 15+ countries, then drafts alongside you. GrantAI focuses on generating compelling narratives with minimal effort and is free to try for 7 days."
         tool_refs:
           - grantedai
           - grantai
-    prompt: |
-      Here is my Specific Aims draft: [paste].
-      Act as an NIH study section reviewer.
-      What are the 2–3 weakest points? Rewrite the opening paragraph
-      to hook reviewers immediately.
+    prompts:
+      - label: "A study section reviewer on your Specific Aims"
+        text: |
+          Here is my Specific Aims draft: [paste].
+          Act as an NIH study section reviewer.
+          What are the 2–3 weakest points? Rewrite the opening paragraph
+          to hook reviewers immediately.
     tools:
       - fn: "chat"
         label: "Chat & Assistant"

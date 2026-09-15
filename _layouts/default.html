@@ -5,23 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
   <link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@300;400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- EB Garamond carries every serif on the site (var(--font-serif)). It stands in for
+       Penn's identity faces, Perpetua and ITC Stone Serif (Brand Guidelines p.19), which
+       are licensed and cannot be served as webfonts: same humanist old-style lineage,
+       real italics, and true small caps for the Penn logotype's small-cap signature.
+       Variable axis 400..800 replaces both DM Serif Display and Crimson Text, so this is
+       three families where there were four. -->
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=JetBrains+Mono:wght@300;400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/responsive.css' | relative_url }}">
-  {% if page.css %}<link rel="stylesheet" href="{{ page.css | relative_url }}">{% endif %}
+{%- for sheet in page.css %}
+  <link rel="stylesheet" href="{{ sheet | relative_url }}">
+{%- endfor %}
   <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
   {% seo title=false %}
   <!-- Prevent flash of wrong theme -->
   <script>
     (function(){
-      var t = localStorage.getItem('theme');
-      if (t) document.documentElement.setAttribute('data-theme', t);
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { t = null; }
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
     })();
   </script>
 </head>
 <body>
 
-<nav class="site-nav">
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav class="site-nav" aria-label="Main">
   <div class="nav-inner">
     <div class="nav-brand">
       <a href="{{ site.links.dddi }}" class="nav-brand-link" target="_blank" rel="noopener">
@@ -32,21 +44,24 @@
       <span class="nav-title">AI Resources for <a href="{{ site.links.penn_sas }}" class="nav-title-link" target="_blank" rel="noopener">Penn Arts &amp; Sciences</a></span>
     </div>
     <div class="nav-links">
-      <a href="{{ '/' | relative_url }}" class="nav-btn{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Home</a>
-      <a href="{{ '/tools/' | relative_url }}" class="nav-btn{% if page.url contains 'tools' %} active{% endif %}">AI Tools</a>
-      <a href="{{ '/for-students/' | relative_url }}" class="nav-btn{% if page.url contains 'for-students' %} active{% endif %}">For Learning</a>
-      <a href="{{ '/for-researchers/' | relative_url }}" class="nav-btn{% if page.url contains 'for-researchers' %} active{% endif %}">For Research</a>
+      <a href="{{ '/' | relative_url }}" class="nav-btn{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}"{% if page.url == '/' or page.url == '/index.html' %} aria-current="page"{% endif %}>Home</a>
+      <a href="{{ '/tools/' | relative_url }}" class="nav-btn{% if page.url contains 'tools' %} active{% endif %}"{% if page.url contains 'tools' %} aria-current="page"{% endif %}>AI Tools</a>
+      <a href="{{ '/for-students/' | relative_url }}" class="nav-btn{% if page.url contains 'for-students' %} active{% endif %}"{% if page.url contains 'for-students' %} aria-current="page"{% endif %}>For Learning</a>
+      {% comment %} Archived with pages/for-teaching.md (published: false). Uncomment when it returns.
+      <a href="{{ '/for-teaching/' | relative_url }}" class="nav-btn{% if page.url contains 'for-teaching' %} active{% endif %}"{% if page.url contains 'for-teaching' %} aria-current="page"{% endif %}>For Teaching</a>
+      {% endcomment %}
+      <a href="{{ '/for-researchers/' | relative_url }}" class="nav-btn{% if page.url contains 'for-researchers' %} active{% endif %}"{% if page.url contains 'for-researchers' %} aria-current="page"{% endif %}>For Research</a>
       <!-- <a href="https://dddiscovery.github.io/datapoints" class="nav-ext" target="_blank" rel="noopener">DataPoints ↗</a> -->
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle bright / dark mode">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle bright / dark mode" aria-pressed="false">
         <!-- Sun icon — visible in dark mode -->
-        <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="icon-sun" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
           <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
           <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
         </svg>
         <!-- Moon icon — visible in bright mode -->
-        <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="icon-moon" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       </button>
@@ -55,23 +70,88 @@
 </nav>
 
 <script>
-  (function(){
-    var btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    btn.addEventListener('click', function(){
-      var html = document.documentElement;
-      var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
+  /* Publish the site nav's rendered height as --site-nav-h, so bars that stick beneath
+     it sit flush instead of guessing a pixel value. The guess drifts: the nav changes
+     height with the viewport and again when the webfonts land, and a guess that is too
+     large leaves a strip where page content shows through as it scrolls. Fires
+     sitenavresize so anything measuring from the nav can re-measure. */
+  (function () {
+    var nav = document.querySelector('.site-nav');
+    if (!nav) return;
+    var last = -1;
+    function publish() {
+      var h = Math.round(nav.getBoundingClientRect().height);
+      if (h === last) return;
+      last = h;
+      document.documentElement.style.setProperty('--site-nav-h', h + 'px');
+      window.dispatchEvent(new Event('sitenavresize'));
+    }
+    publish();
+    /* Both: resize catches width changes the moment they happen, the observer catches the
+       nav growing on its own (webfonts landing) with no resize to announce it. */
+    window.addEventListener('resize', publish);
+    if ('ResizeObserver' in window) new ResizeObserver(publish).observe(nav);
+    window.addEventListener('load', publish);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(publish);
   })();
 </script>
 
+<script>
+  (function(){
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    var html = document.documentElement;
+    // aria-pressed reflects "dark mode is on", so the button's state is announced,
+    // not just its label. Synced on load because the theme is set before paint.
+    var sync = function(){ btn.setAttribute('aria-pressed', String(html.getAttribute('data-theme') === 'dark')); };
+    sync();
+    btn.addEventListener('click', function(){
+      var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      sync();
+    });
+  })();
+
+  // Every link that opens a new tab gets a screen-reader-only cue and a safe rel.
+  // Done generically so links written inside page content are covered too, without
+  // editing any content file. Links that already carry a cue are skipped.
+  // Deferred to DOMContentLoaded: this script sits above the page body, so at parse
+  // time the content links below it do not exist yet.
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('a[target="_blank"]').forEach(function (a) {
+      var rel = (a.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+      if (rel.indexOf('noopener') === -1) rel.push('noopener');
+      if (rel.indexOf('noreferrer') === -1) rel.push('noreferrer');
+      a.setAttribute('rel', rel.join(' '));
+      if (a.querySelector('.sr-only')) return;
+      var cue = document.createElement('span');
+      cue.className = 'sr-only';
+      cue.textContent = ' (opens in new tab)';
+      a.appendChild(cue);
+    });
+  });
+</script>
+
+<main id="main-content">
 {{ content }}
+</main>
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <span>© {{ 'now' | date: '%Y' }} Data Driven Discovery Initiative · Penn School of Arts &amp; Sciences · University of Pennsylvania</span>
+    <nav class="footer-links" aria-label="{{ site.data.footer.penn_nav_label }}">
+      <ul>
+        {%- for link in site.data.footer.penn_links %}
+        <li><a href="{{ link.url }}" target="_blank" rel="noopener">{{ link.label }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    <p class="footer-copy">&copy; {{ 'now' | date: '%Y' }}
+      {%- for part in site.data.footer.copyright.parts %}
+      {%- unless forloop.first %} &middot;{% endunless %}
+      <a href="{{ site.links[part.link] }}" target="_blank" rel="noopener">{{ part.label }}</a>
+      {%- endfor %}
+    </p>
   </div>
 </footer>
 

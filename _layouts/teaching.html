@@ -1,0 +1,682 @@
+---
+layout: default
+---
+
+{% assign first_task = page.tasks | first %}
+{% assign default_mode = page.modes | first %}
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">{{ page.header.heading }}</h1>
+    <p class="page-desc">{{ page.header.subtext }}</p>
+    {% if page.header.note %}
+    <p class="page-header-note">{{ page.header.note }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<nav class="guide-top-nav" aria-label="Section navigation">
+  <div class="guide-top-nav-inner">
+    {% for sec in page.sections %}
+    <button class="guide-top-nav-link{% if sec.id == page.default_section %} active{% endif %}" type="button" data-section="{{ sec.id }}">{{ sec.label }}</button>
+    {% endfor %}
+  </div>
+</nav>
+
+<div class="guide-wrap">
+  <aside class="guide-sidebar" aria-label="Section contents">
+    <div class="sidebar-sticky">
+      <h2 class="sidebar-label">{{ page.labels.sidebar_label }}</h2>
+      {% for sec in page.sections %}
+      <button class="guide-section-link{% if sec.id == page.default_section %} active{% endif %}{% if sec.sub %} has-sub{% endif %}" type="button" data-section="{{ sec.id }}"{% if sec.sub %} aria-expanded="false" aria-controls="sub-{{ sec.id }}"{% endif %}>
+        <span>{{ sec.label }}</span>{% if sec.sub %}<span class="sub-caret" aria-hidden="true"></span>{% endif %}
+      </button>
+
+      {% if sec.sub == 'blocks' %}
+      <div class="guide-sublist" id="sub-{{ sec.id }}" data-sub-for="{{ sec.id }}" role="group" aria-label="Topics" hidden>
+        {% for block in page.start_here.blocks %}
+        <button class="guide-sublink guide-guideline-sublink" type="button" data-guideline-id="{{ block.heading | slugify }}">{{ block.heading }}</button>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if sec.sub == 'tasks' %}
+      <div class="guide-sublist" id="sub-{{ sec.id }}" data-sub-for="{{ sec.id }}" role="group" aria-label="Teaching tasks" hidden>
+        {% for task in page.tasks %}
+        <button class="guide-sublink guide-task-sublink{% if forloop.first %} active{% endif %}" type="button" data-task-id="{{ task.id }}">{{ task.title }}</button>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </aside>
+
+  <div class="guide-main">
+
+    <!-- ── Start here ─────────────────────────────────────── -->
+    <section class="guide-section{% if page.default_section == 'start-here' %} active{% endif %}" id="start-here" aria-labelledby="start-here-title">
+      <div class="guide-section-inner">
+        <div class="section-header">
+          <h2 class="section-title" id="start-here-title">{{ page.start_here.title }}</h2>
+          <p class="section-desc">{{ page.start_here.desc }}</p>
+        </div>
+
+        <div class="guidelines-body">
+          {% for block in page.start_here.blocks %}
+          <article class="guideline-block" id="gg-{{ block.heading | slugify }}">
+            <h3 class="guideline-heading">{{ block.heading }}</h3>
+            {% for para in block.paras %}
+            <p>{{ para | replace: '%BASEURL%', site.baseurl }}</p>
+            {% endfor %}
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Find your task ─────────────────────────────────── -->
+    <section class="guide-section{% if page.default_section == 'teaching-tasks' %} active{% endif %}" id="teaching-tasks" data-mode="{{ default_mode.id }}" aria-labelledby="teaching-tasks-title">
+      <div class="guide-section-inner">
+        <div class="section-header">
+          <h2 class="section-title" id="teaching-tasks-title">{{ page.labels.tasks_title }}</h2>
+          <p class="section-desc">{{ page.labels.tasks_desc }}</p>
+        </div>
+
+        {% if page.tasks_disclaimer %}
+        <p class="guide-disclaimer">{{ page.tasks_disclaimer }}</p>
+        {% endif %}
+
+        <!-- Mode toggle: which situation the reader is in -->
+        <div class="mode-toggle-wrap">
+          <h3 class="col-label">{{ page.labels.mode_label }}</h3>
+          <div class="mode-toggle" role="group" aria-label="{{ page.labels.mode_label }}">
+            {% for mode in page.modes %}
+            <button class="mode-btn{% if forloop.first %} active{% endif %}" type="button" data-mode-id="{{ mode.id }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ mode.label }}</button>
+            {% endfor %}
+          </div>
+          {% for mode in page.modes %}
+          <p class="mode-blurb" data-for-mode="{{ mode.id }}">{{ mode.blurb }}</p>
+          {% endfor %}
+        </div>
+
+        <!-- Suggested order: navigation into the tasks below, not content -->
+        {% for mode in page.modes %}
+        <div class="sequence-strip" data-for-mode="{{ mode.id }}">
+          <h3 class="col-label">{{ page.labels.sequence_label }}</h3>
+          <ol class="sequence-list">
+            {% for step in mode.sequence %}
+            <li class="sequence-step">
+              <button class="sequence-btn" type="button" data-task-id="{{ step.task }}">
+                <span class="sequence-num">{{ step.num }}</span>
+                <span class="sequence-body">
+                  <span class="sequence-title">{{ step.title }}</span>
+                  <span class="sequence-desc">{{ step.desc }}</span>
+                </span>
+              </button>
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
+        {% endfor %}
+
+        <div class="task-bar-sentinel" aria-hidden="true"></div>
+        <div class="task-cards-grid" id="task-bar">
+          {% for task in page.tasks %}
+          <button class="task-card{% if forloop.first %} active{% endif %}" type="button" data-task-id="{{ task.id }}" onclick="showTask('{{ task.id }}')" aria-controls="task-{{ task.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+            <span class="task-card-head">
+              <span class="task-card-title">{{ task.title }}</span>
+            </span>
+            <span class="task-card-sub">{{ task.subtitle }}</span>
+          </button>
+          {% endfor %}
+        </div>
+
+        <div class="task-panels">
+          {% for task in page.tasks %}
+          <div id="task-{{ task.id }}" class="task-panel{% if forloop.first %} active{% endif %}" role="region" aria-labelledby="task-title-{{ task.id }}">
+            <h3 class="task-panel-title" id="task-title-{{ task.id }}">{{ task.title }}</h3>
+            <p class="task-panel-sub">{{ task.subtitle }}</p>
+
+            {% for mode in page.modes %}
+            <p class="task-intro" data-for-mode="{{ mode.id }}">{{ task.intro[mode.id] }}</p>
+            {% endfor %}
+
+            <div class="task-panel-cols">
+              <div>
+                <h4 class="col-label">{{ page.labels.helps_heading }}</h4>
+                <ul class="check-list">
+                  {% for item in task.helps %}
+                  <li>
+                    <svg width="13" height="13" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>{{ item }}
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div>
+                <h4 class="col-label">{{ page.labels.tools_heading }}</h4>
+                <div class="tool-chips">
+                  {% for tool in task.tools %}
+                  <a href="{{ '/tools/' | relative_url }}#{{ tool.fn }}" class="tool-chip tool-fn-chip">{{ tool.label }}</a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+            <div class="keep-yours">
+              <div class="col-label keep-yours-label">{{ page.labels.keep_heading }}</div>
+              <ul class="keep-yours-list">
+                {% for item in task.keep_yourself %}
+                <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <div class="do-dont-grid">
+              <div class="do-col">
+                <h4 class="do-dont-label do-label">{{ page.labels.do_heading }}</h4>
+                <ul class="do-dont-list">
+                  {% for item in task.dos %}
+                  <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="dont-col">
+                <h4 class="do-dont-label dont-label">{{ page.labels.dont_heading }}</h4>
+                <ul class="do-dont-list">
+                  {% for item in task.donts %}
+                  <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+
+            <div class="task-prompts-wrap">
+              <h4 class="col-label">{{ page.labels.prompts_heading }}</h4>
+              {% for prompt in task.prompts %}
+              <div class="task-prompt-item"{% if prompt.mode %} data-for-mode="{{ prompt.mode }}"{% endif %}>
+                <h5 class="prompt-label">{{ prompt.label }}{% if prompt.mode %} <span class="prompt-status-chip prompt-status-chip--{{ prompt.mode }}">{{ page.labels.mode_labels[prompt.mode] }}</span>{% endif %}</h5>
+                <div class="prompt-block"><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ prompt.text | strip }}</span></div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── AI-resilient assessment ────────────────────────── -->
+    <section class="guide-section" id="assessment" aria-labelledby="assessment-title">
+      <div class="guide-section-inner">
+        <div class="section-header">
+          <h2 class="section-title" id="assessment-title">{{ page.assessment.title }}</h2>
+          <p class="section-desc">{{ page.assessment.desc }}</p>
+        </div>
+
+        <p class="assessment-intro">{{ page.assessment.intro }}</p>
+
+        <h3 class="col-label">{{ page.labels.shifts_label }}</h3>
+        <div class="shift-grid">
+          {% for shift in page.assessment.shifts %}
+          <article class="shift-card">
+            <span class="shift-num" aria-hidden="true">{{ shift.num }}</span>
+            <h3 class="shift-title">
+              <span class="sr-only">Replace: </span><s class="shift-from">{{ shift.from }}</s><span class="sr-only"> with: </span>
+              <span class="shift-arrow" aria-hidden="true">&rarr;</span>
+              <span class="shift-to">{{ shift.to }}</span>
+            </h3>
+            <p class="shift-body">{{ shift.body }}</p>
+            <p class="shift-cost"><span class="shift-cost-label">{{ page.labels.makeover_cost }}</span> {{ shift.cost }}</p>
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="makeovers-wrap">
+          <h3 class="col-label">{{ page.labels.makeovers_label }}</h3>
+          <p class="makeovers-desc">{{ page.assessment.makeovers_desc }}</p>
+
+          <div class="filter-row makeover-filter-row">
+            {% for d in page.divisions %}
+            <button class="fpill makeover-filter{% if d.id == 'all' %} active{% endif %}" type="button" aria-pressed="{% if d.id == 'all' %}true{% else %}false{% endif %}" data-division="{{ d.id }}">{{ d.label }}</button>
+            {% endfor %}
+          </div>
+
+          <div class="makeover-grid" id="makeover-grid">
+            {% for mk in page.assessment.makeovers %}
+            <article class="makeover-card" data-division="{{ mk.division }}">
+              <div class="makeover-meta">
+                <span class="prompt-meta-chip">{{ mk.division | replace: '-', ' ' }}</span>
+                <span class="makeover-course-type">{{ mk.course_type }}</span>
+              </div>
+              <div class="makeover-cols">
+                <div class="makeover-before">
+                  <h4 class="makeover-col-label makeover-col-label--before">{{ page.labels.makeover_before }}</h4>
+                  <p class="makeover-task">{{ mk.before.task }}</p>
+                  <p class="makeover-note"><span class="makeover-note-label">{{ page.labels.makeover_breaks }}</span> {{ mk.before.why_it_breaks }}</p>
+                </div>
+                <div class="makeover-after">
+                  <h4 class="makeover-col-label makeover-col-label--after">{{ page.labels.makeover_after }}</h4>
+                  <p class="makeover-task">{{ mk.after.task }}</p>
+                  <p class="makeover-note"><span class="makeover-note-label">{{ page.labels.makeover_measures }}</span> {{ mk.after.what_it_now_measures }}</p>
+                  <p class="makeover-note makeover-note--cost"><span class="makeover-note-label">{{ page.labels.makeover_cost }}</span> {{ mk.after.cost_to_you }}</p>
+                </div>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Your course AI policy ──────────────────────────── -->
+    <section class="guide-section" id="ai-policy" aria-labelledby="ai-policy-title">
+      <div class="guide-section-inner">
+        <div class="section-header">
+          <h2 class="section-title" id="ai-policy-title">{{ page.policy.title }}</h2>
+          <p class="section-desc">{{ page.policy.desc }}</p>
+        </div>
+
+        <div class="guidelines-body">
+          <article class="guideline-block">
+            {% for para in page.policy.intro %}
+            <p>{{ para | replace: '%BASEURL%', site.baseurl }}</p>
+            {% endfor %}
+          </article>
+        </div>
+
+        <h3 class="col-label">{{ page.labels.stances_label }}</h3>
+        <div class="policy-stance-grid">
+          {% for st in page.policy.stances %}
+          <article class="policy-stance">
+            <h3 class="policy-stance-name">{{ st.name }}</h3>
+            <div class="policy-stance-row">
+              <span class="policy-stance-label">{{ page.labels.stance_fits }}</span>
+              <p>{{ st.fits_when }}</p>
+            </div>
+            <div class="policy-stance-row">
+              <span class="policy-stance-label">{{ page.labels.stance_tradeoff }}</span>
+              <p>{{ st.tradeoff }}</p>
+            </div>
+            <div class="policy-stance-row policy-stance-row--watch">
+              <span class="policy-stance-label">{{ page.labels.stance_watch }}</span>
+              <p>{{ st.watch_out }}</p>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="do-dont-grid policy-checks">
+          <div class="do-col">
+            <h4 class="do-dont-label do-label">{{ page.labels.must_answer_label }}</h4>
+            <ul class="do-dont-list">
+              {% for item in page.policy.must_answer %}
+              <li>{{ item | replace: '%BASEURL%', site.baseurl }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="dont-col">
+            <h4 class="do-dont-label dont-label">{{ page.labels.failure_modes_label }}</h4>
+            <ul class="do-dont-list">
+              {% for item in page.policy.failure_modes %}
+              <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <p class="policy-alignment">{{ page.policy.alignment_note | replace: '%BASEURL%', site.baseurl }}</p>
+      </div>
+    </section>
+
+  </div><!-- .guide-main -->
+
+  {% assign starts_in_tasks = false %}
+  {% if page.default_section == 'teaching-tasks' %}{% assign starts_in_tasks = true %}{% endif %}
+  <aside class="guide-rail" aria-label="Things to keep in mind" role="complementary">
+    <div class="rail-sticky">
+      <div class="rail-inner">
+      {% for r in page.rail_reminders %}
+      {% assign r_active = false %}
+      {% if starts_in_tasks %}
+        {% if r.for_tasks contains first_task.id %}{% assign r_active = true %}{% endif %}
+      {% elsif r.default %}
+        {% assign r_active = true %}
+      {% endif %}
+      <div class="rail-reminder{% if r_active %} active{% endif %}"
+           data-reminder-id="{{ r.id }}"
+           data-for-tasks="{% if r.for_tasks %}{{ r.for_tasks | join: ',' }}{% endif %}"
+           {% if r.default %}data-default="true"{% endif %}>
+        <h3 class="rail-label">{{ page.labels.rail_heading }}</h3>
+        <h4 class="rail-reminder-title">{{ r.title }}</h4>
+        <p class="rail-reminder-body">{{ r.body }}</p>
+      </div>
+      {% endfor %}
+
+      {% for task in page.tasks %}
+      <div class="rail-risks{% if starts_in_tasks and forloop.first %} active{% endif %}" data-task-id="{{ task.id }}">
+        <h3 class="rail-label rail-label--risks">{{ page.labels.risks_heading }}</h3>
+        <ul class="rail-risk-list">
+          {% for risk in task.risks %}
+          <li>{{ risk }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+  </aside>
+</div><!-- .guide-wrap -->
+
+<script>
+  /* Right rail: task cautions follow the open task; one standing reminder
+     rotates to suit it, falling back to the one marked default. */
+  function syncRail(taskId, inTasks) {
+    var rail = document.querySelector('.guide-rail');
+    if (!rail) return;
+
+    rail.querySelectorAll('.rail-risks').forEach(function (b) {
+      b.classList.toggle('active', inTasks && b.getAttribute('data-task-id') === taskId);
+    });
+
+    var chosen = null, fallback = null;
+    rail.querySelectorAll('.rail-reminder').forEach(function (r) {
+      if (r.getAttribute('data-default') === 'true') fallback = r;
+      var forTasks = (r.getAttribute('data-for-tasks') || '').split(',');
+      if (inTasks && taskId && forTasks.indexOf(taskId) !== -1) chosen = r;
+    });
+    var show = chosen || fallback;
+    rail.querySelectorAll('.rail-reminder').forEach(function (r) {
+      r.classList.toggle('active', r === show);
+    });
+  }
+
+  /* ── Where you are lives in the URL ─────────────────────
+     The open section and task are written back to the address bar, so a refresh
+     returns to what you were reading instead of resetting to the first section.
+     replaceState rather than pushState: this is where you already are, not a new
+     place for the back button to return from, and it fires no hashchange. */
+  var TASKS_SECTION = 'teaching-tasks';
+
+  function activeTaskId() {
+    var panel = document.querySelector('.task-panel.active');
+    return panel ? panel.id.replace('task-', '') : null;
+  }
+
+  function syncUrl() {
+    var section = document.querySelector('.guide-main .guide-section.active');
+    if (!section) return;
+    var hash = '#' + section.id;
+    if (section.id === TASKS_SECTION) {
+      var task = activeTaskId();
+      if (task) hash += '/' + task;
+    }
+    history.replaceState(null, '', location.pathname + location.search + hash);
+  }
+
+  function showTask(id) {
+    document.querySelectorAll('.task-panel').forEach(p => p.classList.remove('active'));
+    var panel = document.getElementById('task-' + id);
+    if (panel) panel.classList.add('active');
+    document.querySelectorAll('.task-card').forEach(b => {
+      var on = b.getAttribute('data-task-id') === id;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-expanded', on ? 'true' : 'false');
+    });
+    document.querySelectorAll('.guide-task-sublink').forEach(l => {
+      l.classList.toggle('active', l.getAttribute('data-task-id') === id);
+    });
+    var tasksView = document.getElementById('teaching-tasks');
+    syncRail(id, !!tasksView && tasksView.classList.contains('active'));
+    syncUrl();
+  }
+
+  // Shared polite live region — a text swap inside a button is not announced on its own.
+  function announce(msg) {
+    var r = document.getElementById('a11y-live');
+    if (!r) {
+      r = document.createElement('div');
+      r.id = 'a11y-live';
+      r.className = 'sr-only';
+      r.setAttribute('aria-live', 'polite');
+      document.body.appendChild(r);
+    }
+    r.textContent = '';
+    setTimeout(function () { r.textContent = msg; }, 50);
+  }
+
+  function copyPrompt(btn) {
+    const block = btn.closest('.prompt-block, .uc-mini-prompt');
+    const el = block.querySelector('.prompt-text');
+    const text = (el ? el.textContent : block.textContent).trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      announce('Prompt copied to clipboard');
+      setTimeout(() => btn.textContent = 'Copy', 1500);
+    });
+  }
+
+  (function () {
+    /* ── Mode toggle ──────────────────────────────────────────
+       One persistent choice — revising an existing course vs building a
+       new one — that swaps the suggested order, each task's framing, and
+       the mode-specific prompts. Everything else is shared, so the task
+       cards deliberately keep their position when the mode changes. */
+    var MODE_KEY = 'teaching-mode';
+    var tasksSection = document.getElementById('teaching-tasks');
+
+    function setMode(id, persist) {
+      if (!tasksSection || !id) return;
+      tasksSection.setAttribute('data-mode', id);
+      document.querySelectorAll('.mode-btn').forEach(function (b) {
+        var on = b.getAttribute('data-mode-id') === id;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      if (persist) {
+        try { localStorage.setItem(MODE_KEY, id); } catch (e) { /* private mode */ }
+      }
+    }
+
+    document.querySelectorAll('.mode-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        setMode(btn.getAttribute('data-mode-id'), true);
+      });
+    });
+
+    var savedMode = null;
+    try { savedMode = localStorage.getItem(MODE_KEY); } catch (e) { /* private mode */ }
+    if (savedMode && document.querySelector('.mode-btn[data-mode-id="' + savedMode + '"]')) {
+      setMode(savedMode, false);
+    }
+
+    /* Suggested-order steps are navigation: they open the task they name. */
+    document.querySelectorAll('.sequence-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-task-id');
+        if (!document.getElementById('task-' + id)) return;
+        showTask(id);
+        var panels = document.querySelector('.task-panels');
+        if (!panels) return;
+        var y = Math.max(0, panels.getBoundingClientRect().top + window.scrollY - 104);
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      });
+    });
+
+    /* ── Section switching via the sidebar and the mobile pill bar ── */
+    function showSection(id, keepScroll) {
+      document.querySelectorAll('.guide-main .guide-section').forEach(function (s) {
+        s.classList.toggle('active', s.id === id);
+      });
+      document.querySelectorAll('.guide-section-link, .guide-top-nav-link').forEach(function (l) {
+        var on = l.getAttribute('data-section') === id;
+        l.classList.toggle('active', on);
+        if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
+      });
+      var inTasks = id === 'teaching-tasks';
+      var currentPanel = document.querySelector('.task-panel.active');
+      var currentTask = currentPanel ? currentPanel.id.replace('task-', '') : null;
+      document.querySelectorAll('.guide-task-sublink').forEach(function (l) {
+        l.classList.toggle('active', inTasks && l.getAttribute('data-task-id') === currentTask);
+      });
+      if (id !== 'start-here') {
+        document.querySelectorAll('.guide-guideline-sublink').forEach(function (l) {
+          l.classList.remove('active');
+        });
+      }
+      syncRail(currentTask, inTasks);
+      syncUrl();
+      if (keepScroll) return;
+      var wrap = document.querySelector('.guide-wrap');
+      var wrapTop = wrap.getBoundingClientRect().top + window.scrollY - 88;
+      if (window.scrollY > wrapTop) window.scrollTo({ top: wrapTop });
+    }
+    document.querySelectorAll('.guide-section-link, .guide-top-nav-link').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        showSection(btn.getAttribute('data-section'));
+      });
+    });
+    /* Section ids double as page anchors, so honour the hash on load and on
+       change — a link to #ai-policy from elsewhere on this page changes only
+       the hash, which would otherwise leave the view where it was. */
+    /* Restore the task first: showSection reads which panel is open to sync the
+       sub-links and the rail. On load keepScroll, so this does not fight the browser's
+       own scroll restoration on a refresh; a hashchange mid-page still scrolls. */
+    function showSectionFromHash(keepScroll) {
+      var parts = location.hash.slice(1).split('/');
+      if (!parts[0]) return;
+      var el = document.getElementById(parts[0]);
+      if (!el || !el.classList.contains('guide-section')) return;
+      if (parts[1] && document.getElementById('task-' + parts[1])) showTask(parts[1]);
+      showSection(parts[0], keepScroll);
+      if (openSublistFor) openSublistFor(parts[0]);
+    }
+    window.addEventListener('hashchange', function () { showSectionFromHash(false); });
+
+    /* ── Makeover division filter ─────────────────────────── */
+    document.querySelectorAll('.makeover-filter').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.makeover-filter').forEach(function (b) {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.setAttribute('aria-pressed', 'true');
+        btn.classList.add('active');
+        var division = btn.getAttribute('data-division');
+        document.querySelectorAll('.makeover-card').forEach(function (card) {
+          var show = division === 'all' || card.getAttribute('data-division') === division;
+          card.hidden = !show;
+        });
+      });
+    });
+
+    var openSublistFor;
+
+    /* ── Sidebar dropdowns — one open at a time ───────────── */
+    (function () {
+      var headers = document.querySelectorAll('.guide-section-link.has-sub');
+      var lists = document.querySelectorAll('.guide-sublist');
+
+      function closeAll() {
+        lists.forEach(function (l) { l.hidden = true; });
+        headers.forEach(function (h) { h.setAttribute('aria-expanded', 'false'); });
+      }
+
+      /* Used when the view is restored from the URL rather than clicked into: the
+         section that comes back open gets its list back open with it. */
+      openSublistFor = function (id) {
+        var header = document.querySelector('.guide-section-link.has-sub[data-section="' + id + '"]');
+        if (!header) return;
+        closeAll();
+        lists.forEach(function (l) {
+          if (l.getAttribute('data-sub-for') === id) l.hidden = false;
+        });
+        header.setAttribute('aria-expanded', 'true');
+      };
+
+      document.querySelectorAll('.guide-section-link').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-section');
+          var wasOpen = btn.getAttribute('aria-expanded') === 'true';
+          closeAll();
+          if (wasOpen || !btn.classList.contains('has-sub')) return;
+          lists.forEach(function (l) {
+            if (l.getAttribute('data-sub-for') === id) l.hidden = false;
+          });
+          btn.setAttribute('aria-expanded', 'true');
+        });
+      });
+    })();
+
+    showSectionFromHash(true);
+
+    /* Start-here sub-links scroll to their block within the one section */
+    document.querySelectorAll('.guide-guideline-sublink').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var wasActive = document.getElementById('start-here').classList.contains('active');
+        showSection('start-here', true);
+        document.querySelectorAll('.guide-guideline-sublink').forEach(function (l) {
+          l.classList.toggle('active', l === btn);
+        });
+        var target = document.getElementById('gg-' + btn.getAttribute('data-guideline-id'));
+        if (!target) return;
+        var y = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 104);
+        window.scrollTo({ top: y, behavior: wasActive ? 'smooth' : 'auto' });
+      });
+    });
+
+    /* Sidebar task sub-links */
+    document.querySelectorAll('.guide-task-sublink').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var wasActive = document.getElementById('teaching-tasks').classList.contains('active');
+        showSection('teaching-tasks', true);
+        showTask(btn.getAttribute('data-task-id'));
+        var panels = document.querySelector('.task-panels');
+        if (!panels) return;
+        var y = Math.max(0, panels.getBoundingClientRect().top + window.scrollY - 104);
+        window.scrollTo({ top: y, behavior: wasActive ? 'smooth' : 'auto' });
+      });
+    });
+
+    /* Rail box spans from the page-header rule (while it is on screen) or the
+       site nav (once it is not) down to the bottom of the viewport. */
+    (function () {
+      var NAV = 88;
+      var railBox = document.querySelector('.rail-sticky');
+      var wrap = document.querySelector('.guide-wrap');
+      if (!railBox || !wrap) return;
+      var narrow = window.matchMedia('(max-width: 1024px)');
+      var ticking = false;
+
+      function syncRailBox() {
+        ticking = false;
+        if (narrow.matches) {
+          railBox.style.top = '';
+          railBox.style.height = '';
+          return;
+        }
+        var top = Math.max(NAV, wrap.getBoundingClientRect().top);
+        railBox.style.top = top + 'px';
+        railBox.style.height = (window.innerHeight - top) + 'px';
+      }
+      function request() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(syncRailBox);
+      }
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request);
+      syncRailBox();
+    })();
+
+    /* Sticky task bar compact mode (mobile, where the cards are visible) */
+    var taskBar = document.getElementById('task-bar');
+    var taskBarSentinel = document.querySelector('.task-bar-sentinel');
+    if (taskBar && taskBarSentinel && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        taskBar.classList.toggle('task-bar--stuck', !entries[0].isIntersecting);
+      }, { rootMargin: '-120px 0px 0px 0px' }).observe(taskBarSentinel);
+    }
+  })();
+</script>

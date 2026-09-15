@@ -1,0 +1,840 @@
+/* =========================================================
+   guide — shared shell + components for the task-guide pages
+   (For Learning, For Teaching)  →  assets/css/guide.css
+
+   Loaded before each page's own stylesheet. Global styles live in
+   assets/css/main.css. Anything here is used by more than one guide
+   page; page-specific rules stay in students.css / teaching.css.
+   ========================================================= */
+
+/* ── Page header (shared .page-header styles live in main.css) ── */
+/* ── Section layout (sidebar + main) ──────────────────── */
+.guide-top-nav {
+  display: none;
+  position: sticky;
+  /* Flush under the site nav, whose measured height default.html publishes. 68px was
+     a guess 5px taller than the 63px the nav renders on narrow screens, the only place
+     this bar shows, so content scrolled visibly through the gap. The fallback is that
+     measured value, for the moment before the script runs. */
+  top: var(--site-nav-h, 63px);
+  z-index: 400;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.guide-top-nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.5rem 1.25rem;
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.guide-top-nav-inner::-webkit-scrollbar { display: none; }
+
+.guide-top-nav-link {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-2);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.45rem 0.85rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+
+.guide-top-nav-link:hover { color: var(--text); }
+.guide-top-nav-link.active {
+  color: var(--teal-text);
+  background: rgba(43, 138, 138, 0.08);
+}
+
+.guide-wrap {
+  display: flex;
+  gap: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 0;
+}
+
+.guide-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  padding: 2rem 0;
+}
+
+.guide-sidebar .sidebar-sticky {
+  position: sticky;
+  top: 88px;
+}
+
+.guide-section-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  padding: 0.6rem 1.25rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.guide-section-link:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.guide-section-link.active {
+  color: var(--teal-text);
+  border-left-color: var(--teal);
+  background: rgba(43, 138, 138, 0.06);
+}
+
+.guide-section-link.has-sub {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sub-caret {
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+  border-left: 4px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  opacity: 0.5;
+  transition: transform 0.18s ease;
+}
+
+.guide-section-link[aria-expanded="true"] .sub-caret {
+  transform: rotate(90deg);
+  opacity: 0.85;
+}
+
+/* Collapsible sub-lists under "General guidelines" and "Find your task" */
+.guide-sublist {
+  display: flex;
+  flex-direction: column;
+  padding: 0.1rem 0 0.35rem;
+}
+
+.guide-sublist[hidden] { display: none; }
+
+.guide-sublink {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  padding: 0.32rem 1.25rem 0.32rem 2rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.66rem;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.guide-sublink:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.guide-sublink.active {
+  color: var(--teal-text);
+  border-left-color: var(--teal);
+  background: rgba(43, 138, 138, 0.06);
+}
+
+.guide-main {
+  flex: 1;
+  min-width: 0;
+  /* min-width alone is not enough. Once .guide-wrap turns into a column at <=768px this
+     is a cross-axis item, and a child with a large max-content width — the scenario
+     carousel's 100%-wide cards, the nowrap mode toggle — drags the whole column past the
+     viewport, where body{overflow-x:hidden} silently clips it. This pins the column to
+     its container so wide children scroll or wrap inside instead. */
+  max-width: 100%;
+}
+
+.guide-main .guide-section {
+  padding: 3rem 2.25rem;
+  scroll-margin-top: 88px;
+}
+
+.guide-main .guide-section-inner {
+  max-width: none;
+  margin: 0;
+}
+
+/* Section views — one visible at a time, switched via the TOC */
+.guide-main .guide-section { display: none; }
+.guide-main .guide-section.active { display: block; }
+
+/* ── Sections ─────────────────────────────────────────── */
+.guide-section {
+  padding: 3.5rem 2rem;
+}
+
+.guide-section--alt {
+  background: var(--bg-1);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.guide-section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* .section-header / .section-title / .section-desc moved to main.css so pages that do
+   not load this file (evaluating.html) can use the same section heading pattern. */
+
+/* ── Task picker (narrow screens) ─────────────────────────
+   Markup and stick-point logic in _includes/task-picker.html. Hidden on wide screens,
+   where the sidebar sub-links switch tasks. */
+.task-picker { display: none; }
+
+@media (max-width: 768px) {
+  .task-picker {
+    display: block;
+    position: sticky;
+    top: 63px;             /* fallback only: the include measures the real stick point */
+    z-index: 300;          /* under .guide-top-nav (400) and .site-nav (500) */
+    background: var(--bg);
+    padding: 0.5rem 0;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .task-picker.is-stuck { border-bottom-color: var(--border); }
+}
+
+/* ── Filter dropdowns (narrow screens) ───────────────────────
+   Built in _layouts/students.html from each pill row. Pills on wide screens, the select
+   below 769px; the select looks like the task picker above. */
+.filter-select-field { display: none; }
+
+@media (max-width: 768px) {
+  .filter-row.has-select { display: none; }
+  .filter-select-field { display: block; }
+}
+
+.task-picker-field,
+.filter-select-field { position: relative; }
+
+/* Caret drawn from borders, like .sub-caret, so it follows the text colour in both
+   themes without an image. Decorative, and it lets clicks through to the select. */
+.task-picker-field::after,
+.filter-select-field::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--teal-text);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.task-picker-select,
+.filter-select {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  /* 0.9rem renders 16.2px: iOS zooms the page when a focused field is under 16px. */
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg-1);
+  border: 1px solid var(--border-teal);
+  border-radius: 8px;
+  padding: 0.7rem 2.5rem 0.7rem 1rem;
+  cursor: pointer;
+}
+[data-theme="dark"] .task-picker-select,
+[data-theme="dark"] .filter-select { color-scheme: dark; }
+
+/* ── Task Cards ───────────────────────────────────────── */
+.task-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-bottom: 1.5rem;
+  position: sticky;
+  top: 78px;             /* below .site-nav (renders ~78px tall on desktop) */
+  z-index: 300;          /* under .guide-top-nav (400) and .site-nav (500) */
+  background: var(--bg);
+  padding: 0.5rem 0;
+}
+
+.task-cards-grid.task-bar--stuck {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.task-cards-grid.task-bar--stuck::-webkit-scrollbar { display: none; }
+
+.task-bar--stuck .task-card {
+  flex: 0 0 auto;
+  width: auto;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.task-bar--stuck .task-card-sub { display: none; }
+.task-bar--stuck .task-card-head { margin-bottom: 0; }
+.task-bar--stuck .task-card-title { white-space: nowrap; font-size: 0.72rem; }
+
+/* Desktop: the sidebar sub-links replace the task cards; the grid stays mobile-only */
+@media (min-width: 769px) {
+  .task-cards-grid,
+  .task-cards-grid.task-bar--stuck { display: none; }
+}
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--bg-1);
+  border: 1px solid var(--border-control);
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  cursor: pointer;
+  color: inherit;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.task-card:hover {
+  border-color: var(--border-teal);
+  transform: translateY(-1px);
+}
+
+.task-card.active {
+  border-color: var(--teal);
+  background: rgba(43, 138, 138, 0.08);
+  box-shadow: 0 0 0 1px rgba(43, 138, 138, 0.15);
+}
+
+.task-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.25rem;
+  width: 100%;
+}
+
+.task-card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.task-card-sub {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+
+.task-panels {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-1);
+  overflow: hidden;
+  scroll-margin-top: 96px;
+}
+
+.task-panel {
+  display: none;
+  padding: 2rem 2.25rem 2.5rem;
+}
+
+.task-panel.active {
+  display: block;
+}
+
+.task-panel-title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  color: var(--text);
+  margin-bottom: 0.15rem;
+}
+
+.task-panel-sub {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+}
+
+.task-panel-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prompt-note {
+  margin: 0 0 0.5rem;
+  padding-left: 0.7rem;
+  border-left: 2px solid rgba(252, 67, 117, 0.5);
+  font-size: 0.74rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  max-width: 44rem;
+}
+
+.guide-disclaimer {
+  background: rgba(252, 67, 117, 0.06);
+  border: 1px solid rgba(252, 67, 117, 0.2);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  font-size: 0.76rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+  max-width: 42rem;
+}
+
+/* ── Small-label floor ─────────────────────────────────
+   Every uppercase micro-label below was 0.56–0.62rem, which is 8.96–9.92px at a default
+   16px root — under the 10px floor that accessibility checkers flag as "very small text",
+   and hard to read as letterspaced uppercase regardless. 0.65rem is the floor used across
+   the guide family (see the same value on .col-label / .do-dont-label / .rail-label), and
+   it clears 10px whether or not the reader keeps the browser default.
+   ─────────────────────────────────────────────────── */
+.prompt-status-chip {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.5rem;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+.prompt-status-chip--independent {
+  background: rgba(43, 138, 138, 0.1);
+  color: var(--teal-text);
+  border: 1px solid var(--border-teal);
+}
+
+.prompt-status-chip--permission {
+  background: rgba(201, 162, 39, 0.12);
+  color: var(--gold-text);
+  border: 1px solid rgba(201, 162, 39, 0.4);
+}
+
+.task-external-tools {
+  margin-top: 1rem;
+}
+
+.task-external-tools-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.5rem;
+}
+
+.task-external-tools-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.task-external-tools-list li {
+  margin-bottom: 0.65rem;
+  padding-left: 0;
+}
+
+.task-external-tools-list li:last-child {
+  margin-bottom: 0;
+}
+
+.task-external-tools-list a {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--teal-text);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.task-external-tools-list a:hover {
+  color: var(--pink-text);
+  text-decoration: underline;
+}
+
+.task-external-tools-desc {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  margin-top: 0.15rem;
+}
+
+/* Do / Don't grid */
+.do-dont-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.do-col,
+.dont-col {
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+}
+
+.do-col {
+  background: rgba(43, 138, 138, 0.06);
+  border: 1px solid rgba(43, 138, 138, 0.2);
+}
+
+.dont-col {
+  background: rgba(252, 67, 117, 0.04);
+  border: 1px solid rgba(252, 67, 117, 0.15);
+}
+
+.do-dont-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.do-label { color: var(--teal-text); }
+.dont-label { color: var(--pink-text); }
+
+.do-dont-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.do-dont-list li {
+  font-size: 0.76rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  padding-left: 1rem;
+  position: relative;
+  margin-bottom: 0.4rem;
+}
+
+.do-col .do-dont-list li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: var(--teal-text);
+  font-size: 0.7rem;
+}
+
+.dont-col .do-dont-list li::before {
+  content: "\00D7";
+  position: absolute;
+  left: 0;
+  color: var(--pink-text);
+  font-size: 0.85rem;
+}
+
+.task-prompts-wrap {
+  margin-top: 0.5rem;
+}
+
+.task-prompt-item {
+  margin-top: 1rem;
+}
+
+.task-prompt-item .prompt-block {
+  font-size: 0.76rem;
+  padding: var(--prompt-pad-top) 1.25rem 1rem;
+}
+.filter-group-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--teal-text);
+  margin-bottom: 0.5rem;
+}
+.prompt-block--compact {
+  font-size: 0.72rem;
+  padding: var(--prompt-pad-top) 1rem 0.85rem;
+  margin-bottom: 0.65rem;
+}
+
+.prompt-why {
+  font-size: 0.72rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.prompt-why strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+[data-theme="light"] .task-card.active {
+  background: rgba(43, 138, 138, 0.06);
+}
+
+/* ── Guide shell responsive ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .task-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .guide-sidebar { width: 170px; }
+}
+
+@media (max-width: 768px) {
+  .guide-top-nav { display: block; }
+  .guide-sidebar { display: none; }
+  .guide-wrap { flex-direction: column; max-width: none; }
+  .guide-main .guide-section { padding: 2.5rem 1.25rem; scroll-margin-top: 120px; }
+  .task-cards-grid { grid-template-columns: repeat(2, 1fr); top: 116px; }  /* below the sticky section pill bar (bottom = 116px) */
+  .task-panel { padding: 1.5rem 1.25rem 2rem; }
+  .task-panel-cols,
+  .do-dont-grid { grid-template-columns: 1fr; gap: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .guide-main .guide-section { padding: 2rem 1rem; }
+  .task-cards-grid { grid-template-columns: 1fr; }
+  .task-card { padding: 0.85rem 1rem; }
+  .task-panel { padding: 1.25rem 1rem 1.75rem; }
+  .guide-section .section-title { font-size: clamp(1.4rem, 5vw, 1.8rem); }
+}
+
+/* ── Right rail — standing reminders + the open task's cautions ──────────
+   Deliberately borderless on the left: the reviewer wanted no divider
+   between the main column and the rail. */
+.guide-rail {
+  width: 260px;
+  flex-shrink: 0;
+  /* no vertical padding: .rail-sticky sets its own top and height so the
+     content centres against the divider rather than against the padding */
+  padding: 0 0 0 2.25rem;
+}
+
+/* Sticky box spans the viewport below the site nav. Because it is sticky
+   rather than transformed, it can never ride up over the page-header rule —
+   at the top of the page it starts at the divider and centres in what is
+   visible below it. */
+.rail-sticky {
+  position: sticky;
+  top: 88px;
+  height: calc(100vh - 88px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* auto margins centre the content, and collapse to 0 when it is taller than
+   the box — so tall rails start at the top and scroll instead of clipping */
+.rail-inner {
+  margin-block: auto;
+  width: 100%;
+}
+
+.rail-reminder,
+.rail-risks {
+  display: none;
+}
+
+.rail-reminder.active,
+.rail-risks.active {
+  display: block;
+  animation: railFade 0.25s ease;
+}
+
+@keyframes railFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.rail-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.6rem;
+}
+
+.rail-reminder {
+  border-left: 2px solid var(--gold);
+  padding-left: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.rail-reminder-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+}
+
+.rail-reminder-body {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.65;
+  color: var(--text-2);
+}
+
+.rail-label--risks {
+  color: var(--pink-text);
+}
+
+.rail-risk-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rail-risk-list li {
+  position: relative;
+  padding-left: 0.9rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+
+.rail-risk-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--pink);
+}
+
+/* ── General guidelines ─────────────────────────────────────────────── */
+/* No max-width: the guidelines body matches the task panels' full column
+   width so the three columns read identically across both views. */
+.guidelines-body {
+  max-width: none;
+}
+
+/* The intro line sits above that body, so it shares its width rather than
+   the narrower default measure used by the other sections. */
+#general-guidelines .section-desc {
+  max-width: none;
+}
+
+.guideline-block + .guideline-block {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.guideline-heading {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--text);
+  margin: 0 0 0.9rem;
+}
+
+.guideline-block p {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+
+.guideline-block p:last-child {
+  margin-bottom: 0;
+}
+
+.guideline-block a {
+  color: var(--teal-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.guideline-block a:hover {
+  text-decoration: underline;
+}
+/* ── Rail responsive: below ~1024px it joins the flow under the main
+   column rather than sitting beside it. ─────────────────────────────── */
+@media (max-width: 1180px) {
+  .guide-rail { width: 220px; padding-left: 1.5rem; }
+}
+
+@media (max-width: 1024px) {
+  .guide-wrap { flex-wrap: wrap; }
+  .guide-rail {
+    width: 100%;
+    order: 3;
+    /* left inset matches the sidebar so the rail lines up with the main column */
+    padding: 0 2.25rem 3rem calc(170px + 2.25rem);
+  }
+  .rail-sticky {
+    position: static;
+    height: auto;
+    display: block;
+    overflow-y: visible;
+  }
+  .rail-inner { margin-block: 0; }
+  .rail-reminder { margin-bottom: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+  .guide-rail { padding: 0 1.25rem 2.5rem; }
+}
+
+@media (max-width: 480px) {
+  .guide-rail { padding: 0 1rem 2rem; }
+}
+.guide-guideline-sublink {
+  line-height: 1.45;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+.guideline-block {
+  scroll-margin-top: 104px;
+}

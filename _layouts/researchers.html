@@ -12,125 +12,233 @@ layout: default
   </div>
 </div>
 
-<div class="researchers-wrap">
-  <!-- Sidebar -->
-  <div class="sidebar">
+{% comment %}
+  Same three-column shell as the teaching and learning guides: sidebar, main column,
+  right rail. The rail is empty here — it is kept so the main column comes out the same
+  width as on the other two, not because there is anything to put in it.
+{% endcomment %}
+<div class="guide-wrap">
+  <aside class="guide-sidebar" aria-label="Section contents">
     <div class="sidebar-sticky">
-      <div class="sidebar-label">Research Tasks</div>
-      {% for phase in page.phases %}
-      <button class="phase-btn{% if forloop.first %} active{% endif %}" onclick="showPhase('{{ phase.id }}',this)">
-        <span class="phase-num">{{ phase.num }}</span>{{ phase.sidebar_label }}
-      </button>
-      {% endfor %}
-    </div>
-  </div>
+      <h2 class="sidebar-label">{{ page.labels.sidebar_label }}</h2>
 
-  <!-- Phase panels -->
-  <div class="phase-panels-wrap">
-    {% for phase in page.phases %}
-    <div id="phase-{{ phase.id }}" class="phase-content{% if forloop.first %} active{% endif %}">
+      {% comment %}
+        One section, so this entry is a label rather than a switch, and the sub-list under
+        it is always open: there is no second section to collapse it in favour of, and no
+        caret, which would promise a toggle that does not exist.
+      {% endcomment %}
+      <p class="guide-section-link guide-section-link--static">{{ page.labels.tasks_title }}</p>
 
-      {% if phase.callout %}
-      <div class="callout">{{ phase.callout }}</div>
-      {% endif %}
-
-      <span class="phase-big-num">{{ phase.num }}</span>
-      <h2 class="phase-title">{{ phase.title }}</h2>
-      <p class="phase-sub">{{ phase.subtitle }}</p>
-
-      <div class="phase-cols">
-        <div>
-          <div class="col-label">What AI can help with</div>
-          <ul class="check-list">
-            {% for item in phase.helps %}
-            <li>
-              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-              </svg>{{ item }}
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        <div>
-          <div class="col-label">Useful AI functions</div>
-          <div class="tool-chips">
-            {% for tool in phase.tools %}
-            <a href="{{ '/tools/' | relative_url }}#{{ tool.fn }}" class="tool-chip tool-fn-chip">{{ tool.label }}</a>
-            {% endfor %}
-          </div>
-          <div class="risk-box">
-            <div class="risk-label">Risks &amp; Caveats</div>
-            <ul class="risk-list">
-              {% for risk in phase.risks %}
-              <li>{{ risk }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {% if phase.use_cases %}
-      <div class="use-cases-wrap">
-        <div class="col-label">In Practice</div>
-        {% for uc in phase.use_cases %}
-        <div class="uc-strip">
-          <div class="uc-strip-header">
-            <span class="uc-strip-title">{{ uc.title }}</span>
-          </div>
-          {% if uc.tool_refs %}
-          <div class="uc-strip-tools-block">
-            <span class="uc-strip-tool-label">Specific tools you may want to explore:</span>
-            <ul class="uc-strip-tool-list">
-              {% for ref in uc.tool_refs %}
-                {% for t in site.data.research_tools.tools %}
-                  {% if t.id == ref %}
-              <li><a href="{{ '/tools/' | relative_url }}#{{ t.id }}">{{ t.name }}</a></li>
-                  {% endif %}
-                {% endfor %}
-              {% endfor %}
-            </ul>
-          </div>
-          {% endif %}
-          <p class="uc-strip-desc">{{ uc.desc }}</p>
-          {% if uc.mini_prompt %}
-          <button class="uc-try-btn" type="button" onclick="toggleUcPrompt(this)">Try this →</button>
-          <div class="uc-mini-prompt" hidden><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ uc.mini_prompt | strip }}</span></div>
-          {% endif %}
-        </div>
+      <div class="guide-sublist" role="group" aria-label="{{ page.labels.tasks_title }}">
+        {% for phase in page.phases %}
+        <button class="guide-sublink guide-task-sublink{% if forloop.first %} active{% endif %}"
+                type="button"
+                data-task-id="{{ phase.id }}"
+                aria-controls="task-{{ phase.id }}"
+                aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">{{ phase.sidebar_label }}</button>
         {% endfor %}
       </div>
-      {% endif %}
-
-      <div class="prompt-wrap">
-        <div class="prompt-label">Example Prompt</div>
-        <div class="prompt-block"><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ phase.prompt | strip }}</span></div>
-      </div>
-
     </div>
-    {% endfor %}
-  </div><!-- end phase panels -->
-</div><!-- end researchers-wrap -->
+  </aside>
+
+  <div class="guide-main">
+    <section class="guide-section active" id="research-tasks" aria-labelledby="research-tasks-title">
+      <div class="guide-section-inner">
+        <div class="section-header">
+          <h2 class="section-title" id="research-tasks-title">{{ page.labels.tasks_title }}</h2>
+          {% if page.labels.tasks_desc %}<p class="section-desc">{{ page.labels.tasks_desc }}</p>{% endif %}
+        </div>
+
+        {% include task-picker.html items=page.phases label=page.labels.tasks_title title_key="sidebar_label" %}
+
+        <div class="task-panels">
+          {% for phase in page.phases %}
+          <div id="task-{{ phase.id }}"
+               class="task-panel{% if forloop.first %} active{% endif %}"
+               role="region"
+               aria-labelledby="task-title-{{ phase.id }}">
+
+            <h3 class="task-panel-title" id="task-title-{{ phase.id }}">{{ phase.title }}</h3>
+            <p class="task-panel-sub">{{ phase.subtitle }}</p>
+
+            {% if phase.callout %}
+            <div class="callout">{{ phase.callout }}</div>
+            {% endif %}
+
+            <div class="task-panel-cols">
+              <div>
+                <h4 class="col-label">{{ page.labels.tools_heading }}</h4>
+                <div class="tool-chips">
+                  {% for tool in phase.tools %}
+                  <a href="{{ '/tools/' | relative_url }}#{{ tool.fn }}" class="tool-chip tool-fn-chip">{{ tool.label }}</a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+            <div class="do-dont-grid">
+              <div class="do-col">
+                <h4 class="do-dont-label do-label">{{ page.labels.do_heading }}</h4>
+                <ul class="do-dont-list">
+                  {% for item in phase.helps %}
+                  <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="dont-col">
+                <h4 class="do-dont-label dont-label">{{ page.labels.dont_heading }}</h4>
+                <ul class="do-dont-list">
+                  {% for risk in phase.risks %}
+                  <li>{{ risk }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+
+            {% if phase.use_cases %}
+            <div class="use-cases-wrap">
+              <h4 class="col-label">{{ page.labels.use_cases_heading }}</h4>
+              {% for uc in phase.use_cases %}
+              <div class="uc-strip">
+                <div class="uc-strip-header">
+                  <h5 class="uc-strip-title">{{ uc.title }}</h5>
+                </div>
+                {% if uc.tool_refs %}
+                <div class="uc-strip-tools-block">
+                  <span class="uc-strip-tool-label">{{ page.labels.uc_tools_label }}</span>
+                  <ul class="uc-strip-tool-list">
+                    {% for ref in uc.tool_refs %}
+                      {% for t in site.data.research_tools.tools %}
+                        {% if t.id == ref %}
+                    <li><a href="{{ '/tools/' | relative_url }}#{{ t.id }}">{{ t.name }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+                <p class="uc-strip-desc">{{ uc.desc }}</p>
+                {% if uc.mini_prompt %}
+                {% assign uc_id = phase.id | append: '-uc' | append: forloop.index %}
+                <button class="uc-try-btn" type="button"
+                        aria-expanded="false"
+                        aria-controls="prompt-{{ uc_id }}"
+                        data-open-label="{{ page.labels.uc_try_label }}"
+                        data-close-label="{{ page.labels.uc_close_label }}"
+                        onclick="toggleUcPrompt(this)">{{ page.labels.uc_try_label }} <span aria-hidden="true">&rarr;</span></button>
+                <div class="uc-mini-prompt" id="prompt-{{ uc_id }}" hidden><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ uc.mini_prompt | strip }}</span></div>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="task-prompts-wrap">
+              <h4 class="col-label">{{ page.labels.prompt_heading }}</h4>
+              {% for prompt in phase.prompts %}
+              <div class="task-prompt-item">
+                <h5 class="prompt-label">{{ prompt.label }}</h5>
+                {% if prompt.note %}<p class="prompt-note">{{ prompt.note }}</p>{% endif %}
+                <div class="prompt-block"><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ prompt.text | strip }}</span></div>
+              </div>
+              {% endfor %}
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </div><!-- .guide-main -->
+
+  {% comment %}
+    Holds the third column so the main column matches the other two guides. It has no
+    content and no label, so it is a plain div rather than a complementary landmark
+    assistive tech would announce and find empty.
+  {% endcomment %}
+  <div class="guide-rail guide-rail--empty" aria-hidden="true"></div>
+</div><!-- .guide-wrap -->
 
 <script>
-  function showPhase(name, btn) {
-    document.querySelectorAll('.phase-content').forEach(p => p.classList.remove('active'));
-    document.getElementById('phase-' + name).classList.add('active');
-    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+  /* ── Where you are lives in the URL ─────────────────────
+     The open task is written back to the address bar, so a refresh returns to what you
+     were reading instead of resetting to the first one. replaceState rather than
+     pushState: this is where you already are, not a new place for the back button to
+     return from, and it fires no hashchange. */
+  var SECTION_ID = 'research-tasks';
+
+  function syncUrl(id) {
+    history.replaceState(null, '', location.pathname + location.search + '#' + SECTION_ID + '/' + id);
   }
-  function toggleUcPrompt(btn) {
-    const p = btn.nextElementSibling;
-    const open = !p.hidden;
-    p.hidden = open;
-    btn.textContent = open ? 'Try this →' : 'Close ×';
-  }
-  function copyPrompt(btn) {
-    const block = btn.closest('.prompt-block, .uc-mini-prompt');
-    const el = block.querySelector('.prompt-text');
-    const text = (el ? el.textContent : block.textContent).trim();
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = 'Copied!';
-      setTimeout(() => btn.textContent = 'Copy', 1500);
+
+  function showTask(id) {
+    document.querySelectorAll('.task-panel').forEach(function (p) {
+      p.classList.toggle('active', p.id === 'task-' + id);
     });
+    document.querySelectorAll('.guide-task-sublink').forEach(function (b) {
+      var on = b.getAttribute('data-task-id') === id;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-expanded', String(on));
+    });
+    var picker = document.getElementById('task-picker-select');
+    if (picker) picker.value = id;
+    syncUrl(id);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.guide-task-sublink').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        showTask(btn.getAttribute('data-task-id'));
+      });
+    });
+
+    /* Restore from the URL. Nothing is scrolled here, so the browser's own scroll
+       restoration on a refresh is left alone. */
+    function applyHash() {
+      var parts = location.hash.slice(1).split('/');
+      if (parts[0] !== SECTION_ID || !parts[1]) return;
+      if (document.getElementById('task-' + parts[1])) showTask(parts[1]);
+    }
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
+
+  });
+
+  function toggleUcPrompt(btn) {
+    var p = document.getElementById(btn.getAttribute('aria-controls'));
+    var open = !p.hidden;
+    p.hidden = open;
+    btn.setAttribute('aria-expanded', String(!open));
+    // The arrow/× are decorative; keep them out of the accessible name. Both labels come
+    // from the page front matter, so no copy is spelled out here.
+    var label = open ? btn.getAttribute('data-open-label') : btn.getAttribute('data-close-label');
+    var glyph = open ? '&rarr;' : '&times;';
+    btn.innerHTML = label + ' <span aria-hidden="true">' + glyph + '</span>';
+  }
+
+  function copyPrompt(btn) {
+    var block = btn.closest('.prompt-block, .uc-mini-prompt');
+    var el = block.querySelector('.prompt-text');
+    var text = (el ? el.textContent : block.textContent).trim();
+    navigator.clipboard.writeText(text).then(function () {
+      btn.textContent = 'Copied!';
+      announce('Prompt copied to clipboard');
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1500);
+    });
+  }
+
+  // Shared polite live region — the "Copied!" label change was previously silent to
+  // screen readers, since a text swap inside a button is not announced on its own.
+  function announce(msg) {
+    var r = document.getElementById('a11y-live');
+    if (!r) {
+      r = document.createElement('div');
+      r.id = 'a11y-live';
+      r.className = 'sr-only';
+      r.setAttribute('aria-live', 'polite');
+      document.body.appendChild(r);
+    }
+    r.textContent = '';
+    setTimeout(function () { r.textContent = msg; }, 50);
   }
 </script>

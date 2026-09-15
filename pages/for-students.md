@@ -3,7 +3,7 @@ layout: students
 title: AI for Learning
 description: "Practical guidance on using AI in your College coursework: where it genuinely helps, what it costs you, and how to stay in control of your own learning."
 permalink: /for-students/
-css: /assets/css/students.css
+css: [/assets/css/guide.css, /assets/css/students.css]
 
 header:
   heading: "AI for Learning"
@@ -23,6 +23,7 @@ labels:
   library_desc: "Copyable prompts for coursework. Filter by discipline or intent. Check the label on each prompt: many require your instructor's permission before use on coursework."
   scenarios_title: "Student stories"
   scenarios_desc: "Fictional composite scenarios. Swipe or use arrows to browse."
+  scenario_filter_label: "Discipline"
   scenario_tried: "What they tried"
   scenario_worked: "What worked"
   scenario_didnt: "What didn't"
@@ -93,6 +94,11 @@ general_guidelines:
           using AI without your instructor's permission can constitute unauthorized
           assistance or plagiarism. Before using AI for any coursework, check the syllabus or
           ask your instructor, and follow their instructions regarding usage and citation.
+        # Archived with pages/for-teaching.md (published: false). Uncomment when it returns.
+        # - >-
+        #   <em>Teaching a course?</em> The <a href="%BASEURL%/for-teaching/">AI for Teaching</a>
+        #   page covers setting a course AI policy and designing assessments that still measure
+        #   learning.
     - heading: "Consider intellectual property"
       paras:
         - >-
@@ -206,7 +212,13 @@ rail_reminders:
     body: >-
       Faculty are adding oral discussions and in-class defenses. AI-produced writing won't
       prepare you for those, or for discussing your own work in a job interview.
-    for_tasks: [writing, exams]
+    for_tasks: [writing]
+  - id: recall
+    title: "Feeling productive is not learning"
+    body: >-
+      Using AI to study can feel productive without actually testing what you can recall on
+      your own.
+    for_tasks: [exams]
 
 tasks:
   - id: writing
@@ -384,7 +396,6 @@ tasks:
       - "Every reference you submit is a claim you are personally making about the scholarly record; a fabricated one is your error, not the model's."
       - "AI hallucinates citations; always verify DOIs and sources"
       - "Summaries can miss nuance; read the full paper for anything you cite"
-      - "Disciplinary norms differ sharply. Many researchers, especially in the humanities, object to AI-assisted summarizing or drafting at all, and advisors often hold their students to that standard. Ask before you use it on supervised work."
     dos:
       - "Use AI for search strategies; do the actual searching in Penn Libraries and disciplinary databases"
       - "Verify every citation before including it"
@@ -424,7 +435,6 @@ tasks:
       - "Creating a study plan that emphasizes active recall and practice"
     risks:
       - "AI can confidently give incorrect explanations or answers, so make sure to verify all AI outputs with the course materials"
-      - "Using AI to study can feel productive without actually testing what you can recall on your own"
       - "A study guide you did not build teaches you far less than one you did: the summarizing is the studying."
       - "You cannot control whether generated practice questions match your instructor's emphasis, format, or difficulty. Check them against past exams."
     dos:

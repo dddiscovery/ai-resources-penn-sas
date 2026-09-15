@@ -3,18 +3,21 @@ layout: tools
 title: AI Tools Matrix
 # description: Compare AI and LLM tools by function and company, with Penn Arts & Sciences access status.
 permalink: /tools/
-css: /assets/css/tools.css
+css: [/assets/css/tools.css]
 
 news:
-  text: "Penn is about to launch <strong>PennChat</strong>, a secure University AI portal with Claude and ChatGPT models."
-  link_label: "Check the details"
-  link_url: "https://www.thedp.com/article/2026/07/penn-artificial-intelligence-claude-chatgpt-anthropic-data-security"
+  text: "Penn has launched <strong>PennChat</strong>, a secure University AI platform that has been reviewed and approved by the AI Privacy &amp; Security Review Group for use with high-risk institutional data."
+  link_label: "Read the PennChat FAQ"
+  link_url: "https://isc.upenn.edu/resources/pennchat-pilot-FAQs"
 
 licensed_key:
   chip_label: "Penn-licensed"
-  text: "marks tools covered by a Penn license and approved under Penn guidance for FERPA-protected course data — the safer choice for anything involving coursework or personal information."
-  link_label: "Full list & data rules: Penn AI Tools and Policies (CETLI)"
-  link_url: "https://cetli.upenn.edu/resources/generative-ai/penn-ai-guidance-and-policies/"
+  text: "marks tools covered by a Penn license and approved under Penn guidance for FERPA-protected course data, the safer choice for anything involving coursework or personal information."
+  links:
+    - label: "Full list & data rules: Penn AI Tools and Policies (CETLI)"
+      url: "https://cetli.upenn.edu/resources/generative-ai/penn-ai-guidance-and-policies/"
+    - label: "Tool-by-tool details: AI Tools (ISC)"
+      url: "https://isc.upenn.edu/services/software-licensing-ai-tools/ai-tools"
 
 columns:
   - "Anthropic"
@@ -23,6 +26,10 @@ columns:
   - "Microsoft"
   - "Cursor"
   - "Grammarly"
+
+# Announced to screen readers after a filter button is pressed (WCAG 4.1.3).
+# {n} = rows still showing, {total} = rows in the table.
+filter_status: "{n} of {total} functions shown"
 
 filters:
   - id: "all"
@@ -43,7 +50,7 @@ rows:
             url: "https://claude.ai"
             desc: "Long context, file uploads, deep reasoning"
           - name: "Anthropic Enterprise (Claude)"
-            url: "https://isc.upenn.edu/get-it-help"
+            url: "https://claude.com/solutions/enterprise"
             chip: "penn"
             chip_label: "Penn-licensed"
             link_label: "Contact IT Support Provider"
@@ -66,13 +73,14 @@ rows:
       - highlight: true
         items:
           - name: "Copilot Chat (Basic)"
-            url: "https://isc.upenn.edu/resources/activate-microsoft-copilot-chat"
+            url: "https://copilot.microsoft.com/"
             chip: "penn"
             chip_label: "Penn-licensed"
             price: "Free with M365"
             link_label: "Activate here"
+            link_url: "https://isc.upenn.edu/resources/activate-microsoft-copilot-chat"
           - name: "M365 Copilot (Premium)"
-            url: "https://www.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot"
+            url: "https://www.microsoft.com/en-us/microsoft-365-copilot"
             chip: "penn"
             chip_label: "Penn-licensed"
             price: "$16.50/month — faculty & staff"
@@ -189,22 +197,22 @@ rows:
 
 <div class="open-models-section container">
   <div class="open-models-header">
-    <span class="fn-label">Open Models</span>
-    <p class="fn-desc">Publicly released model weights you can download and run locally — no data sent to external servers, full control over your environment. Deploy via <a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a> (free, self-hosted).</p>
+    <h2 class="fn-label">Open Models</h2>
+    <p class="fn-desc">Publicly released model weights you can download and run locally — no data sent to external servers, full control over your environment. Deploy via <a href="https://ollama.com" target="_blank" rel="noopener noreferrer">Ollama<span class="sr-only"> (opens in new tab)</span></a> (free, self-hosted).</p>
   </div>
   <div class="open-models-grid">
-    <a class="open-model-card" href="https://ollama.com" target="_blank" rel="noopener">
-      <span class="tool-name">LLaMA 3 / Mistral</span>
+    <a class="open-model-card" href="https://ollama.com/library" target="_blank" rel="noopener noreferrer">
+      <span class="tool-name">LLaMA 3 / Mistral</span><span class="sr-only"> (opens in new tab)</span>
       <span class="chip chip-none chip-inline">Open weights</span>
       <div class="tool-desc">Best open models for general use; run via Ollama</div>
     </a>
-    <a class="open-model-card" href="https://ollama.com/library/codellama" target="_blank" rel="noopener">
-      <span class="tool-name">CodeLlama</span>
+    <a class="open-model-card" href="https://ollama.com/library/codellama" target="_blank" rel="noopener noreferrer">
+      <span class="tool-name">CodeLlama</span><span class="sr-only"> (opens in new tab)</span>
       <span class="chip chip-none chip-inline">Open weights</span>
       <div class="tool-desc">Fine-tuned for code generation and completion</div>
     </a>
-    <a class="open-model-card" href="https://ai.google.dev/gemma" target="_blank" rel="noopener">
-      <span class="tool-name">Gemma 3</span>
+    <a class="open-model-card" href="https://ai.google.dev/gemma" target="_blank" rel="noopener noreferrer">
+      <span class="tool-name">Gemma 3</span><span class="sr-only"> (opens in new tab)</span>
       <span class="chip chip-none chip-inline">Open weights</span>
       <div class="tool-desc">Efficient; runs on a laptop</div>
     </a>

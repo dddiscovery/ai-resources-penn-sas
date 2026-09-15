@@ -8,7 +8,7 @@ layout: default
     <p class="page-desc">{{ page.description }}</p>
     {% if page.news %}
     <p class="page-news">{{ page.news.text }}
-      <a class="page-news-link" href="{{ page.news.link_url }}" target="_blank" rel="noopener">{{ page.news.link_label }} →</a>
+      <a class="page-news-link" href="{{ page.news.link_url }}" target="_blank" rel="noopener noreferrer">{{ page.news.link_label }} <span aria-hidden="true">&rarr;</span><span class="sr-only"> (opens in new tab)</span></a>
     </p>
     {% endif %}
   </div>
@@ -18,17 +18,32 @@ layout: default
   {% if page.licensed_key %}
   <div class="access-key">
     <span class="chip chip-penn">{{ page.licensed_key.chip_label }}</span>
-    <span class="access-key-note">{{ page.licensed_key.text }}
-      <a href="{{ page.licensed_key.link_url }}" target="_blank" rel="noopener">{{ page.licensed_key.link_label }} →</a>
-    </span>
+    <div class="access-key-note">
+      <p>{{ page.licensed_key.text }}</p>
+      {% if page.licensed_key.links %}
+      <ul class="access-key-links">
+        {% for link in page.licensed_key.links %}
+        <li><a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }} <span aria-hidden="true">&rarr;</span><span class="sr-only"> (opens in new tab)</span></a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
   </div>
   {% endif %}
 
   <div class="filter-row">
     {% for filter in page.filters %}
-    <button class="fpill{% if forloop.first %} active{% endif %}" data-fn="{{ filter.id }}" onclick="filterTools('{{ filter.id }}',this)">{{ filter.label }}</button>
+    <button type="button" class="fpill{% if forloop.first %} active{% endif %}" data-fn="{{ filter.id }}"
+            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            onclick="filterTools('{{ filter.id }}',this)">{{ filter.label }}</button>
     {% endfor %}
   </div>
+
+  <!-- Filtering rewrites the table with no visible confirmation, which leaves a screen
+       reader user with no idea what a pill just did. role="status" announces the new
+       count politely, without moving focus (WCAG 4.1.3 Status Messages). -->
+  <p class="sr-only" role="status" id="filter-status"
+     data-template="{{ page.filter_status }}"></p>
 
   <div class="vendor-tabs" role="tablist" aria-label="Select vendor">
     {% for col in page.columns %}
@@ -37,19 +52,23 @@ layout: default
             data-col="{{ forloop.index0 }}"
             onclick="selectVendor({{ forloop.index0 }}, this)"
             role="tab"
+            id="vendor-tab-{{ forloop.index0 }}"
+            aria-controls="tools-table"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
             aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
       {{ col }}
     </button>
     {% endfor %}
   </div>
 
-  <div class="matrix-wrap">
+  <div class="matrix-wrap" role="region" aria-labelledby="matrix-caption" tabindex="0">
     <table class="matrix-table" id="tools-table">
+      <caption id="matrix-caption" class="sr-only">{{ page.title }} — AI tools by function and vendor</caption>
       <thead>
         <tr>
-          <th class="fn-col">Function</th>
+          <th class="fn-col" scope="col">Function</th>
           {% for col in page.columns %}
-          <th data-col="{{ forloop.index0 }}">{{ col }}</th>
+          <th scope="col" data-col="{{ forloop.index0 }}">{{ col }}</th>
           {% endfor %}
         </tr>
       </thead>
@@ -57,7 +76,7 @@ layout: default
         {% for row in page.rows %}
         <tr data-fn="{{ row.fn }}">
           <th scope="row" class="fn-cell">
-            <span class="fn-label">{{ row.label }}</span>
+            <h2 class="fn-label">{{ row.label }}</h2>
             {% if row.desc %}<p class="fn-desc">{{ row.desc }}</p>{% endif %}
           </th>
           {% for cell in row.cells %}
@@ -65,24 +84,26 @@ layout: default
           <td class="cell-empty" data-chip="empty" data-col="{{ forloop.index0 }}">—</td>
           {% elsif cell.items %}
           <td data-col="{{ forloop.index0 }}"{% if cell.highlight %} class="cell-highlight"{% endif %}>
+            {% if cell.highlight %}<span class="sr-only">Accessible to SAS researchers. </span>{% endif %}
             {% for item in cell.items %}
             <div class="tool-sub{% unless forloop.first %} tool-sub-divider{% endunless %}">
-              <a class="tool-name" href="{{ item.url }}" target="_blank" rel="noopener">{{ item.name }}</a>
+              <a class="tool-name" href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.name }}<span class="sr-only"> (opens in new tab)</span></a>
               {% if item.chip and item.chip != 'none' %}<span class="chip chip-{{ item.chip }} chip-inline">{{ item.chip_label }}</span>{% endif %}
               {% if item.price %}<div class="tool-price">{{ item.price }}</div>{% endif %}
-              {% if item.link_label %}<a class="tool-action-link" href="{{ item.link_url | default: item.url }}" target="_blank" rel="noopener">{{ item.link_label }} →</a>{% endif %}
+              {% if item.link_label %}<a class="tool-action-link" href="{{ item.link_url | default: item.url }}" target="_blank" rel="noopener noreferrer">{{ item.link_label }} <span aria-hidden="true">&rarr;</span><span class="sr-only"> (opens in new tab)</span></a>{% endif %}
               {% if item.desc %}<div class="tool-desc">{{ item.desc }}</div>{% endif %}
             </div>
             {% endfor %}
           </td>
           {% else %}
           <td data-col="{{ forloop.index0 }}" data-chip="{{ cell.chip }}"{% if cell.highlight %} class="cell-highlight"{% endif %}>
-            <a class="tool-name" href="{{ cell.url }}" target="_blank" rel="noopener">{{ cell.name }}</a>
+            {% if cell.highlight %}<span class="sr-only">Accessible to SAS researchers. </span>{% endif %}
+            <a class="tool-name" href="{{ cell.url }}" target="_blank" rel="noopener noreferrer">{{ cell.name }}<span class="sr-only"> (opens in new tab)</span></a>
             {% if cell.chip and cell.chip != 'none' %}<span class="chip chip-{{ cell.chip }} chip-inline">{{ cell.chip_label }}</span>{% endif %}
             {% if cell.price %}<div class="tool-price">{{ cell.price }}</div>{% endif %}
-            {% if cell.link_label %}<a class="tool-action-link" href="{{ cell.link_url | default: cell.url }}" target="_blank" rel="noopener">{{ cell.link_label }} →</a>{% endif %}
+            {% if cell.link_label %}<a class="tool-action-link" href="{{ cell.link_url | default: cell.url }}" target="_blank" rel="noopener noreferrer">{{ cell.link_label }} <span aria-hidden="true">&rarr;</span><span class="sr-only"> (opens in new tab)</span></a>{% endif %}
             {% if cell.desc %}<div class="tool-desc">{{ cell.desc }}</div>{% endif %}
-            {% if cell.tags %}<div class="tool-tags">{% for tag in cell.tags %}<span class="tool-tag{% if tag.desc %} tool-tag-tip{% endif %}"{% if tag.desc %} data-tooltip="{{ tag.desc }}"{% endif %}>{{ tag.label | default: tag }}</span>{% endfor %}</div>{% endif %}
+            {% if cell.tags %}<div class="tool-tags">{% for tag in cell.tags %}<span class="tool-tag{% if tag.desc %} tool-tag-tip{% endif %}"{% if tag.desc %} data-tooltip="{{ tag.desc }}" tabindex="0"{% endif %}>{{ tag.label | default: tag }}{% if tag.desc %}<span class="sr-only">: {{ tag.desc }}</span>{% endif %}</span>{% endfor %}</div>{% endif %}
           </td>
           {% endif %}
           {% endfor %}
@@ -102,15 +123,27 @@ layout: default
   var activeChips = new Set();
 
   function applyFilters() {
-    document.querySelectorAll('#tools-table tbody tr').forEach(function(row) {
+    var rows = document.querySelectorAll('#tools-table tbody tr');
+    var shown = 0;
+    rows.forEach(function(row) {
       var fnMatch = activeFns.size === 0 ||
         Array.from(activeFns).some(function(fn) { return (row.dataset.fn || '').includes(fn); });
       if (!fnMatch) { row.style.display = 'none'; return; }
       row.style.display = '';
+      shown++;
       row.querySelectorAll('td[data-chip]').forEach(function(td) {
         td.classList.toggle('cell-muted', activeChips.size > 0 && !activeChips.has(td.dataset.chip));
       });
     });
+    announceCount(shown, rows.length);
+  }
+
+  function announceCount(shown, total) {
+    var region = document.getElementById('filter-status');
+    if (!region) return;
+    region.textContent = (region.dataset.template || '')
+      .replace('{n}', shown)
+      .replace('{total}', total);
   }
 
   function filterTools(fn, btn) {
@@ -131,18 +164,16 @@ layout: default
         document.querySelector('.fpill[data-fn="all"]').classList.add('active');
       }
     }
+    syncPillState();
     applyFilters();
   }
 
-  function filterAccess(chipType, el) {
-    if (activeChips.has(chipType)) {
-      activeChips.delete(chipType);
-      el.classList.remove('active');
-    } else {
-      activeChips.add(chipType);
-      el.classList.add('active');
-    }
-    applyFilters();
+  // The pressed state was previously carried by the .active class alone, which assistive
+  // tech cannot see. Mirroring it onto aria-pressed keeps one source of truth (WCAG 4.1.2).
+  function syncPillState() {
+    document.querySelectorAll('.fpill').forEach(function(p) {
+      p.setAttribute('aria-pressed', String(p.classList.contains('active')));
+    });
   }
 
   var MOBILE_VENDOR_MAX = 768;
@@ -158,9 +189,11 @@ layout: default
       t.classList.remove('active');
       t.setAttribute('aria-selected', 'false');
     });
+    document.querySelectorAll('.vendor-tab').forEach(function(t) { t.tabIndex = -1; });
     if (btn) {
       btn.classList.add('active');
       btn.setAttribute('aria-selected', 'true');
+      btn.tabIndex = 0;
     }
     if (!isMobileVendorView()) return;
     document.querySelectorAll('#tools-table [data-col]').forEach(function(el) {
@@ -181,12 +214,28 @@ layout: default
 
   window.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.fpill[data-fn="all"]').classList.add('active');
+    syncPillState();
     var hash = window.location.hash.slice(1);
     if (hash) {
       var pill = document.querySelector('.fpill[data-fn="' + hash + '"]');
       if (pill) filterTools(hash, pill);
     }
     syncVendorColumnsForViewport();
+
+    var vtabs = Array.prototype.slice.call(document.querySelectorAll('.vendor-tab'));
+    vtabs.forEach(function (tab, i) {
+      tab.addEventListener('keydown', function (e) {
+        var d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+        var target;
+        if (d) target = vtabs[(i + d + vtabs.length) % vtabs.length];
+        else if (e.key === 'Home') target = vtabs[0];
+        else if (e.key === 'End') target = vtabs[vtabs.length - 1];
+        if (!target) return;
+        e.preventDefault();
+        selectVendor(Number(target.dataset.col), target);
+        target.focus();
+      });
+    });
   });
 
   window.addEventListener('resize', syncVendorColumnsForViewport);

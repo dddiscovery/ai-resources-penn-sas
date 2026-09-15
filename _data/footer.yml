@@ -1,0 +1,34 @@
+# Global site footer copy.
+#
+# The five links under penn_links, together with the link back to the University
+# homepage in `copyright`, are required on every Penn web page:
+#   https://branding.web-resources.upenn.edu/web-identity
+#   "All Penn webpages should contain a link back to the University homepage, the
+#    Penn logo and links to the following global resources."
+# Check that page before renaming or dropping any of them.
+
+penn_nav_label: "Penn global resources"
+
+penn_links:
+  - label: "Privacy Policy"
+    url: "https://www.upenn.edu/about/privacy-policy"
+  - label: "Report Accessibility Issues and Get Help"
+    url: "https://accessibility.web-resources.upenn.edu/get-help"
+  - label: "Disclaimer"
+    url: "https://www.upenn.edu/about/disclaimer"
+  - label: "Emergency Services"
+    url: "https://www.publicsafety.upenn.edu/contact/"
+  - label: "Report Copyright Infringement"
+    url: "https://www.upenn.edu/about/report-copyright-infringement"
+
+# Rendered as: © <year> <parts, linked and joined by "·">. `link` names a key under
+# `links:` in _config.yml so the URLs stay in one place. The last part is the link back
+# to the University homepage that Penn Web Identity requires — keep it.
+copyright:
+  parts:
+    - label: "Data Driven Discovery Initiative"
+      link: dddi
+    - label: "Penn School of Arts & Sciences"
+      link: penn_sas
+    - label: "University of Pennsylvania"
+      link: upenn

@@ -1,0 +1,15 @@
+# Credits for the colophon at the foot of the home page.
+#
+# Names only, by request: no titles, no roles, no links. To add someone, add a line to
+# `names:` below. Nothing in _layouts/home.html needs to change, and the list renders in
+# the order written here — keep it alphabetical by surname, so the order never reads as
+# a ranking.
+
+heading: "Contributors"
+order_note: "Listed alphabetically by surname."
+note: "With thanks to everyone who reviewed, corrected, or argued with a draft of this guide."
+
+names:
+  - "Bhuvnesh Jain"
+  - "Terhi Nurminen"
+  - "Colin Twomey"

@@ -15,15 +15,27 @@
   font-weight: 600;
 }
 
-.researchers-wrap {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 2rem;
+/* ── Guide shell adjustments ───────────────────────────
+   The shell itself is assets/css/guide.css, shared with the teaching and learning
+   guides. Only what this page does differently lives here. */
+
+/* One section, so its sidebar entry is a label rather than a switch: it keeps the
+   colour of an open section because it is always the open one, and takes no hover or
+   pointer that would suggest something happens when you click it. */
+.guide-section-link--static {
+  color: var(--teal-text);
+  border-left-color: var(--teal);
+  background: rgba(43, 138, 138, 0.06);
+  cursor: default;
 }
 
-.phase-panels-wrap {
-  flex: 1;
-  overflow: hidden;
+/* The right rail carries nothing here. It stays on wide screens to hold the third
+   column, so the main column comes out the width it has on the other two guides;
+   once the wrap stacks it would only be dead space. */
+.guide-rail--empty { padding: 0; }
+
+@media (max-width: 768px) {
+  .guide-rail--empty { display: none; }
 }
 
 .phase-penn-note {
@@ -33,7 +45,7 @@
 }
 
 .pink-text {
-  color: var(--pink);
+  color: var(--pink-text);
 }
 
 /* Use-case strips */
@@ -83,23 +95,23 @@
   font-size: 0.72rem;
 }
 .uc-strip-tool-list a {
-  color: var(--teal-bright);
+  color: var(--teal-text);
   text-decoration: none;
   font-weight: 500;
 }
 .uc-strip-tool-list a:hover {
-  color: var(--pink);
+  color: var(--pink-text);
   text-decoration: underline;
 }
 
-.risk-list a {
-  color: var(--teal-bright);
+.do-dont-list a {
+  color: var(--teal-text);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
 }
-.risk-list a:hover {
-  color: var(--pink);
+.do-dont-list a:hover {
+  color: var(--pink-text);
   text-decoration: underline;
 }
 
@@ -115,7 +127,7 @@
   font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: var(--teal-bright);
+  color: var(--teal-text);
   background: none;
   border: 1px solid var(--border-teal);
   border-radius: 3px;
@@ -134,7 +146,7 @@
   background: #040810;
   border: 1px solid rgba(43, 138, 138, 0.2);
   border-radius: 6px;
-  padding: 1.5rem 1.25rem 1rem;
+  padding: var(--prompt-pad-top) 1.25rem 1rem;
   position: relative;
   font-size: 0.75rem;
   color: #7FCECC;

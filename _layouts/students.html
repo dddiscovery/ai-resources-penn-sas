@@ -9,37 +9,37 @@ layout: default
   </div>
 </div>
 
-<nav class="student-top-nav" aria-label="Page sections">
-  <div class="student-top-nav-inner">
+<nav class="guide-top-nav" aria-label="Section navigation">
+  <div class="guide-top-nav-inner">
     {% for sec in page.sections %}
-    <button class="student-top-nav-link{% if sec.id == page.default_section %} active{% endif %}" type="button" data-section="{{ sec.id }}">{{ sec.label }}</button>
+    <button class="guide-top-nav-link{% if sec.id == page.default_section %} active{% endif %}" type="button" data-section="{{ sec.id }}">{{ sec.label }}</button>
     {% endfor %}
   </div>
 </nav>
 
-<div class="student-wrap">
-  <aside class="student-sidebar" aria-label="Page sections">
+<div class="guide-wrap">
+  <aside class="guide-sidebar" aria-label="Section contents">
     <div class="sidebar-sticky">
-      <div class="sidebar-label">{{ page.labels.sidebar_label }}</div>
+      <h2 class="sidebar-label">{{ page.labels.sidebar_label }}</h2>
       {% for sec in page.sections %}
       {% assign has_sub = false %}
       {% if sec.id == 'course-tasks' or sec.id == 'general-guidelines' %}{% assign has_sub = true %}{% endif %}
-      <button class="student-section-link{% if sec.id == page.default_section %} active{% endif %}{% if has_sub %} has-sub{% endif %}" type="button" data-section="{{ sec.id }}"{% if has_sub %} aria-expanded="false" aria-controls="sub-{{ sec.id }}"{% endif %}>
+      <button class="guide-section-link{% if sec.id == page.default_section %} active{% endif %}{% if has_sub %} has-sub{% endif %}" type="button" data-section="{{ sec.id }}"{% if has_sub %} aria-expanded="false" aria-controls="sub-{{ sec.id }}"{% endif %}>
         <span>{{ sec.label }}</span>{% if has_sub %}<span class="sub-caret" aria-hidden="true"></span>{% endif %}
       </button>
 
       {% if sec.id == 'general-guidelines' %}
-      <div class="student-sublist" id="sub-general-guidelines" data-sub-for="general-guidelines" aria-label="Guideline topics" hidden>
+      <div class="guide-sublist" id="sub-general-guidelines" data-sub-for="general-guidelines" role="group" aria-label="Guideline topics" hidden>
         {% for block in page.general_guidelines.blocks %}
-        <button class="student-sublink student-guideline-sublink" type="button" data-guideline-id="{{ block.heading | slugify }}">{{ block.heading }}</button>
+        <button class="guide-sublink guide-guideline-sublink" type="button" data-guideline-id="{{ block.heading | slugify }}">{{ block.heading }}</button>
         {% endfor %}
       </div>
       {% endif %}
 
       {% if sec.id == 'course-tasks' %}
-      <div class="student-sublist" id="sub-course-tasks" data-sub-for="course-tasks" aria-label="Coursework areas" hidden>
+      <div class="guide-sublist" id="sub-course-tasks" data-sub-for="course-tasks" role="group" aria-label="Coursework areas" hidden>
         {% for task in page.tasks %}
-        <button class="student-sublink student-task-sublink{% if forloop.first %} active{% endif %}" type="button" data-task-id="{{ task.id }}">{{ task.title }}</button>
+        <button class="guide-sublink guide-task-sublink{% if forloop.first %} active{% endif %}" type="button" data-task-id="{{ task.id }}">{{ task.title }}</button>
         {% endfor %}
       </div>
       {% endif %}
@@ -47,18 +47,18 @@ layout: default
     </div>
   </aside>
 
-  <div class="student-main">
+  <div class="guide-main">
 
     <!-- General guidelines -->
-    <section class="student-section{% if page.default_section == 'general-guidelines' %} active{% endif %}" id="general-guidelines">
-      <div class="student-section-inner">
+    <section class="guide-section{% if page.default_section == 'general-guidelines' %} active{% endif %}" id="general-guidelines" aria-labelledby="general-guidelines-title">
+      <div class="guide-section-inner">
         <div class="section-header">
-          <h2 class="section-title">{{ page.general_guidelines.title }}</h2>
+          <h2 class="section-title" id="general-guidelines-title">{{ page.general_guidelines.title }}</h2>
           <p class="section-desc">{{ page.general_guidelines.desc }}</p>
         </div>
 
         {% if page.general_guidelines.draft_note %}
-        <p class="student-disclaimer">{{ page.general_guidelines.draft_note }}</p>
+        <p class="guide-disclaimer">{{ page.general_guidelines.draft_note }}</p>
         {% endif %}
 
         <div class="guidelines-body">
@@ -75,42 +75,32 @@ layout: default
     </section>
 
     <!-- Course Task Cards -->
-    <section class="student-section{% if page.default_section == 'course-tasks' %} active{% endif %}" id="course-tasks">
-      <div class="student-section-inner">
+    <section class="guide-section{% if page.default_section == 'course-tasks' %} active{% endif %}" id="course-tasks" aria-labelledby="course-tasks-title">
+      <div class="guide-section-inner">
         <div class="section-header">
-          <h2 class="section-title">{{ page.labels.tasks_title }}</h2>
+          <h2 class="section-title" id="course-tasks-title">{{ page.labels.tasks_title }}</h2>
           <p class="section-desc">{{ page.labels.tasks_desc }}</p>
         </div>
 
         {% if page.tasks_disclaimer %}
-        <p class="student-disclaimer">{{ page.tasks_disclaimer }}</p>
+        <p class="guide-disclaimer">{{ page.tasks_disclaimer }}</p>
         {% endif %}
 
-        <div class="task-bar-sentinel" aria-hidden="true"></div>
-        <div class="task-cards-grid" id="task-bar">
-          {% for task in page.tasks %}
-          <button class="task-card{% if forloop.first %} active{% endif %}" type="button" data-task-id="{{ task.id }}" onclick="showTask('{{ task.id }}')" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
-            <span class="task-card-head">
-              <span class="task-card-title">{{ task.title }}</span>
-            </span>
-            <span class="task-card-sub">{{ task.subtitle }}</span>
-          </button>
-          {% endfor %}
-        </div>
+        {% include task-picker.html items=page.tasks label=page.labels.tasks_title %}
 
         <div class="task-panels">
           {% for task in page.tasks %}
-          <div id="task-{{ task.id }}" class="task-panel{% if forloop.first %} active{% endif %}">
-            <h3 class="task-panel-title">{{ task.title }}</h3>
+          <div id="task-{{ task.id }}" class="task-panel{% if forloop.first %} active{% endif %}" role="region" aria-labelledby="task-title-{{ task.id }}">
+            <h3 class="task-panel-title" id="task-title-{{ task.id }}">{{ task.title }}</h3>
             <p class="task-panel-sub">{{ task.subtitle }}</p>
 
             <div class="task-panel-cols">
               <div>
-                <div class="col-label">{{ page.labels.helps_heading }}</div>
+                <h4 class="col-label">{{ page.labels.helps_heading }}</h4>
                 <ul class="check-list">
                   {% for item in task.helps %}
                   <li>
-                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg width="13" height="13" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                     </svg>{{ item }}
                   </li>
@@ -118,7 +108,7 @@ layout: default
                 </ul>
               </div>
               <div>
-                <div class="col-label">{{ page.labels.tools_heading }}</div>
+                <h4 class="col-label">{{ page.labels.tools_heading }}</h4>
                 <div class="tool-chips">
                   {% for tool in task.tools %}
                   <a href="{{ '/tools/' | relative_url }}#{{ tool.fn }}" class="tool-chip tool-fn-chip">{{ tool.label }}</a>
@@ -129,7 +119,7 @@ layout: default
 
             <div class="do-dont-grid">
               <div class="do-col">
-                <div class="do-dont-label do-label">{{ page.labels.do_heading }}</div>
+                <h4 class="do-dont-label do-label">{{ page.labels.do_heading }}</h4>
                 <ul class="do-dont-list">
                   {% for item in task.dos %}
                   <li>{{ item }}</li>
@@ -137,7 +127,7 @@ layout: default
                 </ul>
               </div>
               <div class="dont-col">
-                <div class="do-dont-label dont-label">{{ page.labels.dont_heading }}</div>
+                <h4 class="do-dont-label dont-label">{{ page.labels.dont_heading }}</h4>
                 <ul class="do-dont-list">
                   {% for item in task.donts %}
                   <li>{{ item }}</li>
@@ -147,10 +137,10 @@ layout: default
             </div>
 
             <div class="task-prompts-wrap">
-              <div class="col-label">{{ page.labels.prompts_heading }}</div>
+              <h4 class="col-label">{{ page.labels.prompts_heading }}</h4>
               {% for prompt in task.prompts %}
               <div class="task-prompt-item">
-                <div class="prompt-label">{{ prompt.label }}{% if prompt.status %} <span class="prompt-status-chip prompt-status-chip--{{ prompt.status }}">{{ page.labels.status_labels[prompt.status] }}</span>{% endif %}</div>
+                <h5 class="prompt-label">{{ prompt.label }}{% if prompt.status %} <span class="prompt-status-chip prompt-status-chip--{{ prompt.status }}">{{ page.labels.status_labels[prompt.status] }}</span>{% endif %}</h5>
                 {% if prompt.note %}<p class="prompt-note">{{ prompt.note }}</p>{% endif %}
                 <div class="prompt-block"><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ prompt.text | strip }}</span></div>
               </div>
@@ -163,17 +153,17 @@ layout: default
     </section>
 
     <!-- Prompt Library (collapsible) -->
-    <section class="student-section" id="prompt-library">
-      <div class="student-section-inner">
+    <section class="guide-section" id="prompt-library" aria-labelledby="prompt-library-title">
+      <div class="guide-section-inner">
         <div class="section-header">
-          <h2 class="section-title">{{ page.labels.library_title }}</h2>
+          <h2 class="section-title" id="prompt-library-title">{{ page.labels.library_title }}</h2>
           <p class="section-desc">{{ page.labels.library_desc }}</p>
         </div>
 
         <div class="prompt-library-body" id="prompt-library-body">
           {% if page.disclosure_template %}
           <div class="disclosure-template">
-            <div class="col-label">{{ page.disclosure_template.heading }}</div>
+            <h3 class="col-label">{{ page.disclosure_template.heading }}</h3>
             <p class="disclosure-template-desc">{{ page.disclosure_template.desc }}</p>
             <div class="prompt-block prompt-block--compact"><button class="copy-btn" type="button" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">{{ page.disclosure_template.text | strip }}</span></div>
             <p class="prompt-why">{{ page.disclosure_template.note }}</p>
@@ -182,24 +172,24 @@ layout: default
 
           <div class="prompt-filters">
             <div class="filter-group">
-              <span class="filter-group-label">Discipline</span>
-              <div class="filter-row prompt-filter-row">
-                <button class="fpill prompt-filter active" type="button" data-filter-type="discipline" data-filter-value="all">All</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="discipline" data-filter-value="stem">STEM</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="discipline" data-filter-value="humanities">Humanities</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="discipline" data-filter-value="social_sciences">Social Sciences</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="discipline" data-filter-value="any">Any</button>
+              <h3 class="filter-group-label" id="filter-label-discipline">Discipline</h3>
+              <div class="filter-row prompt-filter-row" role="group" aria-labelledby="filter-label-discipline">
+                <button class="fpill prompt-filter active" type="button" aria-pressed="true" data-filter-type="discipline" data-filter-value="all">All</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="discipline" data-filter-value="stem">STEM</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="discipline" data-filter-value="humanities">Humanities</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="discipline" data-filter-value="social_sciences">Social Sciences</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="discipline" data-filter-value="any">Any</button>
               </div>
             </div>
             <div class="filter-group">
-              <span class="filter-group-label">Intent</span>
-              <div class="filter-row prompt-filter-row">
-                <button class="fpill prompt-filter active" type="button" data-filter-type="intent" data-filter-value="all">All</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="intent" data-filter-value="brainstorm">Brainstorm</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="intent" data-filter-value="feedback">Get feedback</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="intent" data-filter-value="explain">Explain</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="intent" data-filter-value="debug">Debug</button>
-                <button class="fpill prompt-filter" type="button" data-filter-type="intent" data-filter-value="outline">Outline</button>
+              <h3 class="filter-group-label" id="filter-label-intent">Intent</h3>
+              <div class="filter-row prompt-filter-row" role="group" aria-labelledby="filter-label-intent">
+                <button class="fpill prompt-filter active" type="button" aria-pressed="true" data-filter-type="intent" data-filter-value="all">All</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="intent" data-filter-value="brainstorm">Brainstorm</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="intent" data-filter-value="feedback">Get feedback</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="intent" data-filter-value="explain">Explain</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="intent" data-filter-value="debug">Debug</button>
+                <button class="fpill prompt-filter" type="button" aria-pressed="false" data-filter-type="intent" data-filter-value="outline">Outline</button>
               </div>
             </div>
           </div>
@@ -222,55 +212,55 @@ layout: default
     </section>
 
     <!-- Student Stories (carousel) -->
-    <section class="student-section" id="scenarios">
-      <div class="student-section-inner">
+    <section class="guide-section" id="scenarios" aria-labelledby="scenarios-title">
+      <div class="guide-section-inner">
         <div class="section-header">
-          <h2 class="section-title">{{ page.labels.scenarios_title }}</h2>
+          <h2 class="section-title" id="scenarios-title">{{ page.labels.scenarios_title }}</h2>
           <p class="section-desc">{{ page.labels.scenarios_desc }}</p>
         </div>
 
-        <div class="filter-row scenario-filter-row">
+        <div class="filter-row scenario-filter-row" role="group" aria-label="{{ page.labels.scenario_filter_label }}">
           {% for d in page.scenario_disciplines %}
-          <button class="fpill scenario-filter{% if d.id == 'all' %} active{% endif %}" type="button" data-scenario-discipline="{{ d.id }}">{{ d.label }}</button>
+          <button class="fpill scenario-filter{% if d.id == 'all' %} active{% endif %}" type="button" aria-pressed="{% if d.id == 'all' %}true{% else %}false{% endif %}" data-scenario-discipline="{{ d.id }}">{{ d.label }}</button>
           {% endfor %}
         </div>
 
         <div class="scenario-carousel">
-          <button class="scenario-nav scenario-nav--prev" type="button" id="scenario-prev" aria-label="Previous story">‹</button>
-          <div class="scenario-track-wrap" id="scenario-wrap">
+          <button class="scenario-nav scenario-nav--prev" type="button" id="scenario-prev" aria-label="Previous story"><span aria-hidden="true">&lsaquo;</span></button>
+          <div class="scenario-track-wrap" id="scenario-wrap" role="group" aria-label="Student stories" tabindex="0">
             <div class="scenario-track" id="scenario-track">
               {% for s in page.scenarios %}
               <article class="scenario-card" data-discipline="{{ s.discipline }}">
-                <div class="scenario-persona">{{ s.persona }}</div>
+                <h3 class="scenario-persona">{{ s.persona }}</h3>
                 <p class="scenario-context">{{ s.context }}</p>
                 <div class="scenario-detail">
-                  <span class="scenario-detail-label">{{ page.labels.scenario_tried }}</span>
+                  <h4 class="scenario-detail-label">{{ page.labels.scenario_tried }}</h4>
                   <p>{{ s.tried }}</p>
                 </div>
                 <div class="scenario-detail scenario-detail--good">
-                  <span class="scenario-detail-label">{{ page.labels.scenario_worked }}</span>
+                  <h4 class="scenario-detail-label">{{ page.labels.scenario_worked }}</h4>
                   <p>{{ s.worked }}</p>
                 </div>
                 <div class="scenario-detail scenario-detail--bad">
-                  <span class="scenario-detail-label">{{ page.labels.scenario_didnt }}</span>
+                  <h4 class="scenario-detail-label">{{ page.labels.scenario_didnt }}</h4>
                   <p>{{ s.didnt_work }}</p>
                 </div>
               </article>
               {% endfor %}
             </div>
           </div>
-          <button class="scenario-nav scenario-nav--next" type="button" id="scenario-next" aria-label="Next story">›</button>
+          <button class="scenario-nav scenario-nav--next" type="button" id="scenario-next" aria-label="Next story"><span aria-hidden="true">&rsaquo;</span></button>
         </div>
         <div class="scenario-counter" id="scenario-counter" aria-live="polite"></div>
       </div>
     </section>
 
-  </div><!-- .student-main -->
+  </div><!-- .guide-main -->
 
   {% assign first_task = page.tasks | first %}
   {% assign starts_in_tasks = false %}
   {% if page.default_section == 'course-tasks' %}{% assign starts_in_tasks = true %}{% endif %}
-  <aside class="student-rail" aria-label="Things to keep in mind">
+  <aside class="guide-rail" aria-label="Things to keep in mind" role="complementary">
     <div class="rail-sticky">
       <div class="rail-inner">
       {% for r in page.rail_reminders %}
@@ -284,15 +274,15 @@ layout: default
            data-reminder-id="{{ r.id }}"
            data-for-tasks="{% if r.for_tasks %}{{ r.for_tasks | join: ',' }}{% endif %}"
            {% if r.default %}data-default="true"{% endif %}>
-        <div class="rail-label">{{ page.labels.rail_heading }}</div>
-        <div class="rail-reminder-title">{{ r.title }}</div>
+        <h3 class="rail-label">{{ page.labels.rail_heading }}</h3>
+        <h4 class="rail-reminder-title">{{ r.title }}</h4>
         <p class="rail-reminder-body">{{ r.body }}</p>
       </div>
       {% endfor %}
 
       {% for task in page.tasks %}
       <div class="rail-risks{% if starts_in_tasks and forloop.first %} active{% endif %}" data-task-id="{{ task.id }}">
-        <div class="rail-label rail-label--risks">{{ page.labels.risks_heading }}</div>
+        <h3 class="rail-label rail-label--risks">{{ page.labels.risks_heading }}</h3>
         <ul class="rail-risk-list">
           {% for risk in task.risks %}
           <li>{{ risk }}</li>
@@ -303,13 +293,13 @@ layout: default
       </div>
     </div>
   </aside>
-</div><!-- .student-wrap -->
+</div><!-- .guide-wrap -->
 
 <script>
   /* Right rail: task cautions follow the open task; one standing reminder
      rotates to suit it, falling back to the one marked default. */
   function syncRail(taskId, inTasks) {
-    var rail = document.querySelector('.student-rail');
+    var rail = document.querySelector('.guide-rail');
     if (!rail) return;
 
     rail.querySelectorAll('.rail-risks').forEach(function (b) {
@@ -328,19 +318,55 @@ layout: default
     });
   }
 
+  /* ── Where you are lives in the URL ─────────────────────
+     The open section and task are written back to the address bar, so a refresh
+     returns to what you were reading instead of resetting to the first section.
+     replaceState rather than pushState: this is where you already are, not a new
+     place for the back button to return from, and it fires no hashchange. */
+  var TASKS_SECTION = 'course-tasks';
+
+  function activeTaskId() {
+    var panel = document.querySelector('.task-panel.active');
+    return panel ? panel.id.replace('task-', '') : null;
+  }
+
+  function syncUrl() {
+    var section = document.querySelector('.guide-main .guide-section.active');
+    if (!section) return;
+    var hash = '#' + section.id;
+    if (section.id === TASKS_SECTION) {
+      var task = activeTaskId();
+      if (task) hash += '/' + task;
+    }
+    history.replaceState(null, '', location.pathname + location.search + hash);
+  }
+
   function showTask(id) {
     document.querySelectorAll('.task-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('task-' + id).classList.add('active');
-    document.querySelectorAll('.task-card').forEach(b => {
-      var on = b.getAttribute('data-task-id') === id;
-      b.classList.toggle('active', on);
-      b.setAttribute('aria-expanded', on ? 'true' : 'false');
-    });
-    document.querySelectorAll('.student-task-sublink').forEach(l => {
+    document.querySelectorAll('.guide-task-sublink').forEach(l => {
       l.classList.toggle('active', l.getAttribute('data-task-id') === id);
     });
+    var picker = document.getElementById('task-picker-select');
+    if (picker) picker.value = id;
     var tasksView = document.getElementById('course-tasks');
     syncRail(id, !!tasksView && tasksView.classList.contains('active'));
+    syncUrl();
+  }
+
+  // Shared polite live region: label swaps inside a button and panel switches are both
+  // silent to screen readers without one.
+  function announce(msg) {
+    var r = document.getElementById('a11y-live');
+    if (!r) {
+      r = document.createElement('div');
+      r.id = 'a11y-live';
+      r.className = 'sr-only';
+      r.setAttribute('aria-live', 'polite');
+      document.body.appendChild(r);
+    }
+    r.textContent = '';
+    setTimeout(function () { r.textContent = msg; }, 50);
   }
 
   function copyPrompt(btn) {
@@ -349,6 +375,7 @@ layout: default
     const text = (el ? el.textContent : block.textContent).trim();
     navigator.clipboard.writeText(text).then(() => {
       btn.textContent = 'Copied!';
+      announce('Prompt copied to clipboard');
       setTimeout(() => btn.textContent = 'Copy', 1500);
     });
   }
@@ -356,40 +383,50 @@ layout: default
   (function () {
     /* Section switching via TOC */
     function showSection(id, keepScroll) {
-      document.querySelectorAll('.student-main .student-section').forEach(function (s) {
+      document.querySelectorAll('.guide-main .guide-section').forEach(function (s) {
         s.classList.toggle('active', s.id === id);
       });
-      document.querySelectorAll('.student-section-link, .student-top-nav-link').forEach(function (l) {
-        l.classList.toggle('active', l.getAttribute('data-section') === id);
+      document.querySelectorAll('.guide-section-link, .guide-top-nav-link').forEach(function (l) {
+        var on = l.getAttribute('data-section') === id;
+        l.classList.toggle('active', on);
+        if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current');
       });
       var inTasks = id === 'course-tasks';
       var currentPanel = document.querySelector('.task-panel.active');
       var currentTask = currentPanel ? currentPanel.id.replace('task-', '') : null;
-      document.querySelectorAll('.student-task-sublink').forEach(function (l) {
+      document.querySelectorAll('.guide-task-sublink').forEach(function (l) {
         l.classList.toggle('active', inTasks && l.getAttribute('data-task-id') === currentTask);
       });
       if (id !== 'general-guidelines') {
-        document.querySelectorAll('.student-guideline-sublink').forEach(function (l) {
+        document.querySelectorAll('.guide-guideline-sublink').forEach(function (l) {
           l.classList.remove('active');
         });
       }
       syncRail(currentTask, inTasks);
       /* Callers that are about to scroll somewhere specific pass keepScroll,
          so the view does not first rewind to the top of the wrap. */
+      syncUrl();
       if (keepScroll) return;
-      var wrap = document.querySelector('.student-wrap');
+      var wrap = document.querySelector('.guide-wrap');
       var wrapTop = wrap.getBoundingClientRect().top + window.scrollY - 88;
       if (window.scrollY > wrapTop) window.scrollTo({ top: wrapTop });
     }
-    document.querySelectorAll('.student-section-link, .student-top-nav-link').forEach(function (btn) {
+    document.querySelectorAll('.guide-section-link, .guide-top-nav-link').forEach(function (btn) {
       btn.addEventListener('click', function () {
         showSection(btn.getAttribute('data-section'));
       });
     });
-    var initialSection = location.hash.slice(1);
-    if (initialSection) {
-      var initialEl = document.getElementById(initialSection);
-      if (initialEl && initialEl.classList.contains('student-section')) showSection(initialSection);
+    /* Restore from the URL: the task first, since showSection reads which panel is
+       open to sync the sub-links and the rail. keepScroll, so this does not fight the
+       browser's own scroll restoration on a refresh. */
+    function applyHash(keepScroll) {
+      var parts = location.hash.slice(1).split('/');
+      if (!parts[0]) return;
+      var section = document.getElementById(parts[0]);
+      if (!section || !section.classList.contains('guide-section')) return;
+      if (parts[1] && document.getElementById('task-' + parts[1])) showTask(parts[1]);
+      showSection(parts[0], keepScroll);
+      if (openSublistFor) openSublistFor(parts[0]);
     }
 
     /* Prompt library filters */
@@ -401,8 +438,10 @@ layout: default
         var value = btn.getAttribute('data-filter-value');
         document.querySelectorAll('.prompt-filter[data-filter-type="' + type + '"]').forEach(function (b) {
           b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
         });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         if (type === 'discipline') disciplineFilter = value;
         if (type === 'intent') intentFilter = value;
         filterPrompts();
@@ -418,20 +457,67 @@ layout: default
       });
     }
 
+    /* ── Narrow screens: filter pills become dropdowns ─────────
+       Each pill row gets a <select> twin, built from the pills themselves so the options
+       are never written twice. Choosing an option clicks the matching pill, so filtering
+       still runs through one handler and the pills' pressed state stays true for anyone
+       who widens the window; clicking a pill moves the select to match. CSS shows one or
+       the other by width. */
+    document.querySelectorAll('.prompt-filter-row, .scenario-filter-row').forEach(function (row) {
+      var pills = Array.prototype.slice.call(row.querySelectorAll('.fpill'));
+      if (!pills.length) return;
+
+      var select = document.createElement('select');
+      select.className = 'filter-select';
+      var labelledBy = row.getAttribute('aria-labelledby');
+      if (labelledBy) select.setAttribute('aria-labelledby', labelledBy);
+      else if (row.getAttribute('aria-label')) select.setAttribute('aria-label', row.getAttribute('aria-label'));
+
+      pills.forEach(function (pill, i) {
+        var opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = pill.textContent.trim();
+        opt.selected = pill.getAttribute('aria-pressed') === 'true';
+        select.appendChild(opt);
+        pill.addEventListener('click', function () { select.value = String(i); });
+      });
+      select.addEventListener('change', function () { pills[Number(select.value)].click(); });
+
+      var field = document.createElement('div');
+      field.className = 'filter-select-field ' + row.className.replace(/\bfilter-row\b/, '').trim() + '-select';
+      field.appendChild(select);
+      row.parentNode.insertBefore(field, row.nextSibling);
+      row.classList.add('has-select');
+    });
+
+    var openSublistFor;
+
     /* Sidebar dropdowns — collapsed until the section header is clicked.
        One open at a time; clicking the open one collapses it again. */
     (function () {
-      var headers = document.querySelectorAll('.student-section-link.has-sub');
-      var lists = document.querySelectorAll('.student-sublist');
+      var headers = document.querySelectorAll('.guide-section-link.has-sub');
+      var lists = document.querySelectorAll('.guide-sublist');
 
       function closeAll() {
         lists.forEach(function (l) { l.hidden = true; });
         headers.forEach(function (h) { h.setAttribute('aria-expanded', 'false'); });
       }
 
+      /* Used when the view is restored from the URL rather than clicked into: the
+         section that comes back open gets its list back open with it. */
+      openSublistFor = function (id) {
+        var header = document.querySelector('.guide-section-link.has-sub[data-section="' + id + '"]');
+        if (!header) return;
+        closeAll();
+        lists.forEach(function (l) {
+          if (l.getAttribute('data-sub-for') === id) l.hidden = false;
+        });
+        header.setAttribute('aria-expanded', 'true');
+      };
+
       /* Any section click collapses what is open, so the sidebar always
          reflects where you actually are; headers with children then open. */
-      document.querySelectorAll('.student-section-link').forEach(function (btn) {
+      document.querySelectorAll('.guide-section-link').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var id = btn.getAttribute('data-section');
           var wasOpen = btn.getAttribute('aria-expanded') === 'true';
@@ -445,12 +531,14 @@ layout: default
       });
     })();
 
+    applyHash(true);
+
     /* Guideline sub-links scroll to their block within the one section */
-    document.querySelectorAll('.student-guideline-sublink').forEach(function (btn) {
+    document.querySelectorAll('.guide-guideline-sublink').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var wasActive = document.getElementById('general-guidelines').classList.contains('active');
         showSection('general-guidelines', true);
-        document.querySelectorAll('.student-guideline-sublink').forEach(function (l) {
+        document.querySelectorAll('.guide-guideline-sublink').forEach(function (l) {
           l.classList.toggle('active', l === btn);
         });
         var target = document.getElementById('gg-' + btn.getAttribute('data-guideline-id'));
@@ -463,7 +551,7 @@ layout: default
     });
 
     /* Sidebar task sub-links */
-    document.querySelectorAll('.student-task-sublink').forEach(function (btn) {
+    document.querySelectorAll('.guide-task-sublink').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var wasActive = document.getElementById('course-tasks').classList.contains('active');
         showSection('course-tasks', true);
@@ -482,7 +570,7 @@ layout: default
     (function () {
       var NAV = 88;
       var railBox = document.querySelector('.rail-sticky');
-      var wrap = document.querySelector('.student-wrap');
+      var wrap = document.querySelector('.guide-wrap');
       if (!railBox || !wrap) return;
       var narrow = window.matchMedia('(max-width: 1024px)');
       var ticking = false;
@@ -507,15 +595,6 @@ layout: default
       window.addEventListener('resize', request);
       syncRailBox();
     })();
-
-    /* Sticky task bar compact mode */
-    var taskBar = document.getElementById('task-bar');
-    var taskBarSentinel = document.querySelector('.task-bar-sentinel');
-    if (taskBar && taskBarSentinel && 'IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        taskBar.classList.toggle('task-bar--stuck', !entries[0].isIntersecting);
-      }, { rootMargin: '-120px 0px 0px 0px' }).observe(taskBarSentinel);
-    }
 
     /* Scenario carousel */
     var track = document.getElementById('scenario-track');
@@ -562,8 +641,12 @@ layout: default
 
     document.querySelectorAll('.scenario-filter').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        document.querySelectorAll('.scenario-filter').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.scenario-filter').forEach(function (b) {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         scenarioDiscipline = btn.getAttribute('data-scenario-discipline');
         if (track) {
           track.querySelectorAll('.scenario-card').forEach(function (card) {
