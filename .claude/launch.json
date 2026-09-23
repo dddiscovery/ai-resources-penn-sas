@@ -6,6 +6,20 @@
       "runtimeExecutable": "bin/serve",
       "runtimeArgs": [],
       "port": 4000
+    },
+    {
+      "name": "jekyll-audit",
+      "runtimeExecutable": "bundle",
+      "runtimeArgs": [
+        "exec",
+        "jekyll",
+        "serve",
+        "--config",
+        "_config.yml,_config_dev.yml,.claude/preview.yml",
+        "--port",
+        "4017"
+      ],
+      "port": 4017
     }
   ]
 }

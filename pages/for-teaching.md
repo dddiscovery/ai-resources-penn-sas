@@ -1,8 +1,4 @@
 ---
-# Archived — set published: true to bring the page back, then restore the three
-# links to it: the nav in _layouts/default.html, the hero button in pages/home.md, and
-# the "Teaching a course?" paragraph in pages/for-students.md.
-published: false
 layout: teaching
 title: AI for Teaching
 description: "Practical guidance on teaching in a course where every student has an AI assistant: what to change, what to keep, and how to decide."
@@ -190,24 +186,24 @@ modes:
       change without rebuilding the course from nothing.
     sequence:
       - num: "01"
-        title: "Stress-test what you assign"
-        desc: "Run two or three assignments through a model as your students receive them. Read the output before deciding anything."
-        task: assessment
+        title: "Start from what the course is for"
+        desc: "Write one line per assignment: what it was meant to give you evidence of. That is the standard everything below is judged against."
+        task: design
       - num: "02"
+        title: "Do your own assignments with AI"
+        desc: "Run two or three through a model exactly as students receive them, and read the output before you decide anything."
+        task: assessment
+      - num: "03"
         title: "Triage, don't rebuild"
         desc: "Sort assessments into still works, needs reworking, and now measures nothing. Most courses have only two or three in the last group."
         task: assessment
-      - num: "03"
-        title: "Rework the exposed ones"
-        desc: "Change those assignments, not the whole course. The four shifts under AI-resilient assessment are where to start."
-        task: assessment
       - num: "04"
-        title: "Set your policy"
-        desc: "Decide what is permitted, assignment by assignment, and write it down in terms students can act on."
-        task: materials
+        title: "Rework the exposed ones"
+        desc: "Change those assignments, not the whole course — and move weight onto work done in the room. The four shifts under AI-resilient assessment are where to start."
+        task: assessment
       - num: "05"
-        title: "Tell students why"
-        desc: "Put the reasoning in the syllabus and say it out loud in week one. A rule without a reason gets reinterpreted."
+        title: "Set your policy, and say why"
+        desc: "Decide what is permitted assignment by assignment, put the reasoning in the syllabus, and say it out loud in week one."
         task: materials
   - id: build
     label: "Building a new course"
@@ -224,12 +220,12 @@ modes:
         desc: "Compare two or three orderings and their trade-offs before committing to a week-by-week plan."
         task: design
       - num: "03"
-        title: "Anticipate where students get stuck"
-        desc: "List the misconceptions you expect, then build the explanations and activities around them."
+        title: "Decide what belongs in the room"
+        desc: "Which objectives you will teach and evidence in person, and which can live outside class. Contact time is the scarcest thing you have."
         task: classroom
       - num: "04"
-        title: "Design assessments up front"
-        desc: "Decide how each objective is evidenced — and check each assessment against a model before it exists on a syllabus."
+        title: "Decide what counts as evidence now"
+        desc: "For each objective, ask what would still show a student met it when AI is available. The four shifts under AI-resilient assessment are where the forms are."
         task: assessment
       - num: "05"
         title: "Draft the materials"
@@ -255,6 +251,7 @@ tasks:
       - "What the course is for, and which of the many defensible versions of this course you are teaching"
       - "Which objectives matter enough to spend limited weeks on, and which are nice to have"
       - "What counts as good work in your field, at this level"
+      - "Which skills your field most wants students to practise at this level — and which of those stop being learned the moment a model does them instead"
     helps:
       - "Turning a vague aim into objectives specific enough to assess against"
       - "Checking whether your objectives, your weekly topics, and your assessments actually align — and naming where they don't"
@@ -393,6 +390,7 @@ tasks:
       - "Reading the room, and changing the plan when it is not landing"
       - "The examples drawn from your own research and your own field experience — those are why students are in your class rather than watching a video"
       - "Deciding which confusions are worth stopping for"
+      - "Using class time to meet as many of your learning goals as you can in an AI-free setting — live discussion, unannounced quizzes, problems worked and explained in the room"
     helps:
       - "Generating fresh examples when your standard one has gone stale or dated"
       - "Building branching question sequences keyed to the answers students actually give"

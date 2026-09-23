@@ -5,6 +5,7 @@ url: "https://dddiscovery.github.io"
 # CSS, image and link path on the live site. For local serving, _config_dev.yml
 # already overrides it to "" (bin/serve loads both files).
 baseurl: "/ai-resources-penn-sas"
+# baseurl: " "
 
 # External links used in the site chrome
 links:

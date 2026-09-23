@@ -47,9 +47,7 @@
       <a href="{{ '/' | relative_url }}" class="nav-btn{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}"{% if page.url == '/' or page.url == '/index.html' %} aria-current="page"{% endif %}>Home</a>
       <a href="{{ '/tools/' | relative_url }}" class="nav-btn{% if page.url contains 'tools' %} active{% endif %}"{% if page.url contains 'tools' %} aria-current="page"{% endif %}>AI Tools</a>
       <a href="{{ '/for-students/' | relative_url }}" class="nav-btn{% if page.url contains 'for-students' %} active{% endif %}"{% if page.url contains 'for-students' %} aria-current="page"{% endif %}>For Learning</a>
-      {% comment %} Archived with pages/for-teaching.md (published: false). Uncomment when it returns.
       <a href="{{ '/for-teaching/' | relative_url }}" class="nav-btn{% if page.url contains 'for-teaching' %} active{% endif %}"{% if page.url contains 'for-teaching' %} aria-current="page"{% endif %}>For Teaching</a>
-      {% endcomment %}
       <a href="{{ '/for-researchers/' | relative_url }}" class="nav-btn{% if page.url contains 'for-researchers' %} active{% endif %}"{% if page.url contains 'for-researchers' %} aria-current="page"{% endif %}>For Research</a>
       <!-- <a href="https://dddiscovery.github.io/datapoints" class="nav-ext" target="_blank" rel="noopener">DataPoints ↗</a> -->
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle bright / dark mode" aria-pressed="false">

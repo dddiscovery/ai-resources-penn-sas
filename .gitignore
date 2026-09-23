@@ -3,3 +3,5 @@ _site/
 __pycache__/
 .jekyll-cache/
 .sass-cache/
+.claude/preview-site/
+.claude/preview-cache/

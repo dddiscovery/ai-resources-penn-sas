@@ -10,6 +10,16 @@
    policy stance cards.
    ========================================================= */
 
+/* ── Section intros ───────────────────────────────────────
+   main.css caps .section-desc at 36rem, which on this page leaves the
+   intro wrapping well short of the grids directly beneath it — the task
+   cards, the shift cards — and reads as a ragged gutter rather than a
+   deliberate measure. Let the intros run the width of the column so each
+   section reads as one block. */
+.guide-main .section-desc {
+  max-width: none;
+}
+
 /* ── Mode toggle ──────────────────────────────────────────
    One persistent choice that swaps the suggested order, each task's
    framing, and the mode-specific prompts. Everything not marked with
@@ -203,7 +213,6 @@
 
 /* ── AI-resilient assessment ──────────────────────────── */
 .assessment-intro {
-  max-width: 46rem;
   margin: 0 0 2.25rem;
   font-size: 0.88rem;
   line-height: 1.8;

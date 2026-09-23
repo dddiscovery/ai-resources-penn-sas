@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "assets/css/main.css"
+        ],
+        "createdAt": "2026-09-10T17:47:56.326Z",
+        "reason": "established repo convention, not user-confirmed: 4 instances predate this session on HEAD (.risk-box + .callout in main.css, .news-inner + .tool-finder-summary--ethics in home.css). It is the site house idiom for flagged/callout content; new .evalflow-verdict and .annotation match it deliberately rather than introducing a competing treatment."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "assets/css/home.css"
+        ],
+        "createdAt": "2026-09-10T17:47:56.346Z",
+        "reason": "established repo convention, not user-confirmed: 4 instances predate this session on HEAD (.risk-box + .callout in main.css, .news-inner + .tool-finder-summary--ethics in home.css). It is the site house idiom for flagged/callout content; new .evalflow-verdict and .annotation match it deliberately rather than introducing a competing treatment."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "assets/css/evaluating.css"
+        ],
+        "createdAt": "2026-09-10T17:47:56.360Z",
+        "reason": "established repo convention, not user-confirmed: 4 instances predate this session on HEAD (.risk-box + .callout in main.css, .news-inner + .tool-finder-summary--ethics in home.css). It is the site house idiom for flagged/callout content; new .evalflow-verdict and .annotation match it deliberately rather than introducing a competing treatment."
+      }
+    ]
+  }
+}

@@ -16,10 +16,9 @@ hero:
     - label: "AI for Learning"
       url: "/for-students/"
       style: "btn-ghost"
-    # Archived with pages/for-teaching.md (published: false). Uncomment when it returns.
-    # - label: "AI for Teaching"
-    #   url: "/for-teaching/"
-    #   style: "btn-ghost"
+    - label: "AI for Teaching"
+      url: "/for-teaching/"
+      style: "btn-ghost"
     - label: "AI for Research"
       url: "/for-researchers/"
       style: "btn-ghost"

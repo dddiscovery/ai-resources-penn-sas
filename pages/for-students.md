@@ -94,11 +94,10 @@ general_guidelines:
           using AI without your instructor's permission can constitute unauthorized
           assistance or plagiarism. Before using AI for any coursework, check the syllabus or
           ask your instructor, and follow their instructions regarding usage and citation.
-        # Archived with pages/for-teaching.md (published: false). Uncomment when it returns.
-        # - >-
-        #   <em>Teaching a course?</em> The <a href="%BASEURL%/for-teaching/">AI for Teaching</a>
-        #   page covers setting a course AI policy and designing assessments that still measure
-        #   learning.
+        - >-
+          <em>Teaching a course?</em> The <a href="%BASEURL%/for-teaching/">AI for Teaching</a>
+          page covers setting a course AI policy and designing assessments that still measure
+          learning.
     - heading: "Consider intellectual property"
       paras:
         - >-

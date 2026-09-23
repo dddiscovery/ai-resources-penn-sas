@@ -1,0 +1,19 @@
+# Layered on top of _config.yml + _config_dev.yml by the "jekyll-audit" entry in
+# .claude/launch.json. Its only job is to keep Claude's preview server out of the
+# _site/ and .jekyll-cache/ that your own `bundle exec jekyll serve` is using, so the
+# two can run side by side without overwriting each other's build.
+destination: .claude/preview-site
+cache_dir: .claude/preview-cache
+
+# `exclude` replaces the base list rather than adding to it, so _config.yml's entries
+# are repeated here. _site is the new one: it is no longer this server's destination,
+# so without it Jekyll would treat the other server's output as source files and
+# rebuild in a loop every time that server writes.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - README.md
+  - package.json
+  - package-lock.json
+  - _site
