@@ -1,0 +1,43 @@
+---
+layout: default
+---
+
+{%- assign rq = page.request -%}
+{%- comment -%}
+  The request button is a mailto with a fixed subject and a pre-filled body. Each body line
+  is percent-encoded on its own and the lines are joined with CRLF (%0D%0A), which is what
+  RFC 6068 asks for and what Outlook, Apple Mail and Gmail all unfold correctly. uri_escape
+  leaves ":" "," "(" ")" alone, which mailto permits, and turns spaces into %20 rather than
+  the "+" that url_encode would produce and some clients would show literally.
+{%- endcomment -%}
+{%- capture mail_body -%}{%- for line in rq.body_lines -%}{{ line | uri_escape }}{%- unless forloop.last -%}%0D%0A{%- endunless -%}{%- endfor -%}{%- endcapture -%}
+{%- assign mail_subject = rq.subject | uri_escape -%}
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <p class="page-eyebrow">{{ page.header.eyebrow }}</p>
+    <h1 class="page-title">{{ page.header.heading }}</h1>
+    <p class="page-desc">{{ page.header.subtext }}</p>
+  </div>
+</div>
+
+<div class="forum-wrap">
+  <div class="forum-main">
+
+    <div class="forum-about">
+      {%- for para in page.about.paras %}
+      <p>{{ para }}</p>
+      {%- endfor %}
+    </div>
+
+    <section class="request-card" aria-labelledby="request-title">
+      <h2 class="request-title" id="request-title">{{ rq.heading }}</h2>
+      <p class="request-text">{{ rq.text }}</p>
+      <a class="btn-dark request-btn" href="mailto:{{ rq.email }}?subject={{ mail_subject }}&amp;body={{ mail_body }}">{{ rq.button_label }}</a>
+      <p class="request-fallback">{{ rq.fallback_label }} <a href="mailto:{{ rq.email }}">{{ rq.email }}</a> {{ rq.fallback_note }}</p>
+    </section>
+
+    <p class="forum-already">{{ page.already.text }}</p>
+
+  </div>
+</div>

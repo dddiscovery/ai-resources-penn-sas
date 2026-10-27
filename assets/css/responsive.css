@@ -10,17 +10,34 @@
 
 
 /* ══════════════════════════════════════════════════════════
+   SMALL LAPTOP / TABLET LANDSCAPE  ≤ 1100px and ≤ 960px
+   Nav only. Both thresholds were ≤768px until the nav grew to five tabs; measured
+   at the 1280px container the five fit beside the title with room to spare, at 1024px
+   the title is squeezed onto three lines, and under ~850px the row overflows the bar.
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  /* Drop the site title — the logo is enough. */
+  .nav-title    { display: none; }
+  .nav-vbar     { display: none; }
+}
+@media (max-width: 960px) {
+  /* The tab row scrolls sideways rather than wrapping or pushing the theme toggle out
+     of the bar. overflow:auto also lets the row shrink below its content width, which
+     a plain flex item will not do. */
+  .nav-btn      { padding: 0 0.75rem; flex-shrink: 0; }
+  .nav-links    { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; scrollbar-width: none; }
+  .nav-links::-webkit-scrollbar { display: none; }
+}
+
+
+/* ══════════════════════════════════════════════════════════
    TABLET  ≤ 768px
    ══════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
   /* ── Nav ─────────────────────────────────────────────── */
   .nav-inner    { padding: 0.5rem 1.25rem; min-height: 60px; }
-  .nav-title    { display: none; }        /* drop site title — logo is enough */
-  .nav-vbar     { display: none; }
-  .nav-btn      { padding: 0 0.6rem; height: 52px; flex-shrink: 0; white-space: nowrap; }
-  .nav-links    { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; scrollbar-width: none; }
-  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-btn      { padding: 0 0.6rem; height: 52px; }   /* row scrolling: see ≤960px */
 
   /* ── Hero (home) ─────────────────────────────────────── */
   .hero         { padding: 4rem 1.5rem 3.5rem; }

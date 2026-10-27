@@ -1,0 +1,152 @@
+---
+layout: default
+---
+
+{%- assign lb = page.labels -%}
+{%- assign many = false -%}
+{%- if page.sessions.size > 1 -%}{%- assign many = true -%}{%- endif -%}
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <p class="page-eyebrow">{{ page.header.eyebrow }}{% if page.private %} <span class="forum-chip">{{ lb.private_chip }}</span>{% endif %}</p>
+    <h1 class="page-title">{{ page.header.heading }}</h1>
+    <p class="page-desc">{{ page.header.subtext }}</p>
+  </div>
+</div>
+
+{%- comment -%}
+  One tab per month, newest first. Tabs only appear once there is more than one
+  month; with one, the single panel simply shows. Panels after the first ship with the
+  hidden attribute so there is no flash of every session before the script runs; the
+  <noscript> rule below gives a reader without JavaScript all of them, stacked.
+{%- endcomment -%}
+{%- if many %}
+<noscript><style>.forum-session[hidden] { display: block; }</style></noscript>
+<div class="forum-tabs-wrap">
+  <div class="forum-tabs" role="tablist" aria-label="{{ lb.sessions_label }}">
+    {%- for s in page.sessions %}
+    <button class="forum-tab{% if forloop.first %} active{% endif %}" type="button" role="tab" id="tab-{{ s.id }}" aria-controls="{{ s.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-session="{{ s.id }}">{{ s.date }}</button>
+    {%- endfor %}
+  </div>
+</div>
+{%- endif %}
+
+<div class="forum-wrap">
+  <div class="forum-main">
+
+    {%- if page.about %}
+    <div class="forum-about">
+      {%- for para in page.about %}
+      <p>{{ para | replace: '%BASEURL%', site.baseurl }}</p>
+      {%- endfor %}
+    </div>
+    {%- endif %}
+
+    {%- for s in page.sessions %}
+    <article class="forum-session" id="{{ s.id }}"{% if many %} role="tabpanel" aria-labelledby="tab-{{ s.id }}" tabindex="0"{% unless forloop.first %} hidden{% endunless %}{% endif %}>
+      <header class="forum-session-head">
+        <p class="forum-session-date">{{ s.date }}</p>
+        <h2 class="forum-session-title">{{ s.title }}</h2>
+        {%- if s.attendees %}
+        <p class="forum-session-attendees"><span class="forum-inline-label">{{ lb.attendees_label }}</span> {{ s.attendees }}</p>
+        {%- endif %}
+        {%- if s.source %}
+        <p class="forum-session-source">{{ s.source }}</p>
+        {%- endif %}
+      </header>
+
+      {%- if s.themes %}
+      <h3 class="forum-label">{{ lb.themes_label }}</h3>
+      <div class="forum-themes">
+        {%- for t in s.themes %}
+        <section class="forum-theme">
+          <h4 class="forum-theme-heading">{{ t.heading }}</h4>
+          <div class="forum-theme-body">
+            {%- if t.paras %}
+            {%- for p in t.paras %}
+            <p>{{ p }}</p>
+            {%- endfor %}
+            {%- else %}
+            <p>{{ t.body }}</p>
+            {%- endif %}
+            {%- if t.questions %}
+            <div class="forum-theme-questions">
+              <h5 class="forum-mini-label">{{ lb.questions_label }}</h5>
+              <ul class="forum-list">
+                {%- for q in t.questions %}
+                <li>{{ q }}</li>
+                {%- endfor %}
+              </ul>
+            </div>
+            {%- endif %}
+          </div>
+        </section>
+        {%- endfor %}
+      </div>
+      {%- endif %}
+
+      {%- if s.followups %}
+      <div class="forum-list-block forum-list-block--followups">
+        <h3 class="forum-label">{{ lb.followups_label }}</h3>
+        <ul class="forum-list">
+          {%- for f in s.followups %}
+          <li>{{ f }}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+    </article>
+    {%- endfor %}
+
+  </div>
+</div>
+
+{%- if many %}
+<script>
+  /* Session tabs. The open session is written to the URL hash with replaceState, as the
+     guide pages do, so a refresh keeps the place and #2026-09 can be linked directly.
+     Arrow keys move between tabs per the WAI-ARIA tabs pattern; Home/End jump to the ends. */
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.forum-tab'));
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.forum-session'));
+    if (!tabs.length) return;
+
+    function show(id, focusTab, writeHash) {
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('data-session') === id;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.setAttribute('tabindex', on ? '0' : '-1');
+        if (on && focusTab) t.focus();
+      });
+      panels.forEach(function (p) { p.hidden = p.id !== id; });
+      if (writeHash) history.replaceState(null, '', location.pathname + location.search + '#' + id);
+    }
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { show(t.getAttribute('data-session'), false, true); });
+      t.addEventListener('keydown', function (e) {
+        var j;
+        if (e.key === 'ArrowRight')     j = (i + 1) % tabs.length;
+        else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === 'Home')      j = 0;
+        else if (e.key === 'End')       j = tabs.length - 1;
+        else return;
+        e.preventDefault();
+        show(tabs[j].getAttribute('data-session'), true, true);
+      });
+    });
+
+    function fromHash() {
+      var id = location.hash.slice(1);
+      if (!id) return false;
+      var el = document.getElementById(id);
+      if (!el || !el.classList.contains('forum-session')) return false;
+      show(id, false, false);
+      return true;
+    }
+    if (!fromHash()) show(tabs[0].getAttribute('data-session'), false, false);
+    window.addEventListener('hashchange', fromHash);
+  })();
+</script>
+{%- endif %}

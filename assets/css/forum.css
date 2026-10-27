@@ -1,0 +1,261 @@
+/* =========================================================
+   Teaching Forum — page-specific styles  →  assets/css/forum.css
+   Serves both the request page (/teaching-forum/, layout forum-gate) and the
+   invitation-only notes page (layout forum).
+   Reused from main.css: .page-header / .page-eyebrow / .page-title / .page-desc, .btn-dark
+   ─────────────────────────────────────────────────────────
+   Both pages sit in the same 1280px container as the page header and the rest of the
+   site, so their text lines up with the header above it. The rhythm comes from rules
+   and whitespace rather than cards.
+   ========================================================= */
+
+.forum-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+/* ── "Internal" chip, next to the eyebrow ──────────────
+   Pink rather than teal so it reads as a status, not a section name. Sits at the
+   0.65rem small-label floor the rest of the site uses. */
+.forum-chip {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.6rem;
+  padding: 0.12rem 0.55rem;
+  border: 1px solid rgba(252,67,117,0.40);
+  border-radius: 3px;
+  background: var(--pink-glow);
+  color: var(--pink-text);
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── Session tabs ──────────────────────────────────────
+   Same recipe as the site nav's tabs (.nav-btn): text with a teal underline when
+   current. The strip sticks beneath the site nav, whose height the nav publishes as
+   --site-nav-h, so the date stays in view while reading a long session. */
+.forum-tabs-wrap {
+  position: sticky;
+  top: var(--site-nav-h, 68px);
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.forum-tabs {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.forum-tabs::-webkit-scrollbar { display: none; }
+.forum-tab {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-2);
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0.85rem 1rem;
+  margin-bottom: -1px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.forum-tab:hover { color: var(--text); }
+.forum-tab.active { color: var(--teal-text); border-bottom-color: var(--teal); }
+
+/* ── Opening paragraph(s) ─────────────────────────────── */
+.forum-about {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2.5rem;
+}
+.forum-about p {
+  font-size: 0.86rem;
+  color: var(--text-2);
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+.forum-about p + p { margin-top: 0.85rem; }
+.forum-about a { color: var(--teal-text); }
+
+/* ── A session ────────────────────────────────────────── */
+.forum-session:focus-visible { outline-offset: 1rem; }
+.forum-session-date {
+  font-family: var(--font-code);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  margin-bottom: 0.5rem;
+}
+.forum-session-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 2.6vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--heading);
+  margin-bottom: 0.6rem;
+  text-wrap: balance;
+}
+.forum-session-attendees,
+.forum-session-source {
+  font-size: 0.78rem;
+  color: var(--text-3);
+  line-height: 1.6;
+}
+.forum-session-source { margin-top: 0.2rem; font-style: italic; }
+.forum-inline-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-right: 0.3rem;
+}
+
+/* Section labels inside a session. Real h3s for the outline, styled as the site's
+   small uppercase labels (same recipe as .col-label in main.css). */
+.forum-label {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--teal-text);
+  margin: 2.25rem 0 0.75rem;
+}
+
+/* ── Themes: heading in the margin, body beside it ─────
+   The minutes-with-margin-headings pattern, the same grid as the glossary on
+   /evaluating-ai/. Rules between entries rather than cards around them. */
+.forum-theme {
+  display: grid;
+  grid-template-columns: 13rem 1fr;
+  gap: 2rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+}
+.forum-theme:last-child { border-bottom: 1px solid var(--border); }
+.forum-theme-heading {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--heading);
+}
+.forum-theme-body p {
+  font-size: 0.84rem;
+  color: var(--text-2);
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+.forum-theme-body p + p { margin-top: 0.8rem; }
+.forum-theme-body strong { color: var(--text); font-weight: 600; }
+
+/* What was left to discuss on this theme: a dashed rule and a pink label under the
+   body, so it reads as a note in the margin of the theme rather than a new section. */
+.forum-theme-questions {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed var(--border-control);
+}
+.forum-mini-label {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pink-text);
+  margin-bottom: 0.45rem;
+}
+
+/* ── Lists: questions and follow-ups ──────────────────── */
+.forum-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.forum-list li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.83rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.forum-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--pink);
+}
+.forum-list-block--followups .forum-list li::before { background: var(--teal); }
+
+/* ── Request page ─────────────────────────────────────── */
+.request-card {
+  border: 1px solid var(--border-teal);
+  border-radius: 10px;
+  background: rgba(43,138,138,0.05);
+  padding: 1.75rem 2rem;
+  margin: 0 0 1.75rem;
+}
+.request-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--heading);
+  margin-bottom: 0.5rem;
+}
+.request-text {
+  font-size: 0.83rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  text-wrap: pretty;
+}
+.request-fallback {
+  margin-top: 1.1rem;
+  font-size: 0.74rem;
+  color: var(--text-3);
+  line-height: 1.6;
+}
+.request-fallback a { color: var(--teal-text); }
+.forum-already {
+  font-size: 0.76rem;
+  color: var(--text-3);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* ── Narrow ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .forum-wrap  { padding: 2rem 1.25rem 3rem; }
+  .forum-tabs  { padding: 0 1.25rem; }
+  .forum-tab   { padding: 0.75rem 0.8rem; }
+  /* Heading above body rather than a 13rem column that would leave the body a
+     four-word measure. */
+  .forum-theme { grid-template-columns: 1fr; gap: 0.4rem; }
+  .request-card { padding: 1.25rem 1.35rem; }
+  .forum-chip  { margin-left: 0; margin-top: 0.4rem; display: inline-block; }
+}
+
+@media (max-width: 480px) {
+  .forum-wrap { padding: 1.5rem 1rem 2.5rem; }
+  .forum-tabs { padding: 0 1rem; }
+  .page-eyebrow .forum-chip { display: block; width: max-content; }
+}

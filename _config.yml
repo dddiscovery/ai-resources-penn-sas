@@ -26,3 +26,4 @@ exclude:
   - README.md
   - package.json
   - package-lock.json
+  - docs          # maintainer notes, not site content

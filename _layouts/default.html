@@ -18,6 +18,12 @@
   <link rel="stylesheet" href="{{ sheet | relative_url }}">
 {%- endfor %}
   <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+{%- if page.private %}
+  <!-- Invitation-only page (see pages/teaching-forum-notes.md): kept out of search results
+       with this tag alone. Deliberately no robots.txt Disallow, which would publish the
+       address in a file crawlers read first and stop them from ever seeing this tag. -->
+  <meta name="robots" content="noindex, nofollow">
+{%- endif %}
   {% seo title=false %}
   <!-- Prevent flash of wrong theme -->
   <script>
@@ -51,6 +57,9 @@
       <a href="{{ '/for-teaching/' | relative_url }}" class="nav-btn{% if page.url contains 'for-teaching' %} active{% endif %}"{% if page.url contains 'for-teaching' %} aria-current="page"{% endif %}>For Teaching</a>
       {% endcomment %}
       <a href="{{ '/for-researchers/' | relative_url }}" class="nav-btn{% if page.url contains 'for-researchers' %} active{% endif %}"{% if page.url contains 'for-researchers' %} aria-current="page"{% endif %}>For Research</a>
+      {% comment %} Points at the request page. The notes page shares the /teaching-forum/ prefix,
+      so the tab also reads as current there, without the nav ever linking to it. {% endcomment %}
+      <a href="{{ '/teaching-forum/' | relative_url }}" class="nav-btn{% if page.url contains 'teaching-forum' %} active{% endif %}"{% if page.url contains 'teaching-forum' %} aria-current="page"{% endif %}>Teaching Forum</a>
       <!-- <a href="https://dddiscovery.github.io/datapoints" class="nav-ext" target="_blank" rel="noopener">DataPoints ↗</a> -->
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle bright / dark mode" aria-pressed="false">
         <!-- Sun icon — visible in dark mode -->

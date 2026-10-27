@@ -341,6 +341,10 @@ li a,
   cursor: pointer;
   padding: 0 1rem;
   height: 58px;
+  /* Five tabs no longer fit beside the site title at ~1024px. A label broken over two
+     lines inside a 58px button is the worse outcome, so the labels stay whole and the
+     site title (plain text, free to wrap) gives way instead. */
+  white-space: nowrap;
   transition: color 0.2s, border-color 0.2s;
 }
 .nav-btn:hover { color: var(--text); }
