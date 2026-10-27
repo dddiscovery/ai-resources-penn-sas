@@ -11,15 +11,14 @@ Maintainer notes. This folder is excluded from the Jekyll build, so nothing here
 | Allow-list and "already sent" log | An Excel workbook in your Penn OneDrive, never in this repository | You and Bhuv |
 | Auto-reply | A Power Automate flow on your Penn mailbox | Runs on its own |
 
-The button is a `mailto:` link. It opens the visitor's own mail app with your address filled in, the subject line **Teaching Forum access request**, and a short body asking for name, department and courses. The visitor sends it. The subject line is the trigger for the flow, so if you change it in `pages/teaching-forum.md`, change it in the flow too.
+The button is a `mailto:` link. It opens the visitor's own mail app with your address filled in, the subject line **AI site - Teaching Forum access request**, and a short body asking for name and department. The visitor sends it, and may add a note; the page asks them to leave the subject line alone. The subject line is the trigger for the flow, so if you change it in `pages/teaching-forum.md`, change it in the flow too.
 
 What the flow does on every email whose subject contains that string:
 
 1. Drop it unless the subject is *exactly* that string. Replies ("RE:"), forwards ("FW:") and out-of-office messages ("Automatic reply:") never match, so nobody gets a second email for following up.
-2. Drop it unless the sender address ends in `@upenn.edu` or `.upenn.edu` (so `sas.upenn.edu` counts).
-3. Look the sender up in the `Allowlist` table. Not there: do nothing except flag the message so you see it.
-4. Look the sender up in the `Sent` table. Already there: do nothing except flag it.
-5. Otherwise reply, in the same thread, with the link, and add the sender to `Sent`.
+2. Look the sender up in the `Allowlist` table. Not there: do nothing except flag the message so you see it. (There is no separate check that the address is a Penn one; the allow-list is the only gate.)
+3. Look the sender up in the `Sent` table. Already there: do nothing except flag it.
+4. Otherwise reply, in the same thread, with the link, and add the sender to `Sent`.
 
 Silence for people not on the list is deliberate. A "sorry, no" reply would confirm that a list exists, and it can start loops with other people's auto-replies.
 
@@ -41,7 +40,7 @@ Where a step says *expression*, click into the field, choose the **Expression** 
 
 **1. Trigger: When a new email arrives (V3)**
 - Folder: `Inbox`
-- Show advanced options → Subject Filter: `Teaching Forum access request`
+- Show advanced options → Subject Filter: `AI site - Teaching Forum access request`
 - Include Attachments: `No`. Everything else default.
 
 The subject filter is a "contains" match, which is why step 3 exists.
@@ -53,26 +52,19 @@ The subject filter is a "contains" match, which is why step 3 exists.
   toLower(trim(triggerOutputs()?['body/from']))
   ```
 
-**3. Condition: exact subject**
+**3. Condition: exact subject** (rename it `Exact subject`)
 - Left side, expression:
   ```
-  equals(trim(triggerOutputs()?['body/subject']), 'Teaching Forum access request')
+  trim(triggerOutputs()?['body/subject'])
   ```
-- Operator: `is equal to`. Right side, expression: `true`
-- In the **If no** branch add **Terminate**, Status `Cancelled`. Leave **If yes** empty; the next steps go after the condition, not inside it.
+- Operator: `is equal to`. Right side, plain text: `AI site - Teaching Forum access request`
+- In the **False** branch add **Terminate**, Status `Cancelled`. Leave **True** empty; the next steps go after the condition, not inside it.
 
-**4. Condition: Penn address**
-- Left side, expression:
-  ```
-  or(endsWith(variables('sender'), '@upenn.edu'), endsWith(variables('sender'), '.upenn.edu'))
-  ```
-- Operator `is equal to`, right side expression `true`. **If no** → Terminate, Cancelled.
-
-**5. List rows present in a table** (Excel Online (Business))
+**4. List rows present in a table** (Excel Online (Business))
 - Location: `OneDrive for Business`. Document Library: `OneDrive`. File: pick `Teaching Forum access.xlsx`. Table: `Allowlist`.
 - Rename the action to `List Allowlist` (click the title → Rename). The expressions below use these names.
 
-**6. Filter array** (Data Operation)
+**5. Filter array** (Data Operation)
 - From: the `value` output of *List Allowlist* (pick it from the dynamic content panel).
 - Switch the condition to **advanced mode** and paste:
   ```
@@ -80,11 +72,11 @@ The subject filter is a "contains" match, which is why step 3 exists.
   ```
 - Rename to `Allowlist match`.
 
-**7. List rows present in a table** again, same file, Table `Sent`. Rename to `List Sent`.
+**6. List rows present in a table** again, same file, Table `Sent`. Rename to `List Sent`.
 
-**8. Filter array** again, From = `value` of *List Sent*, same advanced expression. Rename to `Already sent`.
+**7. Filter array** again, From = `value` of *List Sent*, same advanced expression. Rename to `Already sent`.
 
-**9. Condition: allowed and not yet sent**
+**8. Condition: allowed and not yet sent**
 - Left side, expression:
   ```
   and(greater(length(body('Allowlist_match')), 0), equals(length(body('Already_sent')), 0))
@@ -130,7 +122,7 @@ Save. The flow checker should report no errors.
 
 ## Reply text
 
-Subject is set automatically ("RE: Teaching Forum access request"). Body:
+Subject is set automatically ("RE: AI site - Teaching Forum access request"). Body:
 
 > Hi,
 >

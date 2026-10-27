@@ -24,10 +24,10 @@ about:
 
 request:
   heading: "Request access"
-  text: "The button opens a pre-addressed email in your mail app. Send it as it is, from your Penn address. Once we have checked the list you will get a reply with the link."
+  text: "The button opens a pre-addressed email in your mail app. Please send it from your Penn address. You are welcome to add a note in the message; we only ask that you keep the subject line as it is, since that is how we spot your request. Once we have checked the list you will get a reply with the link."
   button_label: "Email a request"
   email: "yuxinlg@upenn.edu"
-  subject: "Teaching Forum access request"
+  subject: "AI site - Teaching Forum access request"
   body_lines:
     - "Hello,"
     - ""
@@ -35,9 +35,8 @@ request:
     - ""
     - "Name:"
     - "Department:"
-    - "Courses I teach:"
   fallback_label: "If the button does nothing, write to"
-  fallback_note: "with the subject line “Teaching Forum access request”."
+  fallback_note: "with the subject line “AI site - Teaching Forum access request”."
 
 already:
   text: "Already have the link? It was sent to your Penn email. The notes are not linked from anywhere on this site, so keep that message."
